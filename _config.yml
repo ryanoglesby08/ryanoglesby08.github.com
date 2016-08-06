@@ -1,0 +1,103 @@
+# ----------------------- #
+#      Main Configs       #
+# ----------------------- #
+
+url: http://ryanogles.by
+title: Ryan Oglesby
+subtitle: Musings of a software dev
+author: Ryan Oglesby
+simple_search: http://google.com/search
+description: My thoughts and experiences as I navigate the world of Agile software development.
+
+subscribe_rss: /atom.xml
+
+# ----------------------- #
+#        Jekyll           #
+# ----------------------- #
+
+source: source
+include: [robots.txt]
+
+# ------------------------------- #
+#  Category Generator/Tag Cloud   #
+# ------------------------------- #
+#root: /
+category_dir: categories
+
+# ----------------------- #
+#     Recent posts        #
+# ----------------------- #
+
+recent_posts: 5
+
+# ----------------------- #
+#         Excerpts        #
+# ----------------------- #
+
+excerpt_link: "Read on &rarr;"
+excerpt_separator: "<!-- more -->"
+
+
+# ----------------------- #
+#    titlecase plugin     #
+# ----------------------- #
+
+titlecase: true       # Converts page and post titles to titlecase
+
+# ----------------------- #
+#       Github plugin     #
+# ----------------------- #
+
+github_user: ryanoglesby08
+github_repo_count: 0
+github_show_profile_link: true
+github_skip_forks: true
+
+# Order matters here
+gems:
+  - octopress-hooks
+  - octopress-image-tag
+  - octopress-codeblock
+  - octopress-codefence
+  - octopress-solarized
+  - octopress-paginate
+  - octopress-date-format
+  - octopress-social
+  - octopress-debugger
+  - jekyll-compass
+  - jekyll-sitemap
+
+
+# ----------------------- #
+#  octopress-date-format  #
+# ----------------------- #
+
+# Defaults
+# date_format: 'ordinal'     # July 3rd, 2014
+# time_format: '%-I:%M %P'   # 2:08 pm
+
+# ----------------------- #
+#    octopress-social     #
+# ----------------------- #
+
+github:
+  username: ryanoglesby08
+
+twitter:
+  username: ryanoglesby08
+
+email:
+  address: ryan.oglesby08@gmail.com
+
+disqus:
+  shortname: ryanoglesby
+
+facebook:
+  action: like
+
+
+# ----------------------- #
+#    Google Analytics     #
+# ----------------------- #
+
+google_analytics_tracking_id: UA-51481422-1

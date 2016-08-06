@@ -1,0 +1,6 @@
+_site
+.bundle
+.code-highlighter-cache
+.gist-cache
+.sass-cache
+vendor/bundle
