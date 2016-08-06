@@ -3,7 +3,7 @@
 
 root = true
 
-[*.rb]
+[*.rb, Rakefile]
 indent_style = space
 indent_size = 2
 

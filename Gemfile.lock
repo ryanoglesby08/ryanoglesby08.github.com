@@ -125,6 +125,7 @@ GEM
     pry-byebug (3.4.0)
       byebug (~> 9.0)
       pry (~> 0.10)
+    rake (11.2.2)
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
@@ -158,4 +159,5 @@ DEPENDENCIES
   octopress-social (~> 1.4)
   octopress-solarized (~> 1.1)
   pry (~> 0.10)
+  rake (~> 11.2)
   stringex (~> 2.6)
