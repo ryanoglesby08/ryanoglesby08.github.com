@@ -16,7 +16,6 @@ subscribe_rss: /atom.xml
 # ----------------------- #
 
 source: source
-include: [robots.txt]
 
 # ------------------------------- #
 #  Category Generator/Tag Cloud   #
