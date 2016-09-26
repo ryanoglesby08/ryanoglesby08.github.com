@@ -6,7 +6,6 @@ end
 desc 'Deploy'
 task :deploy do
   sh 'jekyll build'
-  sh 'git add _site && git commit -m "Deploy"'
+  sh 'git add -f _site && git commit -m "Deploy"'
   sh 'git subtree push --prefix _site origin master'
 end
-
