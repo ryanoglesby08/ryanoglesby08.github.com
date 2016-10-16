@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GOTO Chicago 2014 Experience Report - Ryan Oglesby</title>
+  <meta name="author" content="Ryan Oglesby">
+
+  
+  <meta name="description" content="Summaries and takeaways from GOTO Chicago 2014.">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ryanogles.by/conferences/2014/05/26/goto-chicago-2014-experience-report.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ryan Oglesby" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+<link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-51481422-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</head>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ryan Oglesby</a></h1>
+  
+    <h2>Musings of a software dev</h2>
+  
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="http://ryanogles.by">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives">Archives</a></li>
+  <li><a href="/oss">OSS</a></li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  <header>
+    
+      <h1 class="entry-title">GOTO Chicago 2014 Experience Report</h1>
+    
+    
+      <p class="meta">
+        <time class='entry-date' datetime='2014-05-26T13:31:00+01:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>1:31 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I had the privilege of attending <a href="http://gotocon.com/chicago-2014/">Goto;con 2014</a> in Chicago. It was smaller than I anticipated, spread over just a few conference rooms in a small corner of the Drake Hotel, with no more than 400 attendees. This gave the conference a fairly informal, casual vibe. The talks were spread over a variety of tracks, from distributed systems to UX to functional programming languages, which kept things fresh over the 2 day conference.</p>
+
+<p>Here I will capture summaries and my key takeaways from some of the sessions I attended (which represents only a small fraction of the 40+ presentations).</p>
+
+<!-- more -->
+
+<h2 id="camille-fournier-so-you-want-to-rewrite-that">Camille Fournier: So You Want to Rewrite That…</h2>
+<p><strong>Head of Engineering, Rent the Runway</strong></p>
+
+<p>Camille extrapolated some lessons from a successful rewrite of PHP Drupal system to a more modular platform built on a Ruby frontend with supporting Java microservices. Two of her main suggestions in order to make a rewrite sustainable were to 1. change as little as possible, and 2. to change only one thing at a time. Keep it small and incremental. She went on to discuss how to sell a rewrite to the business by making it clear what “done” will look like for the stakeholders. She also mentioned potential pitfalls, such as a version 2 that tries to do everything because of too many additional features being added during the rewrite. There is also the worry of over engineering. And if the team does not have a good idea of what done means, you could end up never really getting there.</p>
+
+<p>Her overall message was that a rewrite can be successful, and to make that happen you should make incremental changes that provide value.</p>
+
+<h2 id="reid-draper-forty-years-of-pretending">Reid Draper: Forty Years of Pretending</h2>
+<p><strong>Profesional Erlang Developer, Works on Riak</strong></p>
+
+<p>Reid spoke about the recent resurgence of RPC-style architectures in JavaScript heavy web apps. At first I did not quite buy it, was he saying we are going back towards RPC? No way! But he ended up connecting the dots in the end.</p>
+
+<p>He reminded us of some of the glaring problems with RPC:</p>
+
+<ul>
+  <li>It is difficult to keep consistent code on every node. If you need to update code, then you have to update it everywhere. Think of JS on clients as the nodes. You don’t control which version of the JS the client has. With JS on browsers, how to you deliver updated code? Do you force users to reload the page?</li>
+  <li>How do you handle failure? HTTP is inherently unstable.</li>
+  <li>How do you serialize complex objects such as DB connection objects?</li>
+  <li>Streaming</li>
+</ul>
+
+<p>He went on to talk about how, since we can write JS on the front end and back end now, we may be tempted to use this RPC-style architecture and run the same code on both ends. He briefly noted a few JS-RPC libraries and advised against using them, since we already know the shortcomings of this approach.</p>
+
+<p>He then walked through the <a href="http://en.wikipedia.org/wiki/Fallacies_of_Distributed_Computing">Fallacies of Distributed Computing</a>:</p>
+
+<ol>
+  <li>The network is reliable</li>
+  <li>Latency is zero</li>
+  <li>Bandwidth is infinite</li>
+  <li>The network is secure</li>
+  <li>The network topology does not change</li>
+  <li>There is a single network admin</li>
+  <li>Transport cost is 0</li>
+  <li>The network is homogeneous</li>
+</ol>
+
+<p>I have been kind of unconsciously aware of these while developing web and mobile applications, but it was awesome to make them really explicit. He used them to stress the difficulties in developing JS web apps and brought up a great final point.
+&gt; “Even a simple web app is a distributed system”</p>
+
+<h2 id="michael-nygard-five-years-of-devops-where-are-we-now">Michael Nygard: Five Years of DevOps: Where are we Now?</h2>
+<p><strong>Author of “Release It!”</strong></p>
+
+<p>It was pretty great to hear a talk about DevOps from Michael Nygard. He started with the basics and growth of DevOps, including CAMS (Culture, Automation, Measurement, Sharing). He made a good point by applying Donella Meadows’ <a href="http://www.donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/">“Leverage Points in a System”</a> to DevOps, and how the best place to affect an organization with DevOps comes at the information flow level and goals of the organization. Eventually, he outlined that DevOps over the past few years has come to mean:
+&gt; CAMS + human factors + Agile values + Continuous Delivery = DevOps</p>
+
+<p>I really enjoyed his scorecard of where we are currently at with DevOps:</p>
+
+<table class="blog-table goto-table">
+  <thead>
+    <tr>
+      <th>Category</th><th>Score</th><th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Deployments</td><td>A</td><td>Most deployment tech right now targets a single machine, not a cluster</td>
+    </tr>
+    <tr>
+      <td>Provisioning</td><td>B</td><td></td>
+    </tr>
+    <tr>
+      <td>Logging</td><td>A+</td><td></td>
+    </tr>
+    <tr>
+      <td>Monitoring</td><td>A+</td><td>Graph all the the things!</td>
+    </tr>
+    <tr>
+      <td>Anomaly Detection</td><td>C</td><td></td>
+    </tr>
+    <tr>
+      <td>System Comprehension</td><td>D+</td><td>We are not very good at connecting a machine being down to the implications on the rest of the system and to the bottom line of the organization</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Going forward, some more things to expect in this space:</p>
+
+<ul>
+  <li>More focus on <em>anti-fragility</em> - systems that improve from randomness. He used the <a href="https://github.com/Netflix/SimianArmy">Symian Army</a> from Netflix as a current example.</li>
+  <li>A culture shift to viewing development infrastructure as mission critical. “Development is Production”</li>
+</ul>
+
+<p>Finally, some cautions:
+Michael thinks DevOps is at the top of the “innovative technology adoption curve” right now.
+<img src="http://s9.postimg.org/8unpmxe2n/Technology_Adoption_Curve.png" alt="Innovative technology adoption curve" /> There is a market penetration and DevOps is the most popular one at the party. He warned against trying to emulate practices without adopting the DevOps culture though. There is no such thing as DevOps-in-a-box. Having a separate DevOps team is also an anti-pattern.</p>
+
+<h2 id="martin-odersky-scala---the-simple-parts">Martin Odersky: Scala - The Simple Parts</h2>
+<p><strong>Creator of Scala, Co-founder and Chairman of Typesafe</strong></p>
+
+<p>Martin basically wanted to address some bad rap Scala has gotten lately about it being overly complex and huge (I think so too). He called it a growable and modular language. It is growable in the sense that it is easy to build a DSL on top to expand its capabilities (such as <a href="http://spark.apache.org/">Spark</a>, <a href="https://chisel.eecs.berkeley.edu/">Chisel</a>, <a href="http://akka.io/">Akka</a>, etc). It is a language for growth - you can start fast, with a 1-liner program. You can experiment fast. Then, it can grow very huge by using a combination of OO and functional programming. Large systems need both. This leads to also viewing Scala as a modular language. Modules are essential pieces of both OO and functional languages. With modular programming, your focus in on combining modules to do interesting things. Scala give you the power to choose how to combine modules, and which programming paradigm to use.</p>
+
+<p>Martin was trying to stress that Scala has some simple building blocks (remember that <a href="http://www.infoq.com/presentations/Simple-Made-Easy">simple != easy</a>):</p>
+
+<ol>
+  <li>Everything is an expression</li>
+  <li>Scopes allow you to nest everything (functions inside of functions)</li>
+  <li>Patterns and case classes</li>
+  <li>Recursion and more importantly, tail recursion</li>
+  <li>Function values</li>
+  <li>Collections. Think transformations, not CRUD operations</li>
+  <li>vars. Combine a little bit of mutable state</li>
+</ol>
+
+<p>Overall, to me the talk actually had the opposite effect, it showed me how little I understand of some of the principles on which Scala is built. During the last half of the talk, Martin dived deeper into some architecture choices in the collections libraries to illustrate additional crazy Scala language choices and features. But he lost me and, from speaking with some of the other attendees, many others too.</p>
+
+<h2 id="aaron-bedra-the-future-of-web-security-isnt-preventing-attacks">Aaron Bedra: The Future of Web Security isn’t Preventing Attacks</h2>
+<p><strong>Senior Fellow, Groupon</strong></p>
+
+<p>I quite enjoyed Aaron’s talk. He had a lot of energy, which was great for an afternoon talk on the final day. Aaron made his point right away that <em>you cannot prevent attacks</em> any more than you can prevent someone from mugging you on the street. We should stop treating security as purely preventative. He used the analogy of a casino, and our web applications already ID visitors like casinos. However, unlike casinos, once a visitor is in we stop caring and assume its all ok! Casinos are watching everyone, everywhere, all the time.</p>
+
+<p>So what do we do? According to Aaron, the first thing to do is to <em>aggregate your logs</em>, drop a query engine on top, and generate graphs. Beyond tools, we should analyze what the risks are in having our security breached, and have a well-thought out plan for when breaches occur. Do you have a plan? We should not design security without intent, and security should be part of the design process of our system. Security should be responsive, intelligent, and focused.</p>
+
+<p>Great security should not only tell us what, when, and how, but also <em>who</em> and <em>why</em>. This is what we should strive for. The attackers will always be one step ahead of us. So instead of focusing on prevention, we should focus on getting great at detection and response.</p>
+</div>
+  <footer>
+    <p class="meta">
+      <span class="byline author vcard">Posted by <span class="fn">Ryan Oglesby</span></span>
+      <time class='entry-date' datetime='2014-05-26T13:31:00+01:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>1:31 pm</span></time>
+      <span class="categories">
+  
+    <a class='category' href='/categories/conferences/'>conferences</a>
+  
+</span>
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/ruby/patterns/2013/12/25/meet-lazydoc.html" title="Previous Post: Meet LazyDoc">&laquo; Meet LazyDoc</a>
+      
+      
+        <a class="basic-alignment right" href="/javascript/jasmine/html5/testing/2014/08/29/testing-jasvascript-web-workers-with-jasmine.html" title="Next Post: Testing JasvaScript Web Workers with Jasmine">Testing JasvaScript Web Workers with Jasmine &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html">Harmonious Stylesheets and Inline Styles in React</a>
+      </li>
+    
+      <li class="post">
+        <a href="/docker/2016/09/26/homogeneous-pipelines-with-docker.html">Homogeneous Pipelines With Docker</a>
+      </li>
+    
+      <li class="post">
+        <a href="/java/testing/patterns/2016/06/27/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part III</a>
+      </li>
+    
+      <li class="post">
+        <a href="/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part II</a>
+      </li>
+    
+      <li class="post">
+        <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part I</a>
+      </li>
+    
+  </ul>
+</section>
+  <section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/categories/agile/' style='font-size: 136.0%'>agile</a> <a href='/categories/angularjs/' style='font-size: 112.0%'>angularjs</a> <a href='/categories/conferences/' style='font-size: 112.0%'>conferences</a> <a href='/categories/css/' style='font-size: 112.0%'>css</a> <a href='/categories/databases/' style='font-size: 112.0%'>databases</a> <a href='/categories/design/' style='font-size: 112.0%'>design</a> <a href='/categories/docker/' style='font-size: 112.0%'>docker</a> <a href='/categories/facilitation/' style='font-size: 112.0%'>facilitation</a> <a href='/categories/git/' style='font-size: 112.0%'>git</a> <a href='/categories/hashie/' style='font-size: 112.0%'>hashie</a> <a href='/categories/html5/' style='font-size: 112.0%'>html5</a> <a href='/categories/i18n/' style='font-size: 112.0%'>i18n</a> <a href='/categories/jasmine/' style='font-size: 112.0%'>jasmine</a> <a href='/categories/java/' style='font-size: 136.0%'>java</a> <a href='/categories/javascript/' style='font-size: 136.0%'>javascript</a> <a href='/categories/patterns/' style='font-size: 160.0%'>patterns</a> <a href='/categories/rails/' style='font-size: 124.0%'>rails</a> <a href='/categories/react/' style='font-size: 112.0%'>react</a> <a href='/categories/rspec/' style='font-size: 112.0%'>rspec</a> <a href='/categories/ruby/' style='font-size: 124.0%'>ruby</a> <a href='/categories/teams/' style='font-size: 136.0%'>teams</a> <a href='/categories/testing/' style='font-size: 160.0%'>testing</a> </span>
+</section>
+  <section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ryanoglesby08">@ryanoglesby08</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ryanoglesby08',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Ryan Oglesby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p></footer>
+  
+</body>
+</html>
