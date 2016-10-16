@@ -6,6 +6,9 @@ end
 desc 'Deploy'
 task :deploy do
   sh 'jekyll build'
-  sh 'git add -f _site && git commit -m "Deploy"'
-  sh 'git subtree push --prefix _site origin master'
+
+  # From: http://www.damian.oquanta.info/posts/one-line-deployment-of-your-site-to-gh-pages.html
+  sh 'git subtree split --prefix=_site -b deploy'
+  sh 'git push -f origin deploy:master'
+  sh 'git branch -D deploy'
 end
