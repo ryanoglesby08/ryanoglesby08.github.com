@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Meet LazyDoc - Ryan Oglesby</title>
+  <meta name="author" content="Ryan Oglesby">
+
+  
+  <meta name="description" content="Say hello to LazyDoc, a Ruby gem that provides a DSL for extracting deeply nested values from a JSON document.">
+  <meta name="keywords" content="LazyDoc, Lazy Doc, Ruby, Gem, Ruby Gem, JSON, JSON parsing, Embedded Document Pattern, Embedded Document">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ryanogles.by/ruby/patterns/2013/12/25/meet-lazydoc.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ryan Oglesby" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+<link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-51481422-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</head>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ryan Oglesby</a></h1>
+  
+    <h2>Musings of a software dev</h2>
+  
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="http://ryanogles.by">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives">Archives</a></li>
+  <li><a href="/oss">OSS</a></li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  <header>
+    
+      <h1 class="entry-title">Meet LazyDoc</h1>
+    
+    
+      <p class="meta">
+        <time class='entry-date' datetime='2013-12-25T19:44:00+00:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>7:44 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I’ve been pretty heads down in a <a href="http://www.thoughtworks.com">ThoughtWorks</a> project for the better part of 2013 and have unfortunately neglected this blog. But 2014 is a new year and I want to get into a semi-regular cadence of posts.</p>
+
+<p>So with that in mind…… another long overdue post! So say hello to <a href="https://github.com/ryanoglesby08/lazy-doc">LazyDoc</a>, a Ruby gem I have released. LazyDoc provides a DSL for extracting deeply nested values from a JSON document.</p>
+
+<!-- more -->
+
+<h2 id="working-with-apis">Working with APIs</h2>
+<p>In many projects I work on these days, the application consumes a 3rd party or internal API. In Ruby, it’s tempting to just parse a JSON response from an API into a Hash and then pass that around your application.</p>
+<figure class="code-highlight-figure"><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="k">def</span> <span class="nf">extract_user_from</span><span class="p">(</span><span class="n">json_body</span><span class="p">)</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">json_body</span><span class="p">)</span>
+</div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="k">end</span></div></div></pre></div></figure>
+
+<p>This “works”, but now your application is tightly coupled to the structure of the API response. The fields your application needs are never defined, making it tough to know what you have available to use. Is the “name” field “first_name”, “firstName”, or just “name”?</p>
+
+<p>Ok, easy enough solution for that. Objects to the rescue!</p>
+<figure class="code-highlight-figure"><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="k">class</span> <span class="nc">User</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kp">attr_reader</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span>
+</div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">)</span>
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="vi">@first_name</span> <span class="o">=</span> <span class="n">first_name</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="vi">@last_name</span> <span class="o">=</span> <span class="n">last_name</span>
+</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">end</span>
+</div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="k">end</span>
+</div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+</div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nf">def</span> <span class="n">extract_user_from</span><span class="p">(</span><span class="n">json_body</span><span class="p">)</span>
+</div></div><div data-line="13" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="n">body</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">json_body</span><span class="p">)</span>
+</div></div><div data-line="14" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="no">User</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">body</span><span class="p">[</span><span class="s1">'first_name'</span><span class="p">],</span> <span class="n">body</span><span class="p">[</span><span class="s1">'last_name'</span><span class="p">])</span>
+</div></div><div data-line="15" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="k">end</span></div></div></pre></div></figure>
+
+<p>Now we have separated the JSON response from our application domain. Sweet! Ok, done… Right? Not quite. There are a few problems here.</p>
+
+<ol>
+  <li>What about everything else in <code class="highlighter-rouge">json_body</code>? It is now lost. :(</li>
+  <li>What do you do when you need to extract more information from that JSON response? This code isn’t very flexible. Either you end up with a constructor that takes in too many arguments, or you end up with too many setters on your <code class="highlighter-rouge">User</code> object.</li>
+  <li>Many times you want to massage your API response data a little bit before adding it to your object. These massaging operations end up going into random helper methods that end up being duplicated all over your codebase.</li>
+</ol>
+
+<p>We can do better.</p>
+
+<h2 id="embedded-document-pattern">Embedded Document Pattern</h2>
+<p>The <strong>Embedded Document Pattern</strong> to the rescue! Defined by Martin Fowler <a href="http://martinfowler.com/bliki/EmbeddedDocument.html">here</a>. With this pattern, instead of parsing through your documents when they are received and building object graphs, we cache the document and only parse through it when necessary. Because sometimes your document may be large compared to the number of properties your application actually needs, you can save complexity and time.</p>
+
+<p>The LazyDoc gem is a Ruby implementation of the Embedded Document Pattern. You maintain access to the entire JSON response, which makes it easy to add, update, or remove fields from your object as you need. You retain flexibility. Any massaging that needs to be done to the fields becomes easy to manage.</p>
+
+<p>So now, with LazyDoc:</p>
+<figure class="code-highlight-figure"><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="k">class</span> <span class="nc">User</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kp">include</span> <span class="no">LazyDoc</span><span class="o">::</span><span class="no">DSL</span>
+</div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="n">access</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span>
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="n">access</span> <span class="ss">:address</span><span class="p">,</span> <span class="ss">default: </span><span class="s1">'NONE PROVIDED'</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
+</div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="n">lazily_parse</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
+</div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">end</span>
+</div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="k">end</span>
+</div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+</div></div><div data-line="13" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="14" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nf">def</span> <span class="n">extract_user_from</span><span class="p">(</span><span class="n">json_body</span><span class="p">)</span>
+</div></div><div data-line="15" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="no">User</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">json_body</span><span class="p">)</span>
+</div></div><div data-line="16" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="k">end</span></div></div></pre></div></figure>
+
+<h2 id="lazy">Lazy?</h2>
+<p>So why is it called <em>Lazy</em>Doc? The lazy feature is one of the coolest parts of this gem. The declarative method <code class="highlighter-rouge">access :first_name</code> merely defines a method that is able to fetch the <code class="highlighter-rouge">first_name</code> property from the JSON body. Only upon calling the method will the property be extracted and massaged according to any defined operations. Additionally, the returned value will be cached, so any subsequent calls will only return the cached value.</p>
+
+<p>Check the <a href="https://github.com/ryanoglesby08/lazy-doc">README</a> for more information and examples. Also, the <a href="https://github.com/ryanoglesby08/lazy-doc/tree/v0.4.0/spec/acceptance">acceptance specs</a> have full example usage.</p>
+
+<p>Feel free to download and use in your next project! Feedback is welcome!</p>
+</div>
+  <footer>
+    <p class="meta">
+      <span class="byline author vcard">Posted by <span class="fn">Ryan Oglesby</span></span>
+      <time class='entry-date' datetime='2013-12-25T19:44:00+00:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>7:44 pm</span></time>
+      <span class="categories">
+  
+    <a class='category' href='/categories/patterns/'>patterns</a>, <a class='category' href='/categories/ruby/'>ruby</a>
+  
+</span>
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/rails/i18n/2013/01/29/fun-with-rails-i18n.html" title="Previous Post: Fun With Rails I18n">&laquo; Fun With Rails I18n</a>
+      
+      
+        <a class="basic-alignment right" href="/conferences/2014/05/26/goto-chicago-2014-experience-report.html" title="Next Post: GOTO Chicago 2014 Experience Report">GOTO Chicago 2014 Experience Report &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html">Harmonious Stylesheets and Inline Styles in React</a>
+      </li>
+    
+      <li class="post">
+        <a href="/docker/2016/09/26/homogeneous-pipelines-with-docker.html">Homogeneous Pipelines With Docker</a>
+      </li>
+    
+      <li class="post">
+        <a href="/java/testing/patterns/2016/06/27/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part III</a>
+      </li>
+    
+      <li class="post">
+        <a href="/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part II</a>
+      </li>
+    
+      <li class="post">
+        <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part I</a>
+      </li>
+    
+  </ul>
+</section>
+  <section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/categories/agile/' style='font-size: 136.0%'>agile</a> <a href='/categories/angularjs/' style='font-size: 112.0%'>angularjs</a> <a href='/categories/conferences/' style='font-size: 112.0%'>conferences</a> <a href='/categories/css/' style='font-size: 112.0%'>css</a> <a href='/categories/databases/' style='font-size: 112.0%'>databases</a> <a href='/categories/design/' style='font-size: 112.0%'>design</a> <a href='/categories/docker/' style='font-size: 112.0%'>docker</a> <a href='/categories/facilitation/' style='font-size: 112.0%'>facilitation</a> <a href='/categories/git/' style='font-size: 112.0%'>git</a> <a href='/categories/hashie/' style='font-size: 112.0%'>hashie</a> <a href='/categories/html5/' style='font-size: 112.0%'>html5</a> <a href='/categories/i18n/' style='font-size: 112.0%'>i18n</a> <a href='/categories/jasmine/' style='font-size: 112.0%'>jasmine</a> <a href='/categories/java/' style='font-size: 136.0%'>java</a> <a href='/categories/javascript/' style='font-size: 136.0%'>javascript</a> <a href='/categories/patterns/' style='font-size: 160.0%'>patterns</a> <a href='/categories/rails/' style='font-size: 124.0%'>rails</a> <a href='/categories/react/' style='font-size: 112.0%'>react</a> <a href='/categories/rspec/' style='font-size: 112.0%'>rspec</a> <a href='/categories/ruby/' style='font-size: 124.0%'>ruby</a> <a href='/categories/teams/' style='font-size: 136.0%'>teams</a> <a href='/categories/testing/' style='font-size: 160.0%'>testing</a> </span>
+</section>
+  <section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ryanoglesby08">@ryanoglesby08</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ryanoglesby08',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Ryan Oglesby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p></footer>
+  
+</body>
+</html>

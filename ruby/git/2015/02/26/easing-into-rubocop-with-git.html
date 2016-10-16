@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Easing Into Rubocop With Git - Ryan Oglesby</title>
+  <meta name="author" content="Ryan Oglesby">
+
+  
+  <meta name="description" content="A solution for incrementally adding a static code analyzer to a Ruby app, following the Boy Scout Rule for improving code.">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ryanogles.by/ruby/git/2015/02/26/easing-into-rubocop-with-git.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ryan Oglesby" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+<link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-51481422-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</head>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ryan Oglesby</a></h1>
+  
+    <h2>Musings of a software dev</h2>
+  
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="http://ryanogles.by">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives">Archives</a></li>
+  <li><a href="/oss">OSS</a></li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  <header>
+    
+      <h1 class="entry-title">Easing Into Rubocop With Git</h1>
+    
+    
+      <p class="meta">
+        <time class='entry-date' datetime='2015-02-26T01:08:31+00:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:08 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2 id="dropping-rubocop-into-an-existing-codebase">Dropping Rubocop into an existing codebase</h2>
+<p>We (my team) recently introduced <a href="https://github.com/bbatsov/rubocop">rubocop</a> to a Rails app and a Sinatra app to encourage (aka enforce) us to follow established Ruby style and semantics. This was my first experience with dropping a static code analyzer into an established codebase. Just for reference, our Rails app is not huge - 16 controllers, 25 models, 10 services, and a smattering of other files.</p>
+
+<p>Even so, the first run of <code class="highlighter-rouge">bundle exec rubocop</code> on the entire application revealed about 2,500 warnings. Whomp whomp. Thankfully, Rubocop comes with a handy-dandy autocorrect feature. A quick <code class="highlighter-rouge">bundle exec rubocop --auto-correct</code> fixed almost half of them. Good, but not quite there yet.</p>
+
+<!-- more -->
+
+<h2 id="incremental-rubocoping">Incremental Rubocoping</h2>
+<p>We wanted to Rubocop to execute as part of our pre-commit task, and we wanted it to fail the task if it produced warnings or errors. So, our options were:</p>
+
+<ol>
+  <li>Have someone sit down with a case or two of Red Bull and don’t stop until everything is fixed.</li>
+  <li>Use the “Automatically Generated Configuration” from Rubocop, which generates a config file for you from all the warnings with all those cops turned off, letting you choose when to enable them.</li>
+  <li>Configure Rubocop to only run on a subset of files or directories. Fix all those warnings before adding more files, rinse and repeat until the entire app is added.</li>
+</ol>
+
+<p>We went with…… kind of 3. We liked the idea of incrementally rubocop-ing our app as we worked on it. So our solution is based on the <a href="http://programmer.97things.oreilly.com/wiki/index.php/The_Boy_Scout_Rule">Boy Scout Rule</a> - strive to always leave any code you touch in a better state than when you found it. Applying that to Rubocop means every time you commit, Rubocop gets run ONLY on the files you have touched in that commit. Over time, we should cover more and more of the app until eventually we can run Rubocop on the entire app with every commit! Boom!</p>
+
+<p>The one caveat is that you must remember to run the task BEFORE you do <code class="highlighter-rouge">git commit</code> in order for the task to pick up your changed files. I’m sure we could put in some more effort to account for that, but haven’t done so yet.</p>
+
+<h2 id="the-gist-of-it">The Gist of it</h2>
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">git_rubocop.rake</span><a class="code-highlight-caption-link" href="https://gist.github.com/a24d602bf5d5a58f444f">link</a></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="n">desc</span> <span class="s1">'Run Rubocop on uncommitted changed files'</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="n">task</span> <span class="ss">:git_rubocop</span> <span class="k">do</span>
+</div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="no">RUBY_FILENAME_PATTERNS</span> <span class="o">=</span> <span class="sx">%w(Gemfile Rakefile .rb .rake)</span>
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">def</span> <span class="nf">ruby_file?</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="no">RUBY_FILENAME_PATTERNS</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">pattern</span><span class="o">|</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">filename</span><span class="p">.</span><span class="nf">include?</span> <span class="n">pattern</span>
+</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">end</span>
+</div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="kp">false</span>
+</div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">end</span>
+</div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">def</span> <span class="nf">deleted?</span><span class="p">(</span><span class="n">git_file</span><span class="p">)</span>
+</div></div><div data-line="13" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="n">git_file</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">' '</span><span class="p">).</span><span class="nf">first</span><span class="p">.</span><span class="nf">include?</span> <span class="s1">'D'</span>
+</div></div><div data-line="14" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">end</span>
+</div></div><div data-line="15" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="16" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">def</span> <span class="nf">filename_from</span><span class="p">(</span><span class="n">git_file</span><span class="p">)</span>
+</div></div><div data-line="17" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="n">git_file</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">' '</span><span class="p">).</span><span class="nf">last</span>
+</div></div><div data-line="18" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">end</span>
+</div></div><div data-line="19" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="20" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="n">git_files</span> <span class="o">=</span> <span class="sb">`git status -uno --porcelain`</span>
+</div></div><div data-line="21" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="n">filenames</span> <span class="o">=</span> <span class="n">git_files</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</div></div><div data-line="22" class="code-highlight-row numbered"><div class="code-highlight-line">                  <span class="p">.</span><span class="nf">reject</span> <span class="p">&#x7b;</span> <span class="o">|</span><span class="n">git_file</span><span class="o">|</span> <span class="n">deleted?</span><span class="p">(</span><span class="n">git_file</span><span class="p">)</span> <span class="p">&#x7d;</span>
+</div></div><div data-line="23" class="code-highlight-row numbered"><div class="code-highlight-line">                  <span class="p">.</span><span class="nf">map</span> <span class="p">&#x7b;</span> <span class="o">|</span><span class="n">git_file</span><span class="o">|</span> <span class="n">filename_from</span><span class="p">(</span><span class="n">git_file</span><span class="p">)</span> <span class="p">&#x7d;</span>
+</div></div><div data-line="24" class="code-highlight-row numbered"><div class="code-highlight-line">                  <span class="p">.</span><span class="nf">select</span> <span class="p">&#x7b;</span> <span class="o">|</span><span class="n">filename</span><span class="o">|</span> <span class="n">ruby_file?</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="p">&#x7d;</span>
+</div></div><div data-line="25" class="code-highlight-row numbered"><div class="code-highlight-line">                  <span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">' '</span><span class="p">)</span>
+</div></div><div data-line="26" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="27" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="n">sh</span> <span class="s2">"bundle exec rubocop </span><span class="si">#&#x7b;</span><span class="n">filenames</span><span class="si">&#x7d;</span><span class="s2">"</span> <span class="k">unless</span> <span class="n">filenames</span><span class="p">.</span><span class="nf">empty?</span>
+</div></div><div data-line="28" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="k">end</span></div></div></pre></div></figure>
+</div>
+  <footer>
+    <p class="meta">
+      <span class="byline author vcard">Posted by <span class="fn">Ryan Oglesby</span></span>
+      <time class='entry-date' datetime='2015-02-26T01:08:31+00:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:08 am</span></time>
+      <span class="categories">
+  
+    <a class='category' href='/categories/git/'>git</a>, <a class='category' href='/categories/ruby/'>ruby</a>
+  
+</span>
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/agile/teams/facilitation/2015/01/27/how-to-support-apprentices-on-an-agile-development-team.html" title="Previous Post: How to Support Apprentices on an Agile Development Team">&laquo; How to Support Apprentices on an Agile Development Team</a>
+      
+      
+        <a class="basic-alignment right" href="/javascript/angularjs/2015/04/07/watching-the-watchers-in-angularjs.html" title="Next Post: Watching the Watchers in AngularJS">Watching the Watchers in AngularJS &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html">Harmonious Stylesheets and Inline Styles in React</a>
+      </li>
+    
+      <li class="post">
+        <a href="/docker/2016/09/26/homogeneous-pipelines-with-docker.html">Homogeneous Pipelines With Docker</a>
+      </li>
+    
+      <li class="post">
+        <a href="/java/testing/patterns/2016/06/27/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part III</a>
+      </li>
+    
+      <li class="post">
+        <a href="/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part II</a>
+      </li>
+    
+      <li class="post">
+        <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part I</a>
+      </li>
+    
+  </ul>
+</section>
+  <section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/categories/agile/' style='font-size: 136.0%'>agile</a> <a href='/categories/angularjs/' style='font-size: 112.0%'>angularjs</a> <a href='/categories/conferences/' style='font-size: 112.0%'>conferences</a> <a href='/categories/css/' style='font-size: 112.0%'>css</a> <a href='/categories/databases/' style='font-size: 112.0%'>databases</a> <a href='/categories/design/' style='font-size: 112.0%'>design</a> <a href='/categories/docker/' style='font-size: 112.0%'>docker</a> <a href='/categories/facilitation/' style='font-size: 112.0%'>facilitation</a> <a href='/categories/git/' style='font-size: 112.0%'>git</a> <a href='/categories/hashie/' style='font-size: 112.0%'>hashie</a> <a href='/categories/html5/' style='font-size: 112.0%'>html5</a> <a href='/categories/i18n/' style='font-size: 112.0%'>i18n</a> <a href='/categories/jasmine/' style='font-size: 112.0%'>jasmine</a> <a href='/categories/java/' style='font-size: 136.0%'>java</a> <a href='/categories/javascript/' style='font-size: 136.0%'>javascript</a> <a href='/categories/patterns/' style='font-size: 160.0%'>patterns</a> <a href='/categories/rails/' style='font-size: 124.0%'>rails</a> <a href='/categories/react/' style='font-size: 112.0%'>react</a> <a href='/categories/rspec/' style='font-size: 112.0%'>rspec</a> <a href='/categories/ruby/' style='font-size: 124.0%'>ruby</a> <a href='/categories/teams/' style='font-size: 136.0%'>teams</a> <a href='/categories/testing/' style='font-size: 160.0%'>testing</a> </span>
+</section>
+  <section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ryanoglesby08">@ryanoglesby08</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ryanoglesby08',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Ryan Oglesby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p></footer>
+  
+</body>
+</html>

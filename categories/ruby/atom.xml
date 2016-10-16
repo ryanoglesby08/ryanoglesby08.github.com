@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby | Ryan Oglesby]]></title>
+  <link href="http://ryanogles.by/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://ryanogles.by/"/>
+  <updated>2016-10-16T16:23:54+01:00</updated>
+  <id>http://ryanogles.by/</id>
+  <author>
+    <name><![CDATA[Ryan Oglesby]]></name>
+    <email><![CDATA[{"address"=>"ryan.oglesby08@gmail.com"}]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Easing into Rubocop with git]]></title>
+    <link href="http://ryanogles.by/ruby/git/2015/02/26/easing-into-rubocop-with-git.html"/>
+    <updated>2015-02-26T01:08:31+00:00</updated>
+    <id>http://ryanogles.by/ruby/git/2015/02/26/easing-into-rubocop-with-git</id>
+    <content type="html"><![CDATA[## Dropping Rubocop into an existing codebase
+We (my team) recently introduced [rubocop](https://github.com/bbatsov/rubocop) to a Rails app and a Sinatra app to encourage (aka enforce) us to follow established Ruby style and semantics. This was my first experience with dropping a static code analyzer into an established codebase. Just for reference, our Rails app is not huge - 16 controllers, 25 models, 10 services, and a smattering of other files.
+
+Even so, the first run of `bundle exec rubocop` on the entire application revealed about 2,500 warnings. Whomp whomp. Thankfully, Rubocop comes with a handy-dandy autocorrect feature. A quick `bundle exec rubocop --auto-correct` fixed almost half of them. Good, but not quite there yet.
+
+<!-- more -->
+
+## Incremental Rubocoping
+We wanted to Rubocop to execute as part of our pre-commit task, and we wanted it to fail the task if it produced warnings or errors. So, our options were:
+
+1. Have someone sit down with a case or two of Red Bull and don't stop until everything is fixed.
+2. Use the "Automatically Generated Configuration" from Rubocop, which generates a config file for you from all the warnings with all those cops turned off, letting you choose when to enable them.
+3. Configure Rubocop to only run on a subset of files or directories. Fix all those warnings before adding more files, rinse and repeat until the entire app is added.
+
+We went with...... kind of 3. We liked the idea of incrementally rubocop-ing our app as we worked on it. So our solution is based on the [Boy Scout Rule](http://programmer.97things.oreilly.com/wiki/index.php/The_Boy_Scout_Rule) - strive to always leave any code you touch in a better state than when you found it. Applying that to Rubocop means every time you commit, Rubocop gets run ONLY on the files you have touched in that commit. Over time, we should cover more and more of the app until eventually we can run Rubocop on the entire app with every commit! Boom!
+
+The one caveat is that you must remember to run the task BEFORE you do `git commit` in order for the task to pick up your changed files. I'm sure we could put in some more effort to account for that, but haven't done so yet.
+
+## The Gist of it
+<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>git_rubocop.rake</span><a class='code-highlight-caption-link' href='https://gist.github.com/a24d602bf5d5a58f444f'>link</a></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">desc</span> <span class="s1">'Run Rubocop on uncommitted changed files'</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">task</span> <span class="ss">:git_rubocop</span> <span class="k">do</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="no">RUBY_FILENAME_PATTERNS</span> <span class="o">=</span> <span class="sx">%w(Gemfile Rakefile .rb .rake)</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">def</span> <span class="nf">ruby_file?</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="no">RUBY_FILENAME_PATTERNS</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">pattern</span><span class="o">|</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">filename</span><span class="p">.</span><span class="nf">include?</span> <span class="n">pattern</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">end</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kp">false</span>
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">end</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">def</span> <span class="nf">deleted?</span><span class="p">(</span><span class="n">git_file</span><span class="p">)</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">git_file</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">' '</span><span class="p">).</span><span class="nf">first</span><span class="p">.</span><span class="nf">include?</span> <span class="s1">'D'</span>
+</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">end</span>
+</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">def</span> <span class="nf">filename_from</span><span class="p">(</span><span class="n">git_file</span><span class="p">)</span>
+</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">git_file</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">' '</span><span class="p">).</span><span class="nf">last</span>
+</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">end</span>
+</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">git_files</span> <span class="o">=</span> <span class="sb">`git status -uno --porcelain`</span>
+</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">filenames</span> <span class="o">=</span> <span class="n">git_files</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>                  <span class="p">.</span><span class="nf">reject</span> <span class="p">&#x7b;</span> <span class="o">|</span><span class="n">git_file</span><span class="o">|</span> <span class="n">deleted?</span><span class="p">(</span><span class="n">git_file</span><span class="p">)</span> <span class="p">&#x7d;</span>
+</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>                  <span class="p">.</span><span class="nf">map</span> <span class="p">&#x7b;</span> <span class="o">|</span><span class="n">git_file</span><span class="o">|</span> <span class="n">filename_from</span><span class="p">(</span><span class="n">git_file</span><span class="p">)</span> <span class="p">&#x7d;</span>
+</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>                  <span class="p">.</span><span class="nf">select</span> <span class="p">&#x7b;</span> <span class="o">|</span><span class="n">filename</span><span class="o">|</span> <span class="n">ruby_file?</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="p">&#x7d;</span>
+</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>                  <span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">' '</span><span class="p">)</span>
+</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">sh</span> <span class="s2">"bundle exec rubocop </span><span class="si">#&#x7b;</span><span class="n">filenames</span><span class="si">&#x7d;</span><span class="s2">"</span> <span class="k">unless</span> <span class="n">filenames</span><span class="p">.</span><span class="nf">empty?</span>
+</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span></div></div></pre></div></figure>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Meet LazyDoc]]></title>
+    <link href="http://ryanogles.by/ruby/patterns/2013/12/25/meet-lazydoc.html"/>
+    <updated>2013-12-25T19:44:00+00:00</updated>
+    <id>http://ryanogles.by/ruby/patterns/2013/12/25/meet-lazydoc</id>
+    <content type="html"><![CDATA[I've been pretty heads down in a [ThoughtWorks](http://www.thoughtworks.com) project for the better part of 2013 and have unfortunately neglected this blog. But 2014 is a new year and I want to get into a semi-regular cadence of posts.
+
+So with that in mind…… another long overdue post! So say hello to [LazyDoc](https://github.com/ryanoglesby08/lazy-doc), a Ruby gem I have released. LazyDoc provides a DSL for extracting deeply nested values from a JSON document.
+
+<!-- more -->
+
+Working with APIs
+-------------------
+In many projects I work on these days, the application consumes a 3rd party or internal API. In Ruby, it's tempting to just parse a JSON response from an API into a Hash and then pass that around your application.
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">def</span> <span class="nf">extract_user_from</span><span class="p">(</span><span class="n">json_body</span><span class="p">)</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">json_body</span><span class="p">)</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span></div></div></pre></div></figure>
+
+This "works", but now your application is tightly coupled to the structure of the API response. The fields your application needs are never defined, making it tough to know what you have available to use. Is the "name" field "first_name", "firstName", or just "name"?
+
+Ok, easy enough solution for that. Objects to the rescue!
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="nc">User</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kp">attr_reader</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">)</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="vi">@first_name</span> <span class="o">=</span> <span class="n">first_name</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="vi">@last_name</span> <span class="o">=</span> <span class="n">last_name</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">end</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nf">def</span> <span class="n">extract_user_from</span><span class="p">(</span><span class="n">json_body</span><span class="p">)</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">body</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">json_body</span><span class="p">)</span>
+</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="no">User</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">body</span><span class="p">[</span><span class="s1">'first_name'</span><span class="p">],</span> <span class="n">body</span><span class="p">[</span><span class="s1">'last_name'</span><span class="p">])</span>
+</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span></div></div></pre></div></figure>
+
+Now we have separated the JSON response from our application domain. Sweet! Ok, done... Right? Not quite. There are a few problems here.
+
+1. What about everything else in `json_body`? It is now lost. :(
+2. What do you do when you need to extract more information from that JSON response? This code isn't very flexible. Either you end up with a constructor that takes in too many arguments, or you end up with too many setters on your `User` object.
+3. Many times you want to massage your API response data a little bit before adding it to your object. These massaging operations end up going into random helper methods that end up being duplicated all over your codebase.
+
+We can do better.
+
+Embedded Document Pattern
+---------------------------------
+The **Embedded Document Pattern** to the rescue! Defined by Martin Fowler [here](http://martinfowler.com/bliki/EmbeddedDocument.html). With this pattern, instead of parsing through your documents when they are received and building object graphs, we cache the document and only parse through it when necessary. Because sometimes your document may be large compared to the number of properties your application actually needs, you can save complexity and time.
+
+The LazyDoc gem is a Ruby implementation of the Embedded Document Pattern. You maintain access to the entire JSON response, which makes it easy to add, update, or remove fields from your object as you need. You retain flexibility. Any massaging that needs to be done to the fields becomes easy to manage.
+
+So now, with LazyDoc:
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="nc">User</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kp">include</span> <span class="no">LazyDoc</span><span class="o">::</span><span class="no">DSL</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">access</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">access</span> <span class="ss">:address</span><span class="p">,</span> <span class="ss">default: </span><span class="s1">'NONE PROVIDED'</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">lazily_parse</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">end</span>
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nf">def</span> <span class="n">extract_user_from</span><span class="p">(</span><span class="n">json_body</span><span class="p">)</span>
+</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="no">User</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">json_body</span><span class="p">)</span>
+</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span></div></div></pre></div></figure>
+
+
+Lazy?
+-----------------------------------
+So why is it called *Lazy*Doc? The lazy feature is one of the coolest parts of this gem. The declarative method `access :first_name` merely defines a method that is able to fetch the `first_name` property from the JSON body. Only upon calling the method will the property be extracted and massaged according to any defined operations. Additionally, the returned value will be cached, so any subsequent calls will only return the cached value.
+
+Check the [README](https://github.com/ryanoglesby08/lazy-doc) for more information and examples. Also, the [acceptance specs](https://github.com/ryanoglesby08/lazy-doc/tree/v0.4.0/spec/acceptance) have full example usage.
+
+Feel free to download and use in your next project! Feedback is welcome!
+]]></content>
+  </entry>
+  
+</feed>

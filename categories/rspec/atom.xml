@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rspec | Ryan Oglesby]]></title>
+  <link href="http://ryanogles.by/categories/rspec/atom.xml" rel="self"/>
+  <link href="http://ryanogles.by/"/>
+  <updated>2016-10-16T16:23:54+01:00</updated>
+  <id>http://ryanogles.by/</id>
+  <author>
+    <name><![CDATA[Ryan Oglesby]]></name>
+    <email><![CDATA[{"address"=>"ryan.oglesby08@gmail.com"}]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails Controller Specs Don't Always Play Nice With Hashie]]></title>
+    <link href="http://ryanogles.by/rails/hashie/rspec/testing/2012/12/26/rails-controller-specs-dont-always-play-nice-with-hashie.html"/>
+    <updated>2012-12-26T14:58:00+00:00</updated>
+    <id>http://ryanogles.by/rails/hashie/rspec/testing/2012/12/26/rails-controller-specs-dont-always-play-nice-with-hashie</id>
+    <content type="html"><![CDATA[Hashie and Rspec - The Problem:
+------------------------
+[Hashie](https://github.com/intridea/hashie) is a neat little Ruby gem that extends Hash and gives object-like access and functionality to hashes.  Classes can extend from Hashie and add other functionality as needed. It is especially useful when marshaling JSON or XML data from a service layer into your business models.
+
+While Hashie is very useful, we have to be careful using this gem with ActionController Rspec tests.  When creating the `assigns` hash used in controller tests, Rspec creates a `HashWithIndifferentAccess`, which is dangerous with objects that act like Hash (such as Hashie objects). Rspec ends up converting user-defined objects that inherit from Hashie into `HashWithIndifferentAccess` objects, causing us to lose any data that exists outside of the backing hash.
+
+<!-- more -->
+
+
+The Setup:
+------------------------
+Lets imagine our Rails application talks to an Employee API exposing JSON data.  We have already implemented the service layer that makes the API call and returns Employee objects that extend Hashie.  In the EmployeeController we make the service call and assign the resulting Employee object.
+
+<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>employee.rb</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="nc">Employee</span> <span class="o">&lt;</span> <span class="no">Hashie</span><span class="o">::</span><span class="no">Dash</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">property</span> <span class="ss">:first_name</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">property</span> <span class="ss">:last_name</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1"># foo is not specified using "property" because it does not come from the EmployeeService</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">#   JSON response. We are separating what comes from the service and what does not.</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kp">attr_accessor</span> <span class="ss">:foo</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span></div></div></pre></div></figure>
+
+
+<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>employee_controller.rb</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="nc">EmployeeController</span> <span class="o">&lt;</span> <span class="no">ActionController</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">def</span> <span class="nf">show</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="vi">@employee</span> <span class="o">=</span> <span class="no">EmployeeService</span><span class="p">.</span><span class="nf">find_by_id</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="vi">@employee</span><span class="p">.</span><span class="nf">foo</span> <span class="o">=</span> <span class="s1">'extra info'</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">end</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span></div></div></pre></div></figure>
+
+
+The Tests (Where the conflict occurs):
+------------------------
+We should be able to write some simple specs to test the controller, specifically, that the result of the service call is stored in the correct variable passed into the view and that we assign whatever extra processing we need to do outside of the service layer into "foo."
+
+<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>employee_controller_spec.rb</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nb">require</span> <span class="s1">'spec_helper
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>describe EmployeeController do
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  describe '</span><span class="n">show</span><span class="s1">' do
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    it '</span><span class="n">should</span> <span class="n">assign</span> <span class="n">the</span> <span class="n">employee</span><span class="s1">' do
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>      EmployeeService.stub(:find_by_id) &#x7b; Employee.new &#x7d;
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>      get :show, id: '</span><span class="n">employee_id</span><span class="s1">'
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>      assigns[:employee].should be_an Employee
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>      assigns[:employee].foo.should == '</span><span class="n">extra</span> <span class="n">info</span><span class="err">'</span>
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">end</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">end</span>
+</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span></div></div></pre></div></figure>
+
+
+You would assume this test would pass right? Nope! Fail!
+
+The output of both assertions would be:
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">expected</span> <span class="p">&#x7b;</span><span class="s2">"first_name"</span><span class="o">=&gt;</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"last_name"</span><span class="o">=&gt;</span><span class="s2">"Smith"</span><span class="p">&#x7d;</span> <span class="n">to</span> <span class="n">be</span> <span class="n">a</span> <span class="n">kind</span> <span class="n">of</span> <span class="no">Employee</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="no">NoMethodError</span><span class="p">:</span> <span class="n">undefined</span> <span class="nb">method</span> <span class="s1">'foo'</span> <span class="k">for</span> <span class="p">&#x7b;</span><span class="s2">"first_name"</span><span class="o">=&gt;</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"last_name"</span><span class="o">=&gt;</span><span class="s2">"Smith"</span><span class="p">&#x7d;</span><span class="ss">:ActiveSupport</span><span class="o">::</span><span class="no">HashWithIndifferentAccess</span></div></div></pre></div></figure>
+
+
+As you can see, Rails has converted our Employee object into a [HashWithIndifferentAccess](http://api.rubyonrails.org/classes/ActiveSupport/HashWithIndifferentAccess.html)! How dare you Rails?!
+
+
+Why would Rails do this?
+------------------------
+Well, don't be too quick to point the finger, this is actually a combination of Rspec and Rails (ActiveSupport). Rspec is trying to make it easier for you to use the ActionController `view_assigns` hash by converting it into a `HashWithIndifferentAccess`.  Diving into `ActionDispatch::TestProcess` we find the method definition for `assigns`:
+
+<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>test_process.rb</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">module</span> <span class="nn">ActionDispatch</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">module</span> <span class="nn">TestProcess</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">def</span> <span class="nf">assigns</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="n">assigns</span> <span class="o">=</span> <span class="vi">@controller</span><span class="p">.</span><span class="nf">view_assigns</span><span class="p">.</span><span class="nf">with_indifferent_access</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="n">key</span><span class="p">.</span><span class="nf">nil?</span> <span class="p">?</span> <span class="n">assigns</span> <span class="p">:</span> <span class="n">assigns</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">end</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">.</span><span class="nf">.</span><span class="o">.</span></div></div></pre></div></figure>
+
+
+The easy access to the `view_assigns` hash is great, but looking deeper into the internals of the `with_indifferent_access` method we find that while creating the `HashWithIndifferentAccess`, any assigns variable that is a `Hash` is converted into a `HashWithIndifferentAccess`! Since Hashie classes return true when asked if they are a `Hash`, they also get converted, therefore, losing their original object identity. To me ActiveSupport is stepping over the line here. Yes, give us easy access to the assigns hash, but don't mess with the actual values of that hash unless I tell you to.
+
+Easy workaround:
+------------------------
+First, this problem is unique to Rspec tests - production code does not have this same problem. One solution would be to monkey patch `ActiveSuport::TestProcess` and `ActiveSupport::HashWithIndifferentAccess`. But, since I try to stay away from monkey patching whenever possible, the quick solution is just to not use `assigns` when your object under test is a Hash and you care about it not being converted to a `HashWithIndifferentAccess` for testing purposes.
+
+Instead, use the controller's `view_assigns` hash directly to avoid the conversion to `HashWithIndifferentAccess`:
+
+<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>employee_controller_spec.rb</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nb">require</span> <span class="s1">'spec_helper
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>describe EmployeeController do
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  describe '</span><span class="n">show</span><span class="s1">' do
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    it '</span><span class="n">should</span> <span class="n">assign</span> <span class="n">the</span> <span class="n">employee</span><span class="s1">' do
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>      EmployeeService.stub(:find_by_id) &#x7b; Employee.new &#x7d;
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>      get :show, id: '</span><span class="n">employee</span><span class="o">-</span><span class="nb">id</span><span class="s1">'
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>      # Can not use assigns[:employee] here because Employee inherits from Hashie
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>      controller.view_assigns['</span><span class="n">employee</span><span class="s1">'].should be_an Employee
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>      controller.view_assigns['</span><span class="n">employee</span><span class="s1">'].foo.should == '</span><span class="n">extra</span> <span class="n">info</span><span class="err">'</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">end</span>
+</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">end</span>
+</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span></div></div></pre></div></figure>
+
+
+In the end, its an easy workaround for a slightly annoying "feature" of Rspec.
+]]></content>
+  </entry>
+  
+</feed>

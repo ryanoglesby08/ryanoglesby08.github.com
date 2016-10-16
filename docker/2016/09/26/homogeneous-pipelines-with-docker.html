@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Homogeneous Pipelines With Docker - Ryan Oglesby</title>
+  <meta name="author" content="Ryan Oglesby">
+
+  
+  <meta name="description" content="
+
+  
+    
+      Homogeneous Pipelines With Docker
+    
+    
+      
+        Sep 26th, 2016 3:55 pm
+        
+      
+    
+  
+
+
+  Continuous Integratio...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ryanogles.by/docker/2016/09/26/homogeneous-pipelines-with-docker.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ryan Oglesby" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+<link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-51481422-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</head>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ryan Oglesby</a></h1>
+  
+    <h2>Musings of a software dev</h2>
+  
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="http://ryanogles.by">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives">Archives</a></li>
+  <li><a href="/oss">OSS</a></li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  <header>
+    
+      <h1 class="entry-title">Homogeneous Pipelines With Docker</h1>
+    
+    
+      <p class="meta">
+        <time class='entry-date' datetime='2016-09-26T15:55:17+01:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:55 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://martinfowler.com/articles/continuousIntegration.html">Continuous Integration Build Pipelines</a> are a dirty, nasty place. What usually starts out as a couple of simple tasks or bash scripts inevitably ends up as a heap of scripts, Gradle/Rake/Maven/(insert build tool here) tasks, and manually configured jobs held together with a thin layer of Elmer’s glue and Scotch tape.</p>
+
+<p>Why? Partly because modern applications are complex; even simple stacks use multiple languages and tools. And partly because developers are lazy, and sometimes hesitant to “mess with the pipeline.” I don’t often see the amount of rigor in cleanliness applied to them as to other parts of the codebase, leading to unnecessarily complex and unfortunately tangled build pipelines.</p>
+
+<p>So, my current team attacked this head-on using a great piece of technology: <a href="https://www.docker.com">Docker</a>! Using Docker as our sole interface to running things in our build pipeline, we sped it up, simplified it, and lived happily ever after.</p>
+
+<p><em>To give credit where credit is due, the implementation of this pattern was spearheaded by my colleague <a href="https://twitter.com/amber_ht">Amber Houle</a>.</em></p>
+
+<!-- more -->
+
+<h2 id="anatomy-of-a-pipeline">Anatomy of a Pipeline</h2>
+<p>This is pretty much what our build pipeline looked like in the time before Docker. Notice the amount of variation in what is being invoked in each step! (All these steps could be wrapped up in bash scripts, but I’ve unravelled them here.)</p>
+
+<p><em>“client” is a JS front-end application. “api” is a Java-based API.</em></p>
+
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">pipeline.yml</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="s">build client</span><span class="pi">:</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">npm install</span>       <span class="c1"># Install JS dependencies</span>
+</div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">npm run webpack</span>   <span class="c1"># Compile to JS</span>
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="s">build api</span><span class="pi">:</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">gradle build</span>      <span class="c1"># Compile Java</span>
+</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="s">test client</span><span class="pi">:</span>
+</div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">npm install</span>                   <span class="c1"># Install JS dependencies..... again</span>
+</div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">npm test</span>                      <span class="c1"># Run JS tests</span>
+</div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="s">test api</span><span class="pi">:</span>
+</div></div><div data-line="13" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">systemctl start postgresql.service</span>  <span class="c1"># Start up Postgres</span>
+</div></div><div data-line="14" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">flyway migrate</span>                      <span class="c1"># Migrate the database using Flyway</span>
+</div></div><div data-line="15" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">gradle test</span>                         <span class="c1"># Run Java tests (unit and integration)</span>
+</div></div><div data-line="16" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">systemctl stop postgresql.service</span>   <span class="c1"># Stop Postgres</span>
+</div></div><div data-line="17" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="18" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="s">package client</span><span class="pi">:</span>
+</div></div><div data-line="19" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">npm install</span>                      <span class="c1"># Install JS dependencies once again :(</span>
+</div></div><div data-line="20" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">npm run package</span>                  <span class="c1"># Package up the JS into a .zip or .tar</span>
+</div></div><div data-line="21" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">&lt;push JS code to artifact repository&gt;</span>
+</div></div><div data-line="22" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="23" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="s">package api</span><span class="pi">:</span>
+</div></div><div data-line="24" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">gradle package</span>                            <span class="c1"># Create an executable .jar</span>
+</div></div><div data-line="25" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">&lt;push Java code to artifact repository&gt;</span>
+</div></div><div data-line="26" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="27" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="s">deploy to qa</span><span class="pi">:</span>
+</div></div><div data-line="28" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">&lt;pull code from artifact repo and deploy&gt;</span></div></div></pre></div></figure>
+
+<p>Let’s first examine a build pipeline that you might find using any of the modern open-source distributed build and deploy tools such as <a href="https://jenkins.io/">Jenkins</a>, <a href="https://www.go.cd/">Go.cd</a>, or <a href="https://travis-ci.com/">TravisCI</a>. It’s broken down into a series of stages or jobs, which could be run sequentially or in parallel. Because these tools usually run as a <a href="https://jenkins.io/doc/book/architecting-for-scale/">master/agent architecture</a>, the server will delegate the actual work of each stage to an available build agent.</p>
+
+<h3 id="pipeline-complexities">Pipeline complexities</h3>
+<p>While this architecture is scalable and flexible, it creates complexities that <strong>you</strong> have to manage. Since each stage in your pipeline has a different job to do, all your agents must be configured to perform all needed actions. Some stages need a JavaScript runtime, some need Java, while others need a Postgres database. Traditionally, this calls for provisioning your agents with all the appropriate software ahead of time. And herein lies a dilemma. Manually provisioning might work fine if you only have 1 or 2 agents, but that quickly becomes tedious as the number of dependencies you have increases or the number of agents you need increases. Automated provisioning using Chef or Puppet is an option, but this creates one more piece of code to build, manage, test, and debug.</p>
+
+<p>As each agent picks up a stage to run, it’s going to need some input, which is often just a copy of your source code at a specific revision. Because any agent could be picking up any job at any time, the sequence is usually 1) start with a clean workspace 2) checkout the code 3) install dependencies 4) do stuff. All these steps take time, especially installing dependencies. (There are 3 <code class="highlighter-rouge">npm install</code> commands in the pipeline shown above)</p>
+
+<h2 id="docker-as-the-pipeline-interface">Docker as the Pipeline Interface</h2>
+<blockquote>
+  <p>Docker containers wrap a piece of software in a complete filesystem that contains everything needed to run: code, runtime, system tools, system libraries – anything that can be installed on a server. <br /> <a href="https://www.docker.com/what-docker">https://www.docker.com/what-docker</a></p>
+</blockquote>
+
+<p>What if we extend this statement to say that containers contain everything needed to run…. <strong>and build and test</strong>? Instead of provisioning build agents with all the individual pieces of software and dependencies that our pipeline needs, let’s provision them with only the Docker Engine. Now, the sequence of steps for any stage becomes 1) Pull down a Docker image 2) Execute <code class="highlighter-rouge">docker run</code> <a href="https://docs.docker.com/engine/reference/run/">https://docs.docker.com/engine/reference/run/</a>.</p>
+
+<p>To pull this off, we first need to create some Docker images with <strong>everything our application needs to build and test itself</strong>, which we specify with a <a href="https://docs.docker.com/engine/reference/builder/">Dockerfile</a>.</p>
+
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">Dockerfile for Java API</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line">FROM java:8
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line">COPY build.gradle ./
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">COPY src ./src/
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line">RUN gradle jar
+</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line">ENTRYPOINT ["gradle"]</div></div></pre></div></figure>
+
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">Dockerfile for database migrations</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line">FROM shouldbee/flyway
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line">COPY ./src/main/resources/db/migration/*.sql ./sql/
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line">ENTRYPOINT ["flyway"]</div></div></pre></div></figure>
+
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">Dockerfile for JS client</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line">FROM node:6.4.0
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line">COPY package.json ./
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">RUN npm install
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line">COPY src ./src/
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line">RUN npm run webpack
+</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line">ENTRYPOINT [ "npm", "run" ]</div></div></pre></div></figure>
+
+<p>And this is pretty much what our pipeline evolved into after transitioning to Docker…</p>
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">pipeline.yml</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="s">build client</span><span class="pi">:</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">docker build -t client:$&#x7b;PIPELINE_ID&#x7d; ./client</span>  <span class="c1"># Build Docker image</span>
+</div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">docker push client:$&#x7b;PIPELINE_ID&#x7d;</span>               <span class="c1"># Push it to the container registry</span>
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="s">build api</span><span class="pi">:</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">docker build -t api:$&#x7b;PIPELINE_ID&#x7d; ./api</span>
+</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">docker build -t migrations:$&#x7b;PIPELINE_ID&#x7d; ./api</span>
+</div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">docker push api:$&#x7b;PIPELINE_ID&#x7d;</span>
+</div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">docker push migrations:$&#x7b;PIPELINE_ID&#x7d;</span>
+</div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="s">test client</span><span class="pi">:</span>
+</div></div><div data-line="13" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">docker pull client:$&#x7b;PIPELINE_ID&#x7d;</span>
+</div></div><div data-line="14" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">docker run client:$&#x7b;PIPELINE_ID&#x7d; test</span>   <span class="c1"># Run `npm run test` inside of the client container</span>
+</div></div><div data-line="15" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="16" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="s">test api</span><span class="pi">:</span>
+</div></div><div data-line="17" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">docker pull api:$&#x7b;PIPELINE_ID&#x7d;</span>
+</div></div><div data-line="18" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">docker pull migrations:$&#x7b;PIPELINE_ID&#x7d;</span>
+</div></div><div data-line="19" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="20" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">docker run migrations:$&#x7b;PIPELINE_ID&#x7d; migrate</span>  <span class="c1"># Run `flyway migrate` inside of the migrations container</span>
+</div></div><div data-line="21" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="pi">-</span> <span class="s">docker run api:$&#x7b;PIPELINE_ID&#x7d; test</span>            <span class="c1"># Run `gradle test` inside of the api container</span></div></div></pre></div></figure>
+
+<h3 id="complexities-simplified">Complexities simplified</h3>
+<p>Overall, this had a number of positive effects on our build pipeline. First, <strong>speed</strong>: the time from pipeline start to ready to deploy to a QA environment dropped from ~12 minutes to ~4 minutes! This was largely due to no longer checking out the entire code base, installing dependencies, and re-compiling in each step of the pipeline. Second, <strong>simplicity.</strong> Configuring new build agents is now easy, as they only need Docker Engine. The single command interface is also cognitively simple. Each call to <code class="highlighter-rouge">docker run [COMMAND]</code> in the pipeline acts as a proxy to the task runner already in use in the codebase (e.g <code class="highlighter-rouge">gradle [COMMAND]</code> or <code class="highlighter-rouge">npm run [COMMAND]</code>), making it work just like local development without Docker.</p>
+
+<p>The main possible issue I see with this is that the Docker container has a large surface area, which kind of goes against the advice from Docker to keep images as slim and trim as possible. I normally would not include all my test code into the deployable artifact that will eventually end up on my production server. Instead we have copied <strong>all</strong> the source and test code into the image. This could introduce dependency issues, such as security holes that may exist in libraries pulled in by test code. I have not observed this in practice though.</p>
+
+<p>You will also notice that we push the Docker image to the registry right away. This ensures that the artifact that passes down the pipeline is exactly the same all the way through build, test, and deploy. But, it also means we are creating an artifact for un-verified code. What if the tests fail for a certain commit, but we have already created and pushed the Docker image? Do we leave it in the registry? Remove it? So far, we have just left them there, so not sure how this will play out in the long term.</p>
+
+<p>Overall, this pattern has worked well for the team! Would love to hear your opinions and experiences with Docker in a build pipeline.</p>
+</div>
+  <footer>
+    <p class="meta">
+      <span class="byline author vcard">Posted by <span class="fn">Ryan Oglesby</span></span>
+      <time class='entry-date' datetime='2016-09-26T15:55:17+01:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:55 pm</span></time>
+      <span class="categories">
+  
+    <a class='category' href='/categories/docker/'>docker</a>
+  
+</span>
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/java/testing/patterns/2016/06/27/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html" title="Previous Post: How your 'Mother' can help you 'Build' cleaner unit tests - Part III">&laquo; How your 'Mother' can help you 'Build' cleaner unit tests - Part III</a>
+      
+      
+        <a class="basic-alignment right" href="/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html" title="Next Post: Harmonious Stylesheets and Inline Styles in React">Harmonious Stylesheets and Inline Styles in React &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html">Harmonious Stylesheets and Inline Styles in React</a>
+      </li>
+    
+      <li class="post">
+        <a href="/docker/2016/09/26/homogeneous-pipelines-with-docker.html">Homogeneous Pipelines With Docker</a>
+      </li>
+    
+      <li class="post">
+        <a href="/java/testing/patterns/2016/06/27/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part III</a>
+      </li>
+    
+      <li class="post">
+        <a href="/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part II</a>
+      </li>
+    
+      <li class="post">
+        <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part I</a>
+      </li>
+    
+  </ul>
+</section>
+  <section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/categories/agile/' style='font-size: 136.0%'>agile</a> <a href='/categories/angularjs/' style='font-size: 112.0%'>angularjs</a> <a href='/categories/conferences/' style='font-size: 112.0%'>conferences</a> <a href='/categories/css/' style='font-size: 112.0%'>css</a> <a href='/categories/databases/' style='font-size: 112.0%'>databases</a> <a href='/categories/design/' style='font-size: 112.0%'>design</a> <a href='/categories/docker/' style='font-size: 112.0%'>docker</a> <a href='/categories/facilitation/' style='font-size: 112.0%'>facilitation</a> <a href='/categories/git/' style='font-size: 112.0%'>git</a> <a href='/categories/hashie/' style='font-size: 112.0%'>hashie</a> <a href='/categories/html5/' style='font-size: 112.0%'>html5</a> <a href='/categories/i18n/' style='font-size: 112.0%'>i18n</a> <a href='/categories/jasmine/' style='font-size: 112.0%'>jasmine</a> <a href='/categories/java/' style='font-size: 136.0%'>java</a> <a href='/categories/javascript/' style='font-size: 136.0%'>javascript</a> <a href='/categories/patterns/' style='font-size: 160.0%'>patterns</a> <a href='/categories/rails/' style='font-size: 124.0%'>rails</a> <a href='/categories/react/' style='font-size: 112.0%'>react</a> <a href='/categories/rspec/' style='font-size: 112.0%'>rspec</a> <a href='/categories/ruby/' style='font-size: 124.0%'>ruby</a> <a href='/categories/teams/' style='font-size: 136.0%'>teams</a> <a href='/categories/testing/' style='font-size: 160.0%'>testing</a> </span>
+</section>
+  <section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ryanoglesby08">@ryanoglesby08</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ryanoglesby08',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Ryan Oglesby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p></footer>
+  
+</body>
+</html>

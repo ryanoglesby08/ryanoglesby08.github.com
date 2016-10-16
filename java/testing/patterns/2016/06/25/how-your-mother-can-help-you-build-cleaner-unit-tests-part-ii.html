@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part II - Ryan Oglesby</title>
+  <meta name="author" content="Ryan Oglesby">
+
+  
+  <meta name="description" content="
+
+  
+    
+      How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part II
+    
+    
+      
+        Jun 25th, 2016 8:20 pm
+        
+      ...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ryanogles.by/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ryan Oglesby" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+<link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-51481422-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</head>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ryan Oglesby</a></h1>
+  
+    <h2>Musings of a software dev</h2>
+  
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="http://ryanogles.by">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives">Archives</a></li>
+  <li><a href="/oss">OSS</a></li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  <header>
+    
+      <h1 class="entry-title">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part II</h1>
+    
+    
+      <p class="meta">
+        <time class='entry-date' datetime='2016-06-25T20:20:26+01:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:20 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">Part I</a>, we created a separate Builder class in an attempt to move away from a constructor with too many parameters. In the process, the separate Builder ended up taking on the additional responsibility of supplying default values, blurring the line between a Builder and Factory.</p>
+
+<p>Though a step in the right direction, it didn’t actually fix any of the <code class="highlighter-rouge">Address</code> constructor’s original problems, unfortunately. Oops. Other classes can still call it directly, meaning all of the risks of having a method with multiple parameters of the same type are still there, and we have another class in our system to maintain.</p>
+
+<p>What we need is a strictly controlled way of creating <code class="highlighter-rouge">Address</code> objects that can be accessed by test code <em>and</em> prod code that is decoupled from the current constructor and it’s baggage.</p>
+
+<!-- more -->
+
+<h2 id="pulling-the-builder-inside-address">3) Pulling the Builder inside Address</h2>
+
+<p>Let’s remodel the Builder as a static inner class within the <code class="highlighter-rouge">Address</code> class.</p>
+
+<figure class="code-highlight-figure"><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Address</span> <span class="o">&#x7b;</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">lineOne</span><span class="o">;</span>
+</div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">lineTwo</span><span class="o">;</span>
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">city</span><span class="o">;</span>
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">state</span><span class="o">;</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kd">private</span> <span class="nf">Address</span><span class="o">()</span> <span class="o">&#x7b;</span>
+</div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="c1">// Prevent other objects from calling the constructor</span>
+</div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="o">&#x7d;</span>
+</div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="c1">// ... other methods omitted for brevity</span>
+</div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="13" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="o">&#x7b;</span>
+</div></div><div data-line="14" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="kd">private</span> <span class="n">String</span> <span class="n">lineOne</span><span class="o">;</span>
+</div></div><div data-line="15" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="kd">private</span> <span class="n">String</span> <span class="n">lineTwo</span><span class="o">;</span>
+</div></div><div data-line="16" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="kd">private</span> <span class="n">String</span> <span class="n">city</span><span class="o">;</span>
+</div></div><div data-line="17" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="kd">private</span> <span class="n">String</span> <span class="n">state</span><span class="o">;</span>
+</div></div><div data-line="18" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="19" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">lineOne</span><span class="o">(</span><span class="n">String</span> <span class="n">lineOne</span><span class="o">)</span> <span class="o">&#x7b;</span>
+</div></div><div data-line="20" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="k">this</span><span class="o">.</span><span class="na">lineOne</span> <span class="o">=</span> <span class="n">lineOne</span><span class="o">;</span>
+</div></div><div data-line="21" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</div></div><div data-line="22" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="o">&#x7d;</span>
+</div></div><div data-line="23" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="24" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">lineTwo</span><span class="o">(</span><span class="n">String</span> <span class="n">lineTwo</span><span class="o">)</span> <span class="o">&#x7b;</span>
+</div></div><div data-line="25" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="k">this</span><span class="o">.</span><span class="na">lineTwo</span> <span class="o">=</span> <span class="n">lineTwo</span><span class="o">;</span>
+</div></div><div data-line="26" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</div></div><div data-line="27" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="o">&#x7d;</span>
+</div></div><div data-line="28" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="29" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="c1">// ... city() and state() builder methods omitted for brevity</span>
+</div></div><div data-line="30" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="31" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="kd">public</span> <span class="n">Address</span> <span class="nf">build</span><span class="o">()</span> <span class="o">&#x7b;</span>
+</div></div><div data-line="32" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="k">return</span> <span class="k">new</span> <span class="nf">Address</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</div></div><div data-line="33" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="o">&#x7d;</span>
+</div></div><div data-line="34" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="o">&#x7d;</span>
+</div></div><div data-line="35" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="36" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kd">private</span> <span class="nf">Address</span><span class="o">(</span><span class="n">Builder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">&#x7b;</span>
+</div></div><div data-line="37" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="o">.</span><span class="na">lineOne</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">lineOne</span><span class="o">;</span>
+</div></div><div data-line="38" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="o">.</span><span class="na">lineTwo</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">lineTwo</span><span class="o">;</span>
+</div></div><div data-line="39" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="o">.</span><span class="na">city</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">city</span><span class="o">;</span>
+</div></div><div data-line="40" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="o">.</span><span class="na">state</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">state</span><span class="o">;</span>
+</div></div><div data-line="41" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="o">&#x7d;</span>
+</div></div><div data-line="42" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="o">&#x7d;</span>
+</div></div><div data-line="43" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="44" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="45" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ShippingServiceTest</span> <span class="o">&#x7b;</span>
+</div></div><div data-line="46" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kd">private</span> <span class="n">Address</span><span class="o">.</span><span class="na">Builder</span> <span class="n">shippingAddressBuilder</span><span class="o">;</span>
+</div></div><div data-line="47" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="48" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nd">@Before</span>
+</div></div><div data-line="49" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">&#x7b;</span>
+</div></div><div data-line="50" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="n">shippingAddressBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Address</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
+</div></div><div data-line="51" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="o">.</span><span class="na">lineOne</span><span class="o">(</span><span class="s">"123 Main St."</span><span class="o">)</span>
+</div></div><div data-line="52" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="o">.</span><span class="na">lineTwo</span><span class="o">(</span><span class="s">""</span><span class="o">)</span>
+</div></div><div data-line="53" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="o">.</span><span class="na">city</span><span class="o">(</span><span class="s">"Chicago"</span><span class="o">)</span>
+</div></div><div data-line="54" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="o">.</span><span class="na">state</span><span class="o">(</span><span class="s">"IL"</span><span class="o">);</span>
+</div></div><div data-line="55" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="o">&#x7d;</span>
+</div></div><div data-line="56" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="57" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nd">@Test</span>
+</div></div><div data-line="58" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">shipsToTheAddress</span><span class="o">()</span> <span class="o">&#x7b;</span>
+</div></div><div data-line="59" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="n">ShippingService</span> <span class="n">service</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ShippingService</span><span class="o">();</span>
+</div></div><div data-line="60" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="n">Address</span> <span class="n">shippingAddress</span> <span class="o">=</span> <span class="n">shippingAddressBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</div></div><div data-line="61" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="62" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="n">Shipment</span> <span class="n">shipment</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="na">shipTo</span><span class="o">(</span><span class="n">shippingAddress</span><span class="o">);</span>
+</div></div><div data-line="63" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="64" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">shipment</span><span class="o">.</span><span class="na">wasSuccessful</span><span class="o">());</span>
+</div></div><div data-line="65" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">shipment</span><span class="o">.</span><span class="na">getDeliveryAddress</span><span class="o">(),</span> <span class="n">shippingAddress</span><span class="o">);</span>
+</div></div><div data-line="66" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="o">&#x7d;</span>
+</div></div><div data-line="67" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="68" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nd">@Test</span>
+</div></div><div data-line="69" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cannotShipToHawaii</span><span class="o">()</span> <span class="o">&#x7b;</span>
+</div></div><div data-line="70" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="n">ShippingService</span> <span class="n">service</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ShippingService</span><span class="o">();</span>
+</div></div><div data-line="71" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="n">Address</span> <span class="n">shippingAddress</span> <span class="o">=</span> <span class="n">shippingAddressBuilder</span><span class="o">.</span><span class="na">state</span><span class="o">(</span><span class="s">"HI"</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+</div></div><div data-line="72" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="73" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="n">Shipment</span> <span class="n">shipment</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="na">shipTo</span><span class="o">(</span><span class="n">shippingAddress</span><span class="o">);</span>
+</div></div><div data-line="74" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="75" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="n">assertFalse</span><span class="o">(</span><span class="n">shipment</span><span class="o">.</span><span class="na">wasSuccessful</span><span class="o">());</span>
+</div></div><div data-line="76" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">shipment</span><span class="o">.</span><span class="na">getFailureReason</span><span class="o">(),</span> <span class="s">"Cannot ship to Hawaii."</span><span class="o">);</span>
+</div></div><div data-line="77" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="o">&#x7d;</span>
+</div></div><div data-line="78" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="o">&#x7d;</span></div></div></pre></div></figure>
+
+<table class="blog-table">
+  <thead>
+    <tr>
+      <th>Looking good</th>
+      <th>Needs improvement</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <p>
+          We have coupled the Builder to the <code>Address</code> class more tightly, which is good. They must change together.
+        </p>
+        <p>
+          Also, we have finally gotten rid of the public all-args constructor with too many parameters!
+        </p>
+        <p>
+          To take it even further, we removed <em>all</em> public constructors. The <a href="http://www.javapractices.com/topic/TopicAction.do?Id=40">Private Constructor pattern</a> tells collaborators that object construction is internal and explicitly controlled by the class itself. The Builder is now the only way to construct an <code>Address</code>.
+        </p>
+      </td>
+      <td>
+        <p>
+          However, the dual responsibilities of the separate Builder class have reared their ugly head. In order to prevent leaking test code (the default values) into our prod code (the inner Builder), we had to remove them altogether for now and go back to specifying them in the test class itself.
+        </p>
+        <p>
+          This means we go back to the problem of confusing arbitrary values appearing in our tests.
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Next up, <a href="/java/testing/patterns/2016/06/27/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html">Part III</a> - where we truly divide the responsibilities for object construction into a Builder and a Factory, removing the arbitrary default values from the test itself.</p>
+</div>
+  <footer>
+    <p class="meta">
+      <span class="byline author vcard">Posted by <span class="fn">Ryan Oglesby</span></span>
+      <time class='entry-date' datetime='2016-06-25T20:20:26+01:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:20 pm</span></time>
+      <span class="categories">
+  
+    <a class='category' href='/categories/java/'>java</a>, <a class='category' href='/categories/patterns/'>patterns</a>, <a class='category' href='/categories/testing/'>testing</a>
+  
+</span>
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html" title="Previous Post: How your 'Mother' can help you 'Build' cleaner unit tests - Part I">&laquo; How your 'Mother' can help you 'Build' cleaner unit tests - Part I</a>
+      
+      
+        <a class="basic-alignment right" href="/java/testing/patterns/2016/06/27/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html" title="Next Post: How your 'Mother' can help you 'Build' cleaner unit tests - Part III">How your 'Mother' can help you 'Build' cleaner unit tests - Part III &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html">Harmonious Stylesheets and Inline Styles in React</a>
+      </li>
+    
+      <li class="post">
+        <a href="/docker/2016/09/26/homogeneous-pipelines-with-docker.html">Homogeneous Pipelines With Docker</a>
+      </li>
+    
+      <li class="post">
+        <a href="/java/testing/patterns/2016/06/27/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part III</a>
+      </li>
+    
+      <li class="post">
+        <a href="/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part II</a>
+      </li>
+    
+      <li class="post">
+        <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part I</a>
+      </li>
+    
+  </ul>
+</section>
+  <section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/categories/agile/' style='font-size: 136.0%'>agile</a> <a href='/categories/angularjs/' style='font-size: 112.0%'>angularjs</a> <a href='/categories/conferences/' style='font-size: 112.0%'>conferences</a> <a href='/categories/css/' style='font-size: 112.0%'>css</a> <a href='/categories/databases/' style='font-size: 112.0%'>databases</a> <a href='/categories/design/' style='font-size: 112.0%'>design</a> <a href='/categories/docker/' style='font-size: 112.0%'>docker</a> <a href='/categories/facilitation/' style='font-size: 112.0%'>facilitation</a> <a href='/categories/git/' style='font-size: 112.0%'>git</a> <a href='/categories/hashie/' style='font-size: 112.0%'>hashie</a> <a href='/categories/html5/' style='font-size: 112.0%'>html5</a> <a href='/categories/i18n/' style='font-size: 112.0%'>i18n</a> <a href='/categories/jasmine/' style='font-size: 112.0%'>jasmine</a> <a href='/categories/java/' style='font-size: 136.0%'>java</a> <a href='/categories/javascript/' style='font-size: 136.0%'>javascript</a> <a href='/categories/patterns/' style='font-size: 160.0%'>patterns</a> <a href='/categories/rails/' style='font-size: 124.0%'>rails</a> <a href='/categories/react/' style='font-size: 112.0%'>react</a> <a href='/categories/rspec/' style='font-size: 112.0%'>rspec</a> <a href='/categories/ruby/' style='font-size: 124.0%'>ruby</a> <a href='/categories/teams/' style='font-size: 136.0%'>teams</a> <a href='/categories/testing/' style='font-size: 160.0%'>testing</a> </span>
+</section>
+  <section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ryanoglesby08">@ryanoglesby08</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ryanoglesby08',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Ryan Oglesby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p></footer>
+  
+</body>
+</html>

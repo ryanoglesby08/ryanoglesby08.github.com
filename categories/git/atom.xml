@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: git | Ryan Oglesby]]></title>
+  <link href="http://ryanogles.by/categories/git/atom.xml" rel="self"/>
+  <link href="http://ryanogles.by/"/>
+  <updated>2016-10-16T16:23:54+01:00</updated>
+  <id>http://ryanogles.by/</id>
+  <author>
+    <name><![CDATA[Ryan Oglesby]]></name>
+    <email><![CDATA[{"address"=>"ryan.oglesby08@gmail.com"}]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Easing into Rubocop with git]]></title>
+    <link href="http://ryanogles.by/ruby/git/2015/02/26/easing-into-rubocop-with-git.html"/>
+    <updated>2015-02-26T01:08:31+00:00</updated>
+    <id>http://ryanogles.by/ruby/git/2015/02/26/easing-into-rubocop-with-git</id>
+    <content type="html"><![CDATA[## Dropping Rubocop into an existing codebase
+We (my team) recently introduced [rubocop](https://github.com/bbatsov/rubocop) to a Rails app and a Sinatra app to encourage (aka enforce) us to follow established Ruby style and semantics. This was my first experience with dropping a static code analyzer into an established codebase. Just for reference, our Rails app is not huge - 16 controllers, 25 models, 10 services, and a smattering of other files.
+
+Even so, the first run of `bundle exec rubocop` on the entire application revealed about 2,500 warnings. Whomp whomp. Thankfully, Rubocop comes with a handy-dandy autocorrect feature. A quick `bundle exec rubocop --auto-correct` fixed almost half of them. Good, but not quite there yet.
+
+<!-- more -->
+
+## Incremental Rubocoping
+We wanted to Rubocop to execute as part of our pre-commit task, and we wanted it to fail the task if it produced warnings or errors. So, our options were:
+
+1. Have someone sit down with a case or two of Red Bull and don't stop until everything is fixed.
+2. Use the "Automatically Generated Configuration" from Rubocop, which generates a config file for you from all the warnings with all those cops turned off, letting you choose when to enable them.
+3. Configure Rubocop to only run on a subset of files or directories. Fix all those warnings before adding more files, rinse and repeat until the entire app is added.
+
+We went with...... kind of 3. We liked the idea of incrementally rubocop-ing our app as we worked on it. So our solution is based on the [Boy Scout Rule](http://programmer.97things.oreilly.com/wiki/index.php/The_Boy_Scout_Rule) - strive to always leave any code you touch in a better state than when you found it. Applying that to Rubocop means every time you commit, Rubocop gets run ONLY on the files you have touched in that commit. Over time, we should cover more and more of the app until eventually we can run Rubocop on the entire app with every commit! Boom!
+
+The one caveat is that you must remember to run the task BEFORE you do `git commit` in order for the task to pick up your changed files. I'm sure we could put in some more effort to account for that, but haven't done so yet.
+
+## The Gist of it
+<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>git_rubocop.rake</span><a class='code-highlight-caption-link' href='https://gist.github.com/a24d602bf5d5a58f444f'>link</a></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">desc</span> <span class="s1">'Run Rubocop on uncommitted changed files'</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">task</span> <span class="ss">:git_rubocop</span> <span class="k">do</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="no">RUBY_FILENAME_PATTERNS</span> <span class="o">=</span> <span class="sx">%w(Gemfile Rakefile .rb .rake)</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">def</span> <span class="nf">ruby_file?</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="no">RUBY_FILENAME_PATTERNS</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">pattern</span><span class="o">|</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">filename</span><span class="p">.</span><span class="nf">include?</span> <span class="n">pattern</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">end</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kp">false</span>
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">end</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">def</span> <span class="nf">deleted?</span><span class="p">(</span><span class="n">git_file</span><span class="p">)</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">git_file</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">' '</span><span class="p">).</span><span class="nf">first</span><span class="p">.</span><span class="nf">include?</span> <span class="s1">'D'</span>
+</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">end</span>
+</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">def</span> <span class="nf">filename_from</span><span class="p">(</span><span class="n">git_file</span><span class="p">)</span>
+</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">git_file</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">' '</span><span class="p">).</span><span class="nf">last</span>
+</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">end</span>
+</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">git_files</span> <span class="o">=</span> <span class="sb">`git status -uno --porcelain`</span>
+</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">filenames</span> <span class="o">=</span> <span class="n">git_files</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>                  <span class="p">.</span><span class="nf">reject</span> <span class="p">&#x7b;</span> <span class="o">|</span><span class="n">git_file</span><span class="o">|</span> <span class="n">deleted?</span><span class="p">(</span><span class="n">git_file</span><span class="p">)</span> <span class="p">&#x7d;</span>
+</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>                  <span class="p">.</span><span class="nf">map</span> <span class="p">&#x7b;</span> <span class="o">|</span><span class="n">git_file</span><span class="o">|</span> <span class="n">filename_from</span><span class="p">(</span><span class="n">git_file</span><span class="p">)</span> <span class="p">&#x7d;</span>
+</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>                  <span class="p">.</span><span class="nf">select</span> <span class="p">&#x7b;</span> <span class="o">|</span><span class="n">filename</span><span class="o">|</span> <span class="n">ruby_file?</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="p">&#x7d;</span>
+</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>                  <span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">' '</span><span class="p">)</span>
+</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">sh</span> <span class="s2">"bundle exec rubocop </span><span class="si">#&#x7b;</span><span class="n">filenames</span><span class="si">&#x7d;</span><span class="s2">"</span> <span class="k">unless</span> <span class="n">filenames</span><span class="p">.</span><span class="nf">empty?</span>
+</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span></div></div></pre></div></figure>
+]]></content>
+  </entry>
+  
+</feed>
