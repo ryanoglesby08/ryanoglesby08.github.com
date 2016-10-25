@@ -1,90 +1,135 @@
-
 <!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<html>
 <head>
-  <meta charset="utf-8">
-  <title>Rails Controller Specs Don't Always Play Nice With Hashie - Ryan Oglesby</title>
-  <meta name="author" content="Ryan Oglesby">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Rails Controller Specs Don't Always Play Nice With Hashie &#8211; Ryan Oglesby</title>
+    <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com">
+    <link rel="dns-prefetch" href="//cdn.mathjax.org">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="My thoughts and experiences as I navigate the world of Agile software development.">
+    <meta name="robots" content="all">
+    <meta name="author" content="Ryan Oglesby">
+    
+    <meta name="keywords" content="rails, hashie, rspec, testing">
+    <link rel="canonical" href="http://ryanogles.by/rails/hashie/rspec/testing/2012/12/26/rails-controller-specs-dont-always-play-nice-with-hashie.html">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
 
-  
-  <meta name="description" content="A problem and solution for an issue I encountered while using Hashie + ActionController + Rspec in Rails 3">
-  
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/pixyll.css?201610251513" type="text/css">
+    <link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Fonts -->
+    
+    <link href='//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lato:900,300' rel='stylesheet' type='text/css'>
+    
+    
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    
 
-  
-  <link rel="canonical" href="http://ryanogles.by/rails/hashie/rspec/testing/2012/12/26/rails-controller-specs-dont-always-play-nice-with-hashie.html">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Ryan Oglesby" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+    <!-- MathJax -->
+    
 
-<link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-51481422-1']);
-    _gaq.push(['_trackPageview']);
+    <!-- Verifications -->
+    
+    
 
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+    <!-- Open Graph -->
+    <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Rails Controller Specs Don&#39;t Always Play Nice With Hashie">
+    <meta property="og:description" content="A problem and solution for an issue I encountered while using Hashie + ActionController + Rspec in Rails 3">
+    <meta property="og:url" content="http://ryanogles.by/rails/hashie/rspec/testing/2012/12/26/rails-controller-specs-dont-always-play-nice-with-hashie.html">
+    <meta property="og:site_name" content="Ryan Oglesby">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    
+        <meta name="twitter:site" content="@ryanoglesby08" />
+    
+    <meta name="twitter:title" content="Rails Controller Specs Don't Always Play Nice With Hashie" />
+    <meta name="twitter:description" content="My thoughts and experiences as I navigate the world of Agile software development." />
+    <meta name="twitter:url" content="http://ryanogles.by/rails/hashie/rspec/testing/2012/12/26/rails-controller-specs-dont-always-play-nice-with-hashie.html" />
+
+    
+    <script type="text/javascript">
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+       ga('create', 'UA-51481422-1', 'auto');
+       ga('send', 'pageview');
+    </script>
+    
 </head>
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Ryan Oglesby</a></h1>
+<body class="site">
   
-    <h2>Musings of a software dev</h2>
-  
-</hgroup></header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="sitesearch" value="http://ryanogles.by">
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/archives">Archives</a></li>
-  <li><a href="/oss">OSS</a></li>
-</ul></nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  <header>
+	
+
+  <div class="site-wrap">
+    <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="http://ryanogles.by" class="site-title">Ryan Oglesby</a>
+      <nav class="site-nav">
+        <a href="oss.html">OSS</a>
+      </nav>
+      <div class="clearfix"></div>
+      
+        <div class="social-icons">
+  <div class="social-icons-right">
     
-      <h1 class="entry-title">Rails Controller Specs Don't Always Play Nice With Hashie</h1>
+      <a class="fa fa-github" href="https://github.com/ryanoglesby08"></a>
     
     
-      <p class="meta">
-        <time class='entry-date' datetime='2012-12-26T14:58:00+00:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>2:58 pm</span></time>
+    
+    <a class="fa fa-rss" href="/feed.xml"></a>
+    
+      <a class="fa fa-twitter" href="https://twitter.com/ryanoglesby08"></a>
+    
+    
+    
+    
+    
+      <a class="fa fa-envelope" href="mailto:ryan.oglesby08@gmail.com"></a>
+    
+    
+    
+    
+  </div>
+  <div class="right">
+    
+    
+    
+  </div>
+</div>
+<div class="clearfix"></div>
+      
+    </div>
+  </div>
+</header>
+
+    <div class="post p2 p-responsive wrap" role="main">
+      <div class="measure">
         
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><h2 id="hashie-and-rspec---the-problem">Hashie and Rspec - The Problem:</h2>
+<div class="post-header mb2">
+  <h1>Rails Controller Specs Don't Always Play Nice With Hashie</h1>
+  <span class="post-meta">Dec 26, 2012</span><br>
+  
+  <span class="post-meta small">
+  
+    3 minute read
+  
+  </span>
+</div>
+
+<article class="post-content">
+  <h2 id="hashie-and-rspec---the-problem">Hashie and Rspec - The Problem:</h2>
 <p><a href="https://github.com/intridea/hashie">Hashie</a> is a neat little Ruby gem that extends Hash and gives object-like access and functionality to hashes.  Classes can extend from Hashie and add other functionality as needed. It is especially useful when marshaling JSON or XML data from a service layer into your business models.</p>
 
 <p>While Hashie is very useful, we have to be careful using this gem with ActionController Rspec tests.  When creating the <code class="highlighter-rouge">assigns</code> hash used in controller tests, Rspec creates a <code class="highlighter-rouge">HashWithIndifferentAccess</code>, which is dangerous with objects that act like Hash (such as Hashie objects). Rspec ends up converting user-defined objects that inherit from Hashie into <code class="highlighter-rouge">HashWithIndifferentAccess</code> objects, causing us to lose any data that exists outside of the backing hash.</p>
@@ -112,32 +157,28 @@
 <h2 id="the-tests-where-the-conflict-occurs">The Tests (Where the conflict occurs):</h2>
 <p>We should be able to write some simple specs to test the controller, specifically, that the result of the service call is stored in the correct variable passed into the view and that we assign whatever extra processing we need to do outside of the service layer into “foo.”</p>
 
-<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">employee_controller_spec.rb</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nb">require</span> <span class="s1">'spec_helper
-&lt;/div&gt;&lt;/div&gt;<div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line">describe EmployeeController do
-</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">  describe '&lt;/span&gt;<span class="n">show</span><span class="s1">' do
-&lt;/div&gt;&lt;/div&gt;<div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line">    it '&lt;/span&gt;<span class="n">should</span> <span class="n">assign</span> <span class="n">the</span> <span class="n">employee</span><span class="s1">' do
-&lt;/div&gt;&lt;/div&gt;<div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line">      EmployeeService.stub(:find_by_id) &#x7b; Employee.new &#x7d;
-</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line">      get :show, id: '&lt;/span&gt;<span class="n">employee_id</span><span class="s1">'
-&lt;/div&gt;&lt;/div&gt;<div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line">      assigns[:employee].should be_an Employee
-</div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line">      assigns[:employee].foo.should == '&lt;/span&gt;<span class="n">extra</span> <span class="n">info</span><span class="err">'</span>
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">employee_controller_spec.rb</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nb">require</span> <span class="s1">'spec_helper'</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="n">describe</span> <span class="no">EmployeeController</span> <span class="k">do</span>
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="n">describe</span> <span class="s1">'show'</span> <span class="k">do</span>
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="n">it</span> <span class="s1">'should assign the employee'</span> <span class="k">do</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="no">EmployeeService</span><span class="p">.</span><span class="nf">stub</span><span class="p">(</span><span class="ss">:find_by_id</span><span class="p">)</span> <span class="p">&#x7b;</span> <span class="no">Employee</span><span class="p">.</span><span class="nf">new</span> <span class="p">&#x7d;</span>
+</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="n">get</span> <span class="ss">:show</span><span class="p">,</span> <span class="ss">id: </span><span class="s1">'employee_id'</span>
+</div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="n">assigns</span><span class="p">[</span><span class="ss">:employee</span><span class="p">].</span><span class="nf">should</span> <span class="n">be_an</span> <span class="no">Employee</span>
+</div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="n">assigns</span><span class="p">[</span><span class="ss">:employee</span><span class="p">].</span><span class="nf">foo</span><span class="p">.</span><span class="nf">should</span> <span class="o">==</span> <span class="s1">'extra info'</span>
 </div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">end</span>
 </div></div><div data-line="13" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">end</span>
-</div></div><div data-line="14" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="k">end</span></div></div>&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+</div></div><div data-line="14" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="k">end</span></div></div></pre></div></figure>
 
+<p>You would assume this test would pass right? Nope! Fail!</p>
 
-You would assume this test would pass right? Nope! Fail!
-
-The output of both assertions would be:
+<p>The output of both assertions would be:</p>
 <figure class="code-highlight-figure"><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="n">expected</span> <span class="p">&#x7b;</span><span class="s2">"first_name"</span><span class="o">=&gt;</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"last_name"</span><span class="o">=&gt;</span><span class="s2">"Smith"</span><span class="p">&#x7d;</span> <span class="n">to</span> <span class="n">be</span> <span class="n">a</span> <span class="n">kind</span> <span class="n">of</span> <span class="no">Employee</span>
 </div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="no">NoMethodError</span><span class="p">:</span> <span class="n">undefined</span> <span class="nb">method</span> <span class="s1">'foo'</span> <span class="k">for</span> <span class="p">&#x7b;</span><span class="s2">"first_name"</span><span class="o">=&gt;</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"last_name"</span><span class="o">=&gt;</span><span class="s2">"Smith"</span><span class="p">&#x7d;</span><span class="ss">:ActiveSupport</span><span class="o">::</span><span class="no">HashWithIndifferentAccess</span></div></div></pre></div></figure>
 
+<p>As you can see, Rails has converted our Employee object into a <a href="http://api.rubyonrails.org/classes/ActiveSupport/HashWithIndifferentAccess.html">HashWithIndifferentAccess</a>! How dare you Rails?!</p>
 
-As you can see, Rails has converted our Employee object into a [HashWithIndifferentAccess](http://api.rubyonrails.org/classes/ActiveSupport/HashWithIndifferentAccess.html)! How dare you Rails?!
-
-
-Why would Rails do this?
-------------------------
-Well, don't be too quick to point the finger, this is actually a combination of Rspec and Rails (ActiveSupport). Rspec is trying to make it easier for you to use the ActionController `view_assigns` hash by converting it into a `HashWithIndifferentAccess`.  Diving into `ActionDispatch::TestProcess` we find the method definition for `assigns`:
+<h2 id="why-would-rails-do-this">Why would Rails do this?</h2>
+<p>Well, don’t be too quick to point the finger, this is actually a combination of Rspec and Rails (ActiveSupport). Rspec is trying to make it easier for you to use the ActionController <code class="highlighter-rouge">view_assigns</code> hash by converting it into a <code class="highlighter-rouge">HashWithIndifferentAccess</code>.  Diving into <code class="highlighter-rouge">ActionDispatch::TestProcess</code> we find the method definition for <code class="highlighter-rouge">assigns</code>:</p>
 
 <figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">test_process.rb</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="k">module</span> <span class="nn">ActionDispatch</span>
 </div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">module</span> <span class="nn">TestProcess</span>
@@ -147,128 +188,65 @@ Well, don't be too quick to point the finger, this is actually a combination of 
 </div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">end</span>
 </div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">.</span><span class="nf">.</span><span class="o">.</span></div></div></pre></div></figure>
 
+<p>The easy access to the <code class="highlighter-rouge">view_assigns</code> hash is great, but looking deeper into the internals of the <code class="highlighter-rouge">with_indifferent_access</code> method we find that while creating the <code class="highlighter-rouge">HashWithIndifferentAccess</code>, any assigns variable that is a <code class="highlighter-rouge">Hash</code> is converted into a <code class="highlighter-rouge">HashWithIndifferentAccess</code>! Since Hashie classes return true when asked if they are a <code class="highlighter-rouge">Hash</code>, they also get converted, therefore, losing their original object identity. To me ActiveSupport is stepping over the line here. Yes, give us easy access to the assigns hash, but don’t mess with the actual values of that hash unless I tell you to.</p>
 
-The easy access to the `view_assigns` hash is great, but looking deeper into the internals of the `with_indifferent_access` method we find that while creating the `HashWithIndifferentAccess`, any assigns variable that is a `Hash` is converted into a `HashWithIndifferentAccess`! Since Hashie classes return true when asked if they are a `Hash`, they also get converted, therefore, losing their original object identity. To me ActiveSupport is stepping over the line here. Yes, give us easy access to the assigns hash, but don't mess with the actual values of that hash unless I tell you to.
+<h2 id="easy-workaround">Easy workaround:</h2>
+<p>First, this problem is unique to Rspec tests - production code does not have this same problem. One solution would be to monkey patch <code class="highlighter-rouge">ActiveSuport::TestProcess</code> and <code class="highlighter-rouge">ActiveSupport::HashWithIndifferentAccess</code>. But, since I try to stay away from monkey patching whenever possible, the quick solution is just to not use <code class="highlighter-rouge">assigns</code> when your object under test is a Hash and you care about it not being converted to a <code class="highlighter-rouge">HashWithIndifferentAccess</code> for testing purposes.</p>
 
-Easy workaround:
-------------------------
-First, this problem is unique to Rspec tests - production code does not have this same problem. One solution would be to monkey patch `ActiveSuport::TestProcess` and `ActiveSupport::HashWithIndifferentAccess`. But, since I try to stay away from monkey patching whenever possible, the quick solution is just to not use `assigns` when your object under test is a Hash and you care about it not being converted to a `HashWithIndifferentAccess` for testing purposes.
+<p>Instead, use the controller’s <code class="highlighter-rouge">view_assigns</code> hash directly to avoid the conversion to <code class="highlighter-rouge">HashWithIndifferentAccess</code>:</p>
 
-Instead, use the controller's `view_assigns` hash directly to avoid the conversion to `HashWithIndifferentAccess`:
-
-<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">employee_controller_spec.rb</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nb">require</span> <span class="s1">'spec_helper
-&lt;/div&gt;&lt;/div&gt;<div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line">describe EmployeeController do
-</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">  describe '&lt;/span&gt;<span class="n">show</span><span class="s1">' do
-&lt;/div&gt;&lt;/div&gt;<div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line">    it '&lt;/span&gt;<span class="n">should</span> <span class="n">assign</span> <span class="n">the</span> <span class="n">employee</span><span class="s1">' do
-&lt;/div&gt;&lt;/div&gt;<div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line">      EmployeeService.stub(:find_by_id) &#x7b; Employee.new &#x7d;
-</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line">      get :show, id: '&lt;/span&gt;<span class="n">employee</span><span class="o">-</span><span class="nb">id</span><span class="s1">'
-&lt;/div&gt;&lt;/div&gt;<div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line">      # Can not use assigns[:employee] here because Employee inherits from Hashie
-</div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line">      controller.view_assigns['&lt;/span&gt;<span class="n">employee</span><span class="s1">'].should be_an Employee
-&lt;/div&gt;&lt;/div&gt;<div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line">      controller.view_assigns['&lt;/span&gt;<span class="n">employee</span><span class="s1">'].foo.should == '</span><span class="n">extra</span> <span class="n">info</span><span class="err">'</span>
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">employee_controller_spec.rb</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nb">require</span> <span class="s1">'spec_helper'</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="n">describe</span> <span class="no">EmployeeController</span> <span class="k">do</span>
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="n">describe</span> <span class="s1">'show'</span> <span class="k">do</span>
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="n">it</span> <span class="s1">'should assign the employee'</span> <span class="k">do</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="no">EmployeeService</span><span class="p">.</span><span class="nf">stub</span><span class="p">(</span><span class="ss">:find_by_id</span><span class="p">)</span> <span class="p">&#x7b;</span> <span class="no">Employee</span><span class="p">.</span><span class="nf">new</span> <span class="p">&#x7d;</span>
+</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="n">get</span> <span class="ss">:show</span><span class="p">,</span> <span class="ss">id: </span><span class="s1">'employee-id'</span>
+</div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="c1"># Can not use assigns[:employee] here because Employee inherits from Hashie</span>
+</div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="n">controller</span><span class="p">.</span><span class="nf">view_assigns</span><span class="p">[</span><span class="s1">'employee'</span><span class="p">].</span><span class="nf">should</span> <span class="n">be_an</span> <span class="no">Employee</span>
+</div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="n">controller</span><span class="p">.</span><span class="nf">view_assigns</span><span class="p">[</span><span class="s1">'employee'</span><span class="p">].</span><span class="nf">foo</span><span class="p">.</span><span class="nf">should</span> <span class="o">==</span> <span class="s1">'extra info'</span>
 </div></div><div data-line="13" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">end</span>
 </div></div><div data-line="14" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">end</span>
-</div></div><div data-line="15" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="k">end</span></div></div>&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+</div></div><div data-line="15" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="k">end</span></div></div></pre></div></figure>
 
+<p>In the end, its an easy workaround for a slightly annoying “feature” of Rspec.</p>
 
-In the end, its an easy workaround for a slightly annoying "feature" of Rspec.
-</span></div></div></span></div></div></span></div></div></span></div></div></span></div></div></pre></div></figure></span></div></div></span></div></div></span></div></div></span></div></div></pre></div></figure>
-</div>
-  <footer>
-    <p class="meta">
-      <span class="byline author vcard">Posted by <span class="fn">Ryan Oglesby</span></span>
-      <time class='entry-date' datetime='2012-12-26T14:58:00+00:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>2:58 pm</span></time>
-      <span class="categories">
-  
-    <a class='category' href='/categories/hashie/'>hashie</a>, <a class='category' href='/categories/rails/'>rails</a>, <a class='category' href='/categories/rspec/'>rspec</a>, <a class='category' href='/categories/testing/'>testing</a>
-  
-</span>
-    </p>
-    
-      <div class="sharing">
-  
-  
-  
-</div>
-    
-    <p class="meta">
-      
-      
-        <a class="basic-alignment right" href="/rails/i18n/2013/01/29/fun-with-rails-i18n.html" title="Next Post: Fun With Rails I18n">Fun With Rails I18n &raquo;</a>
-      
-    </p>
-  </footer>
 </article>
 
-</div>
 
-<aside class="sidebar">
-  <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html">Harmonious Stylesheets and Inline Styles in React</a>
-      </li>
-    
-      <li class="post">
-        <a href="/docker/2016/09/26/homogeneous-pipelines-with-docker.html">Homogeneous Pipelines With Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/java/testing/patterns/2016/06/27/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part III</a>
-      </li>
-    
-      <li class="post">
-        <a href="/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part II</a>
-      </li>
-    
-      <li class="post">
-        <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part I</a>
-      </li>
-    
-  </ul>
-</section>
-  <section>
-  <h1>Tag Cloud</h1>
-    <span id="tag-cloud"><a href='/categories/agile/' style='font-size: 136.0%'>agile</a> <a href='/categories/angularjs/' style='font-size: 112.0%'>angularjs</a> <a href='/categories/conferences/' style='font-size: 112.0%'>conferences</a> <a href='/categories/css/' style='font-size: 112.0%'>css</a> <a href='/categories/databases/' style='font-size: 112.0%'>databases</a> <a href='/categories/design/' style='font-size: 112.0%'>design</a> <a href='/categories/docker/' style='font-size: 112.0%'>docker</a> <a href='/categories/facilitation/' style='font-size: 112.0%'>facilitation</a> <a href='/categories/git/' style='font-size: 112.0%'>git</a> <a href='/categories/hashie/' style='font-size: 112.0%'>hashie</a> <a href='/categories/html5/' style='font-size: 112.0%'>html5</a> <a href='/categories/i18n/' style='font-size: 112.0%'>i18n</a> <a href='/categories/jasmine/' style='font-size: 112.0%'>jasmine</a> <a href='/categories/java/' style='font-size: 136.0%'>java</a> <a href='/categories/javascript/' style='font-size: 136.0%'>javascript</a> <a href='/categories/patterns/' style='font-size: 160.0%'>patterns</a> <a href='/categories/rails/' style='font-size: 124.0%'>rails</a> <a href='/categories/react/' style='font-size: 112.0%'>react</a> <a href='/categories/rspec/' style='font-size: 112.0%'>rspec</a> <a href='/categories/ruby/' style='font-size: 124.0%'>ruby</a> <a href='/categories/teams/' style='font-size: 136.0%'>teams</a> <a href='/categories/testing/' style='font-size: 160.0%'>testing</a> </span>
-</section>
-  <section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/ryanoglesby08">@ryanoglesby08</a> on GitHub
-  
+
+
+
+
+  <div id="disqus_thread"></div>
   <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
+    var disqus_shortname  = 'ryanoglesby';
+    var disqus_identifier = '/rails/hashie/rspec/testing/2012/12/26/rails-controller-specs-dont-always-play-nice-with-hashie';
+    var disqus_title      = "Rails Controller Specs Don't Always Play Nice With Hashie";
 
-        github.showRepos({
-            user: 'ryanoglesby08',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
   </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-</aside>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
+
+
+
+
+      </div>
     </div>
   </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - Ryan Oglesby -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p></footer>
-  
+
+  <footer class="center">
+  <div class="measure">
+    <small>
+      Theme crafted with &lt;3 by <a href="http://johnotander.com">John Otander</a> (<a href="https://twitter.com/4lpine">@4lpine</a>).<br>
+      &lt;/&gt; available on <a href="https://github.com/johnotander/pixyll">Github</a>.
+    </small>
+  </div>
+</footer>
 </body>
 </html>

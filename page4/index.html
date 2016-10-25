@@ -13,7 +13,7 @@
     <meta name="author" content="Ryan Oglesby">
     
     
-    <link rel="canonical" href="http://ryanogles.by/page2/">
+    <link rel="canonical" href="http://ryanogles.by/page4/">
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
 
     <!-- Custom CSS -->
@@ -42,7 +42,7 @@
     <meta property="og:type" content="article">
     <meta property="og:title" content="Ryan Oglesby">
     <meta property="og:description" content="My thoughts and experiences as I navigate the world of Agile software development.">
-    <meta property="og:url" content="http://ryanogles.by/page2/">
+    <meta property="og:url" content="http://ryanogles.by/page4/">
     <meta property="og:site_name" content="Ryan Oglesby">
 
     <!-- Twitter Card -->
@@ -52,7 +52,7 @@
     
     <meta name="twitter:title" content="Ryan Oglesby" />
     <meta name="twitter:description" content="My thoughts and experiences as I navigate the world of Agile software development." />
-    <meta name="twitter:url" content="http://ryanogles.by/page2/" />
+    <meta name="twitter:url" content="http://ryanogles.by/page4/" />
 
     
     <script type="text/javascript">
@@ -121,11 +121,15 @@
     <div class="posts">
       
         <div class="post py3">
-          <p class="post-meta">Jun 23, 2016</p>
-          <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html" class="post-link"><h3 class="h1 post-title">How your 'Mother' can help you 'Build' cleaner unit tests - Part I</h3></a>
+          <p class="post-meta">Aug 29, 2014</p>
+          <a href="/javascript/jasmine/html5/testing/2014/08/29/testing-jasvascript-web-workers-with-jasmine.html" class="post-link"><h3 class="h1 post-title">Testing JasvaScript Web Workers with Jasmine</h3></a>
           <p class="post-summary">
             
-              <p>Over the past few months on my project, a pattern emerged for using Builders and Object Mothers to build-up objects for unit testing. We were able to keep our tests minimal and clean, decouple test code from production code, and solve some design issues such as constructors with too many parameters. In this multi-part series, I will take you through the evolution of the pattern over a series of refactorings.</p>
+              <p>JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Performance/Using_web_workers">Web Workers</a> have been around for awhile now, but I had not needed them until recently. Without going into too much domain specific info about the actual use case, I decided to go with Web Workers to handle map reduce style statistic calculations on a data set in the browser.</p>
+
+<p>I was stoked to find the Web Worker API small and straightforward, making it super easy to get up and running. The only real speed bump while getting started was the lack of support in older browsers (IE8 and IE9 you ruin everything). However, turns out there is already a polyfill that works great. :) <a href="https://code.google.com/p/ie-web-worker/">https://code.google.com/p/ie-web-worker/</a></p>
+
+<p>I am a big proponent of testing my code. After some Googling, I didn’t find anything talking about testing JavaScript Web Workers, hence, this article.</p>
 
 
             
@@ -133,15 +137,13 @@
         </div>
       
         <div class="post py3">
-          <p class="post-meta">Feb 12, 2016</p>
-          <a href="/design/patterns/2016/02/12/yagni-aint-a-design-principle.html" class="post-link"><h3 class="h1 post-title">YAGNI a'int a Design Principle</h3></a>
+          <p class="post-meta">May 26, 2014</p>
+          <a href="/conferences/2014/05/26/goto-chicago-2014-experience-report.html" class="post-link"><h3 class="h1 post-title">GOTO Chicago 2014 Experience Report</h3></a>
           <p class="post-summary">
             
-              <p><a href="http://c2.com/cgi/wiki?YouArentGonnaNeedIt">You Ain’t Gonna Need It</a> is an XP practice that encourages developers to focus on the requirements at hand right now. It warns against the tendency to over-engineer by developing features based on what you <strong>think</strong> you will need later. Easy in theory. Hard in practice.</p>
+              <p>I had the privilege of attending <a href="http://gotocon.com/chicago-2014/">Goto;con 2014</a> in Chicago. It was smaller than I anticipated, spread over just a few conference rooms in a small corner of the Drake Hotel, with no more than 400 attendees. This gave the conference a fairly informal, casual vibe. The talks were spread over a variety of tracks, from distributed systems to UX to functional programming languages, which kept things fresh over the 2 day conference.</p>
 
-<h2 id="yagni-blinders">YAGNI Blinders</h2>
-
-<p>I’ve noticed that developers, especially those just starting out, tend to apply YAGNI narrow-sightedly. I often see it being strictly adhered to at face-value only, by developers always choosing to do what seems to be the most obvious and straightforward thing at the time, without putting any thought into the design implications of their choices. When suggesting other options that seem to be less simple on the surface, they YAGNI argument gets used. “Oh, that’s YAGNI.”</p>
+<p>Here I will capture summaries and my key takeaways from some of the sessions I attended (which represents only a small fraction of the 40+ presentations).</p>
 
 
             
@@ -149,13 +151,13 @@
         </div>
       
         <div class="post py3">
-          <p class="post-meta">Jan 23, 2016</p>
-          <a href="/agile/teams/2016/01/23/youre-a-champion.html" class="post-link"><h3 class="h1 post-title">You're a Champion</h3></a>
+          <p class="post-meta">Dec 25, 2013</p>
+          <a href="/ruby/patterns/2013/12/25/meet-lazydoc.html" class="post-link"><h3 class="h1 post-title">Meet LazyDoc</h3></a>
           <p class="post-summary">
             
-              <p>Recently, my team embarked on a strategy/experiment designed to distribute the effort of driving features from inception through completion more evenly across the team. We noticed that both myself (Tech Lead) and our BA were overloaded. Too many features. Too little time. What’s worse, our developers were feeling out of the loop most of the time. They wanted more insight into what goes on before a story gets to development and more say in the direction of the team.</p>
+              <p>I’ve been pretty heads down in a <a href="http://www.thoughtworks.com">ThoughtWorks</a> project for the better part of 2013 and have unfortunately neglected this blog. But 2014 is a new year and I want to get into a semi-regular cadence of posts.</p>
 
-<p>Thus, Feature Champions were born.</p>
+<p>So with that in mind…… another long overdue post! So say hello to <a href="https://github.com/ryanoglesby08/lazy-doc">LazyDoc</a>, a Ruby gem I have released. LazyDoc provides a DSL for extracting deeply nested values from a JSON document.</p>
 
 
             
@@ -163,13 +165,12 @@
         </div>
       
         <div class="post py3">
-          <p class="post-meta">Aug 15, 2015</p>
-          <a href="/databases/2015/08/15/database-migrations-best-practices.html" class="post-link"><h3 class="h1 post-title">Database Migrations Best Practices</h3></a>
+          <p class="post-meta">Jan 29, 2013</p>
+          <a href="/rails/i18n/2013/01/29/fun-with-rails-i18n.html" class="post-link"><h3 class="h1 post-title">Fun With Rails I18n</h3></a>
           <p class="post-summary">
             
-              <p>Only once have I worked on a project that did not interact directly with a relational database. (Awww, those were the days) In every other case, I used database migrations to apply small changes to a database over time. Using migrations provides an incremental path towards building the current state of a database. In my opinion it’s the only way to do it.</p>
-
-<p>Database migrations are nothing new, and over the years I have come to follow a few best practices:</p>
+              <h2 id="skipping-the-basics">Skipping the Basics…</h2>
+<p>Anyone wanting to develop a truly internationalized application needs to address translating the text of the app into the supported languages. Fortunately for you Rails devs out there, the framework provides an easy mechanism for managing and performing those translations, I18n.translate or shortly I18n.t being the forefront. I am just going to mention the basics here and then move right on to some of the more fun features of Rails translations that every Rails ninja needs to know.</p>
 
 
             
@@ -182,16 +183,16 @@
   <div class="left">
     
       
-        <a class="pagination-item" href="/">Newer</a>
+        <a class="pagination-item" href="/page3">Newer</a>
       
     
   </div>
   <div class="right">
     
-      <a class="pagination-item" href="/page3">Older</a>
+      <a class="pagination-item" href="/page5">Older</a>
     
   </div>
-  <div class="pagination-meta">Page 2 of 5</div>
+  <div class="pagination-meta">Page 4 of 5</div>
 </div>
   
 </div>

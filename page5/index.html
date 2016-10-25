@@ -13,7 +13,7 @@
     <meta name="author" content="Ryan Oglesby">
     
     
-    <link rel="canonical" href="http://ryanogles.by/page2/">
+    <link rel="canonical" href="http://ryanogles.by/page5/">
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
 
     <!-- Custom CSS -->
@@ -42,7 +42,7 @@
     <meta property="og:type" content="article">
     <meta property="og:title" content="Ryan Oglesby">
     <meta property="og:description" content="My thoughts and experiences as I navigate the world of Agile software development.">
-    <meta property="og:url" content="http://ryanogles.by/page2/">
+    <meta property="og:url" content="http://ryanogles.by/page5/">
     <meta property="og:site_name" content="Ryan Oglesby">
 
     <!-- Twitter Card -->
@@ -52,7 +52,7 @@
     
     <meta name="twitter:title" content="Ryan Oglesby" />
     <meta name="twitter:description" content="My thoughts and experiences as I navigate the world of Agile software development." />
-    <meta name="twitter:url" content="http://ryanogles.by/page2/" />
+    <meta name="twitter:url" content="http://ryanogles.by/page5/" />
 
     
     <script type="text/javascript">
@@ -121,55 +121,14 @@
     <div class="posts">
       
         <div class="post py3">
-          <p class="post-meta">Jun 23, 2016</p>
-          <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html" class="post-link"><h3 class="h1 post-title">How your 'Mother' can help you 'Build' cleaner unit tests - Part I</h3></a>
+          <p class="post-meta">Dec 26, 2012</p>
+          <a href="/rails/hashie/rspec/testing/2012/12/26/rails-controller-specs-dont-always-play-nice-with-hashie.html" class="post-link"><h3 class="h1 post-title">Rails Controller Specs Don't Always Play Nice With Hashie</h3></a>
           <p class="post-summary">
             
-              <p>Over the past few months on my project, a pattern emerged for using Builders and Object Mothers to build-up objects for unit testing. We were able to keep our tests minimal and clean, decouple test code from production code, and solve some design issues such as constructors with too many parameters. In this multi-part series, I will take you through the evolution of the pattern over a series of refactorings.</p>
+              <h2 id="hashie-and-rspec---the-problem">Hashie and Rspec - The Problem:</h2>
+<p><a href="https://github.com/intridea/hashie">Hashie</a> is a neat little Ruby gem that extends Hash and gives object-like access and functionality to hashes.  Classes can extend from Hashie and add other functionality as needed. It is especially useful when marshaling JSON or XML data from a service layer into your business models.</p>
 
-
-            
-          </p>
-        </div>
-      
-        <div class="post py3">
-          <p class="post-meta">Feb 12, 2016</p>
-          <a href="/design/patterns/2016/02/12/yagni-aint-a-design-principle.html" class="post-link"><h3 class="h1 post-title">YAGNI a'int a Design Principle</h3></a>
-          <p class="post-summary">
-            
-              <p><a href="http://c2.com/cgi/wiki?YouArentGonnaNeedIt">You Ain’t Gonna Need It</a> is an XP practice that encourages developers to focus on the requirements at hand right now. It warns against the tendency to over-engineer by developing features based on what you <strong>think</strong> you will need later. Easy in theory. Hard in practice.</p>
-
-<h2 id="yagni-blinders">YAGNI Blinders</h2>
-
-<p>I’ve noticed that developers, especially those just starting out, tend to apply YAGNI narrow-sightedly. I often see it being strictly adhered to at face-value only, by developers always choosing to do what seems to be the most obvious and straightforward thing at the time, without putting any thought into the design implications of their choices. When suggesting other options that seem to be less simple on the surface, they YAGNI argument gets used. “Oh, that’s YAGNI.”</p>
-
-
-            
-          </p>
-        </div>
-      
-        <div class="post py3">
-          <p class="post-meta">Jan 23, 2016</p>
-          <a href="/agile/teams/2016/01/23/youre-a-champion.html" class="post-link"><h3 class="h1 post-title">You're a Champion</h3></a>
-          <p class="post-summary">
-            
-              <p>Recently, my team embarked on a strategy/experiment designed to distribute the effort of driving features from inception through completion more evenly across the team. We noticed that both myself (Tech Lead) and our BA were overloaded. Too many features. Too little time. What’s worse, our developers were feeling out of the loop most of the time. They wanted more insight into what goes on before a story gets to development and more say in the direction of the team.</p>
-
-<p>Thus, Feature Champions were born.</p>
-
-
-            
-          </p>
-        </div>
-      
-        <div class="post py3">
-          <p class="post-meta">Aug 15, 2015</p>
-          <a href="/databases/2015/08/15/database-migrations-best-practices.html" class="post-link"><h3 class="h1 post-title">Database Migrations Best Practices</h3></a>
-          <p class="post-summary">
-            
-              <p>Only once have I worked on a project that did not interact directly with a relational database. (Awww, those were the days) In every other case, I used database migrations to apply small changes to a database over time. Using migrations provides an incremental path towards building the current state of a database. In my opinion it’s the only way to do it.</p>
-
-<p>Database migrations are nothing new, and over the years I have come to follow a few best practices:</p>
+<p>While Hashie is very useful, we have to be careful using this gem with ActionController Rspec tests.  When creating the <code class="highlighter-rouge">assigns</code> hash used in controller tests, Rspec creates a <code class="highlighter-rouge">HashWithIndifferentAccess</code>, which is dangerous with objects that act like Hash (such as Hashie objects). Rspec ends up converting user-defined objects that inherit from Hashie into <code class="highlighter-rouge">HashWithIndifferentAccess</code> objects, causing us to lose any data that exists outside of the backing hash.</p>
 
 
             
@@ -182,16 +141,16 @@
   <div class="left">
     
       
-        <a class="pagination-item" href="/">Newer</a>
+        <a class="pagination-item" href="/page4">Newer</a>
       
     
   </div>
   <div class="right">
     
-      <a class="pagination-item" href="/page3">Older</a>
+      <span class="pagination-item disabled">Older</span>
     
   </div>
-  <div class="pagination-meta">Page 2 of 5</div>
+  <div class="pagination-meta">Page 5 of 5</div>
 </div>
   
 </div>
