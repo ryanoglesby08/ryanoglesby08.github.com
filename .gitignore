@@ -2,4 +2,8 @@
 .code-highlighter-cache
 .gist-cache
 .sass-cache
+
 vendor/bundle
+
+_deploy.yml
+.deploy
