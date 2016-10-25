@@ -1,131 +1,145 @@
-
 <!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<html>
 <head>
-  <meta charset="utf-8">
-  <title>Ryan Oglesby</title>
-  <meta name="author" content="Ryan Oglesby">
-
-  
-  <meta name="description" content="
-  
-  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ryan Oglesby</title>
+    <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com">
+    <link rel="dns-prefetch" href="//cdn.mathjax.org">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="My thoughts and experiences as I navigate the world of Agile software development.">
+    <meta name="robots" content="all">
+    <meta name="author" content="Ryan Oglesby">
     
     
-      
+    <link rel="canonical" href="http://ryanogles.by/">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/pixyll.css?201610251513" type="text/css">
+    <link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
+
+    <!-- Fonts -->
     
-      Harmonious Stylesheets and Inline Styles in React
+    <link href='//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lato:900,300' rel='stylesheet' type='text/css'>
     
     
-      
-        Oct 15th, 2016 10:28 pm
-        
-    ...">
-  
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- MathJax -->
+    
 
-  
-  <link rel="canonical" href="http://ryanogles.by/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Ryan Oglesby" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+    <!-- Verifications -->
+    
+    
 
-<link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-51481422-1']);
-    _gaq.push(['_trackPageview']);
+    <!-- Open Graph -->
+    <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Ryan Oglesby">
+    <meta property="og:description" content="My thoughts and experiences as I navigate the world of Agile software development.">
+    <meta property="og:url" content="http://ryanogles.by/">
+    <meta property="og:site_name" content="Ryan Oglesby">
 
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    
+        <meta name="twitter:site" content="@ryanoglesby08" />
+    
+    <meta name="twitter:title" content="Ryan Oglesby" />
+    <meta name="twitter:description" content="My thoughts and experiences as I navigate the world of Agile software development." />
+    <meta name="twitter:url" content="http://ryanogles.by/" />
+
+    
+    <script type="text/javascript">
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+       ga('create', 'UA-51481422-1', 'auto');
+       ga('send', 'pageview');
+    </script>
+    
 </head>
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Ryan Oglesby</a></h1>
+<body class="site">
   
-    <h2>Musings of a software dev</h2>
-  
-</hgroup></header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="sitesearch" value="http://ryanogles.by">
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/archives">Archives</a></li>
-  <li><a href="/oss">OSS</a></li>
-</ul></nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
+	
+
+  <div class="site-wrap">
+    <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="http://ryanogles.by" class="site-title">Ryan Oglesby</a>
+      <nav class="site-nav">
+        <a href="oss.html">OSS</a>
+      </nav>
+      <div class="clearfix"></div>
+      
+        <div class="social-icons">
+  <div class="social-icons-right">
     
-    <article>
-      <header>
-    
-      <h1 class="entry-title"><a href="/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html">Harmonious Stylesheets and Inline Styles in React</a></h1>
+      <a class="fa fa-github" href="https://github.com/ryanoglesby08"></a>
     
     
-      <p class="meta">
-        <time class='entry-date' datetime='2016-10-15T22:28:00+01:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:28 pm</span></time>
+    
+    <a class="fa fa-rss" href="/feed.xml"></a>
+    
+      <a class="fa fa-twitter" href="https://twitter.com/ryanoglesby08"></a>
+    
+    
+    
+    
+    
+      <a class="fa fa-envelope" href="mailto:ryan.oglesby08@gmail.com"></a>
+    
+    
+    
+    
+  </div>
+  <div class="right">
+    
+    
+    
+  </div>
+</div>
+<div class="clearfix"></div>
+      
+    </div>
+  </div>
+</header>
+
+    <div class="post p2 p-responsive wrap" role="main">
+      <div class="measure">
         
-      </p>
-    
-  </header>
 
-
-  <div class="entry-content"><p>Styling React components seems to be one of those things where there are a lot of solutions (<a href="https://github.com/FormidableLabs/radium/blob/master/docs/comparison/README.md">libraries</a>) emerging that try to solve the problem of how to use <em>only</em> inline styles in JavaScript sustainably. To me, it seems that this problem has been invented and can easily be avoided; and introducing a new library or tool is only adding to the complexity and cognitive overhead of your app. Many times it really is just better to stick with plain ol CSS stylesheets.</p>
+<div class="home">
+  
+    <div class="posts">
+      
+        <div class="post py3">
+          <p class="post-meta">Oct 15, 2016</p>
+          <a href="/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html" class="post-link"><h3 class="h1 post-title">Harmonious Stylesheets and Inline Styles in React</h3></a>
+          <p class="post-summary">
+            
+              <p>Styling React components seems to be one of those things where there are a lot of solutions (<a href="https://github.com/FormidableLabs/radium/blob/master/docs/comparison/README.md">libraries</a>) emerging that try to solve the problem of how to use <em>only</em> inline styles in JavaScript sustainably. To me, it seems that this problem has been invented and can easily be avoided; and introducing a new library or tool is only adding to the complexity and cognitive overhead of your app. Many times it really is just better to stick with plain ol CSS stylesheets.</p>
 
 <p>Both traditional stylesheets and inline styles have their place within React applications. By using them harmoniously you can have the best of both worlds.</p>
 
-</div>
-  <footer>
-    <a rel="full-article" href="/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html">Read on &rarr;</a>
-  </footer>
-    </article>
-  
-    
-    <article>
-      <header>
-    
-      <h1 class="entry-title"><a href="/docker/2016/09/26/homogeneous-pipelines-with-docker.html">Homogeneous Pipelines With Docker</a></h1>
-    
-    
-      <p class="meta">
-        <time class='entry-date' datetime='2016-09-26T15:55:17+01:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:55 pm</span></time>
-        
-      </p>
-    
-  </header>
 
-
-  <div class="entry-content"><p><a href="http://martinfowler.com/articles/continuousIntegration.html">Continuous Integration Build Pipelines</a> are a dirty, nasty place. What usually starts out as a couple of simple tasks or bash scripts inevitably ends up as a heap of scripts, Gradle/Rake/Maven/(insert build tool here) tasks, and manually configured jobs held together with a thin layer of Elmer’s glue and Scotch tape.</p>
+            
+          </p>
+        </div>
+      
+        <div class="post py3">
+          <p class="post-meta">Sep 26, 2016</p>
+          <a href="/docker/2016/09/26/homogeneous-pipelines-with-docker.html" class="post-link"><h3 class="h1 post-title">Homogeneous Pipelines with Docker</h3></a>
+          <p class="post-summary">
+            
+              <p><a href="http://martinfowler.com/articles/continuousIntegration.html">Continuous Integration Build Pipelines</a> are a dirty, nasty place. What usually starts out as a couple of simple tasks or bash scripts inevitably ends up as a heap of scripts, Gradle/Rake/Maven/(insert build tool here) tasks, and manually configured jobs held together with a thin layer of Elmer’s glue and Scotch tape.</p>
 
 <p>Why? Partly because modern applications are complex; even simple stacks use multiple languages and tools. And partly because developers are lazy, and sometimes hesitant to “mess with the pipeline.” I don’t often see the amount of rigor in cleanliness applied to them as to other parts of the codebase, leading to unnecessarily complex and unfortunately tangled build pipelines.</p>
 
@@ -133,294 +147,72 @@
 
 <p><em>To give credit where credit is due, the implementation of this pattern was spearheaded by my colleague <a href="https://twitter.com/amber_ht">Amber Houle</a>.</em></p>
 
-</div>
-  <footer>
-    <a rel="full-article" href="/docker/2016/09/26/homogeneous-pipelines-with-docker.html">Read on &rarr;</a>
-  </footer>
-    </article>
-  
-    
-    <article>
-      <header>
-    
-      <h1 class="entry-title"><a href="/java/testing/patterns/2016/06/27/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part III</a></h1>
-    
-    
-      <p class="meta">
-        <time class='entry-date' datetime='2016-06-27T03:28:58+01:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:28 am</span></time>
-        
-      </p>
-    
-  </header>
 
-
-  <div class="entry-content"><p>We ended <a href="/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html">Part II</a> with an inner Builder for <code class="highlighter-rouge">Address</code>, which forced us to revert to specifying seemingly arbitrary values in each test that needed to build an <code class="highlighter-rouge">Address</code>.</p>
+            
+          </p>
+        </div>
+      
+        <div class="post py3">
+          <p class="post-meta">Jun 26, 2016</p>
+          <a href="/java/testing/patterns/2016/06/26/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html" class="post-link"><h3 class="h1 post-title">How your 'Mother' can help you 'Build' cleaner unit tests - Part III</h3></a>
+          <p class="post-summary">
+            
+              <p>We ended <a href="/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html">Part II</a> with an inner Builder for <code class="highlighter-rouge">Address</code>, which forced us to revert to specifying seemingly arbitrary values in each test that needed to build an <code class="highlighter-rouge">Address</code>.</p>
 
 <p>What I’ve usually seen at this point is pulling the Address objects into constants in each test class. As the test suite grows, the number of <code class="highlighter-rouge">private static final Address WHATEVER_ADDRESS = ...;</code> grows and grows. Doing that makes it hard to keep control over your test data, especially in a large codebase. A minor change to Address, such as a new invariant or an added field, could cause cascading changes to keep all those objects valid.</p>
 
 <p>To avoid that, the next step is actually a very simple one, and boils down to centralizing the definition and creation of an <code class="highlighter-rouge">Address</code> with an Object Mother.</p>
 
-</div>
-  <footer>
-    <a rel="full-article" href="/java/testing/patterns/2016/06/27/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html">Read on &rarr;</a>
-  </footer>
-    </article>
-  
-    
-    <article>
-      <header>
-    
-      <h1 class="entry-title"><a href="/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part II</a></h1>
-    
-    
-      <p class="meta">
-        <time class='entry-date' datetime='2016-06-25T20:20:26+01:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:20 pm</span></time>
-        
-      </p>
-    
-  </header>
 
-
-  <div class="entry-content"><p>In <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">Part I</a>, we created a separate Builder class in an attempt to move away from a constructor with too many parameters. In the process, the separate Builder ended up taking on the additional responsibility of supplying default values, blurring the line between a Builder and Factory.</p>
+            
+          </p>
+        </div>
+      
+        <div class="post py3">
+          <p class="post-meta">Jun 25, 2016</p>
+          <a href="/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html" class="post-link"><h3 class="h1 post-title">How your 'Mother' can help you 'Build' cleaner unit tests - Part II</h3></a>
+          <p class="post-summary">
+            
+              <p>In <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">Part I</a>, we created a separate Builder class in an attempt to move away from a constructor with too many parameters. In the process, the separate Builder ended up taking on the additional responsibility of supplying default values, blurring the line between a Builder and Factory.</p>
 
 <p>Though a step in the right direction, it didn’t actually fix any of the <code class="highlighter-rouge">Address</code> constructor’s original problems, unfortunately. Oops. Other classes can still call it directly, meaning all of the risks of having a method with multiple parameters of the same type are still there, and we have another class in our system to maintain.</p>
 
 <p>What we need is a strictly controlled way of creating <code class="highlighter-rouge">Address</code> objects that can be accessed by test code <em>and</em> prod code that is decoupled from the current constructor and it’s baggage.</p>
 
-</div>
-  <footer>
-    <a rel="full-article" href="/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html">Read on &rarr;</a>
-  </footer>
-    </article>
-  
-    
-    <article>
-      <header>
-    
-      <h1 class="entry-title"><a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part I</a></h1>
-    
-    
-      <p class="meta">
-        <time class='entry-date' datetime='2016-06-23T19:34:08+01:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>7:34 pm</span></time>
-        
-      </p>
-    
-  </header>
 
+            
+          </p>
+        </div>
+      
+    </div>
 
-  <div class="entry-content"><p>Over the past few months on my project, a pattern emerged for using Builders and Object Mothers to build-up objects for unit testing. We were able to keep our tests minimal and clean, decouple test code from production code, and solve some design issues such as constructors with too many parameters. In this multi-part series, I will take you through the evolution of the pattern over a series of refactorings.</p>
-
-</div>
-  <footer>
-    <a rel="full-article" href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">Read on &rarr;</a>
-  </footer>
-    </article>
-  
+    <div class="pagination clearfix mb1 mt4">
+  <div class="left">
     
-    <article>
-      <header>
-    
-      <h1 class="entry-title"><a href="/design/patterns/2016/02/12/yagni-aint-a-design-principle.html">YAGNI A'int a Design Principle</a></h1>
-    
-    
-      <p class="meta">
-        <time class='entry-date' datetime='2016-02-12T19:21:24+00:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>7:21 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote>
-  <p><a href="http://c2.com/cgi/wiki?YouArentGonnaNeedIt">You Ain’t Gonna Need It</a> is an XP practice that encourages developers to focus on the requirements at hand right now. It warns against the tendency to over-engineer by developing features based on what you <strong>think</strong> you will need later. Easy in theory. Hard in practice.</p>
-</blockquote>
-
-<h2 id="yagni-blinders">YAGNI Blinders</h2>
-
-<p>I’ve noticed that developers, especially those just starting out, tend to apply YAGNI narrow-sightedly. I often see it being strictly adhered to at face-value only, by developers always choosing to do what seems to be the most obvious and straightforward thing at the time, without putting any thought into the design implications of their choices. When suggesting other options that seem to be less simple on the surface, they YAGNI argument gets used. “Oh, that’s YAGNI.”</p>
-
-</div>
-  <footer>
-    <a rel="full-article" href="/design/patterns/2016/02/12/yagni-aint-a-design-principle.html">Read on &rarr;</a>
-  </footer>
-    </article>
-  
-    
-    <article>
-      <header>
-    
-      <h1 class="entry-title"><a href="/agile/teams/2016/01/23/youre-a-champion.html">You're a Champion</a></h1>
-    
-    
-      <p class="meta">
-        <time class='entry-date' datetime='2016-01-23T20:04:06+00:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>8:04 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Recently, my team embarked on a strategy/experiment designed to distribute the effort of driving features from inception through completion more evenly across the team. We noticed that both myself (Tech Lead) and our BA were overloaded. Too many features. Too little time. What’s worse, our developers were feeling out of the loop most of the time. They wanted more insight into what goes on before a story gets to development and more say in the direction of the team.</p>
-
-<p>Thus, Feature Champions were born.</p>
-
-</div>
-  <footer>
-    <a rel="full-article" href="/agile/teams/2016/01/23/youre-a-champion.html">Read on &rarr;</a>
-  </footer>
-    </article>
-  
-    
-    <article>
-      <header>
-    
-      <h1 class="entry-title"><a href="/databases/2015/08/15/database-migrations-best-practices.html">Database Migrations Best Practices</a></h1>
-    
-    
-      <p class="meta">
-        <time class='entry-date' datetime='2015-08-15T21:53:23+01:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:53 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Only once have I worked on a project that did not interact directly with a relational database. (Awww, those were the days) In every other case, I used database migrations to apply small changes to a database over time. Using migrations provides an incremental path towards building the current state of a database. In my opinion it’s the only way to do it.</p>
-
-<p>Database migrations are nothing new, and over the years I have come to follow a few best practices:</p>
-
-</div>
-  <footer>
-    <a rel="full-article" href="/databases/2015/08/15/database-migrations-best-practices.html">Read on &rarr;</a>
-  </footer>
-    </article>
-  
-    
-    <article>
-      <header>
-    
-      <h1 class="entry-title"><a href="/agile/teams/2015/07/26/hackathons-for-the-enterprise.html">Hackathons for the Enterprise</a></h1>
-    
-    
-      <p class="meta">
-        <time class='entry-date' datetime='2015-07-26T06:00:04+01:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:00 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>A few months ago I helped to plan and execute a Hackathon for my project team. Thought it was not the first team Hackathon I have participated in, it was the most successful. Everyone on the team had a great time and learned a lot. Some of the hacks have even been turned into production solutions for the product or team!</p>
-
-<p>I decided to take this experience and share it with a wide audience by contributing to the <a href="http://www.thoughtworks.com/insights">ThoughtWorks Insights</a> blog. This is extremely exciting for me, as its my first time to be featured alongside so many of my brilliant colleagues! :)</p>
-
-<p>Check out my article <a href="http://www.thoughtworks.com/insights/blog/hackathons-enterprise">here</a>.</p>
-</div>
-  <footer>
-    <a rel="full-article" href="/agile/teams/2015/07/26/hackathons-for-the-enterprise.html">Read on &rarr;</a>
-  </footer>
-    </article>
-  
-    
-    <article>
-      <header>
-    
-      <h1 class="entry-title"><a href="/javascript/angularjs/2015/04/07/watching-the-watchers-in-angularjs.html">Watching the Watchers in AngularJS</a></h1>
-    
-    
-      <p class="meta">
-        <time class='entry-date' datetime='2015-04-07T13:43:55+01:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:43 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I have been doing quite a bit of AngularJS performance tweaking on my latest project. It is no secret that Angular performance can quickly degrade due to the implementation of its <a href="https://docs.angularjs.org/guide/scope">digest cycle</a>. I’ll avoid Angular bashing here because this is well-documented and blogged about to death (Google it). You’re welcome.</p>
-
-<p>Instead, I want to share a few learnings that I have picked up while attacking the performance problems with having too many bindings and watchers in any Angular application.</p>
-
-</div>
-  <footer>
-    <a rel="full-article" href="/javascript/angularjs/2015/04/07/watching-the-watchers-in-angularjs.html">Read on &rarr;</a>
-  </footer>
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/page2/">&larr; Older</a>
-    
-    <a href="/archives/">Blog Archives</a>
+      <span class="pagination-item disabled">Newer</span>
     
   </div>
+  <div class="right">
+    
+      <a class="pagination-item" href="/page2">Older</a>
+    
+  </div>
+  <div class="pagination-meta">Page 1 of 5</div>
 </div>
-<aside class="sidebar">
-  <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html">Harmonious Stylesheets and Inline Styles in React</a>
-      </li>
-    
-      <li class="post">
-        <a href="/docker/2016/09/26/homogeneous-pipelines-with-docker.html">Homogeneous Pipelines With Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/java/testing/patterns/2016/06/27/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part III</a>
-      </li>
-    
-      <li class="post">
-        <a href="/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part II</a>
-      </li>
-    
-      <li class="post">
-        <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">How Your 'Mother' Can Help You 'Build' Cleaner Unit Tests - Part I</a>
-      </li>
-    
-  </ul>
-</section>
-  <section>
-  <h1>Tag Cloud</h1>
-    <span id="tag-cloud"><a href='/categories/agile/' style='font-size: 136.0%'>agile</a> <a href='/categories/angularjs/' style='font-size: 112.0%'>angularjs</a> <a href='/categories/conferences/' style='font-size: 112.0%'>conferences</a> <a href='/categories/css/' style='font-size: 112.0%'>css</a> <a href='/categories/databases/' style='font-size: 112.0%'>databases</a> <a href='/categories/design/' style='font-size: 112.0%'>design</a> <a href='/categories/docker/' style='font-size: 112.0%'>docker</a> <a href='/categories/facilitation/' style='font-size: 112.0%'>facilitation</a> <a href='/categories/git/' style='font-size: 112.0%'>git</a> <a href='/categories/hashie/' style='font-size: 112.0%'>hashie</a> <a href='/categories/html5/' style='font-size: 112.0%'>html5</a> <a href='/categories/i18n/' style='font-size: 112.0%'>i18n</a> <a href='/categories/jasmine/' style='font-size: 112.0%'>jasmine</a> <a href='/categories/java/' style='font-size: 136.0%'>java</a> <a href='/categories/javascript/' style='font-size: 136.0%'>javascript</a> <a href='/categories/patterns/' style='font-size: 160.0%'>patterns</a> <a href='/categories/rails/' style='font-size: 124.0%'>rails</a> <a href='/categories/react/' style='font-size: 112.0%'>react</a> <a href='/categories/rspec/' style='font-size: 112.0%'>rspec</a> <a href='/categories/ruby/' style='font-size: 124.0%'>ruby</a> <a href='/categories/teams/' style='font-size: 136.0%'>teams</a> <a href='/categories/testing/' style='font-size: 160.0%'>testing</a> </span>
-</section>
-  <section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
   
-  <a href="https://github.com/ryanoglesby08">@ryanoglesby08</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
+</div>
 
-        github.showRepos({
-            user: 'ryanoglesby08',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-</aside>
-
+      </div>
     </div>
   </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - Ryan Oglesby -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p></footer>
-  
+
+  <footer class="center">
+  <div class="measure">
+    <small>
+      Theme crafted with &lt;3 by <a href="http://johnotander.com">John Otander</a> (<a href="https://twitter.com/4lpine">@4lpine</a>).<br>
+      &lt;/&gt; available on <a href="https://github.com/johnotander/pixyll">Github</a>.
+    </small>
+  </div>
+</footer>
 </body>
 </html>

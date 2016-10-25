@@ -9,7 +9,7 @@ categories: ["javascript", "jasmine", "html5", "testing"]
 
 JavaScript [Web Workers](https://developer.mozilla.org/en-US/docs/Web/Guide/Performance/Using_web_workers) have been around for awhile now, but I had not needed them until recently. Without going into too much domain specific info about the actual use case, I decided to go with Web Workers to handle map reduce style statistic calculations on a data set in the browser.
 
-I was stoked to find the Web Worker API small and straightforward, making it super easy to get up and running. The only real speed bump while getting started was the lack of support in older browsers (IE8 and IE9 you ruin everything). However, turns out there is already a polyfill that works great. :) https://code.google.com/p/ie-web-worker/
+I was stoked to find the Web Worker API small and straightforward, making it super easy to get up and running. The only real speed bump while getting started was the lack of support in older browsers (IE8 and IE9 you ruin everything). However, turns out there is already a polyfill that works great. :) <https://code.google.com/p/ie-web-worker/>
 
 I am a big proponent of testing my code. After some Googling, I didn’t find anything talking about testing JavaScript Web Workers, hence, this article.
 
@@ -187,6 +187,6 @@ The final issue was with [jasmine_rails](https://github.com/searls/jasmine-rails
     = javascript_include_tag *jasmine_js_files
     = javascript_include_tag *Dir.chdir(File.join(Rails.root, 'app/assets/javascripts')) { Dir['workers/*.js'] }
 ```
-(https://github.com/searls/jasmine-rails#custom-helpers)
+(<https://github.com/searls/jasmine-rails#custom-helpers>)
 
 So a few hoops to jump through, but now I’m very happy with the Web Workers and the testing strategy I arrived at.

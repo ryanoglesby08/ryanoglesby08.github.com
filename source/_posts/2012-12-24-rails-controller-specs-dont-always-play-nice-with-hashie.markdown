@@ -45,7 +45,7 @@ The Tests (Where the conflict occurs):
 We should be able to write some simple specs to test the controller, specifically, that the result of the service call is stored in the correct variable passed into the view and that we assign whatever extra processing we need to do outside of the service layer into "foo."
 
 ``` ruby employee_controller_spec.rb
-require 'spec_helper
+require 'spec_helper'
 
 describe EmployeeController do
   describe 'show' do
@@ -96,7 +96,7 @@ First, this problem is unique to Rspec tests - production code does not have thi
 Instead, use the controller's `view_assigns` hash directly to avoid the conversion to `HashWithIndifferentAccess`:
 
 ``` ruby employee_controller_spec.rb
-require 'spec_helper
+require 'spec_helper'
 
 describe EmployeeController do
   describe 'show' do

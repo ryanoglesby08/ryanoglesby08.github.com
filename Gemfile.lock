@@ -49,6 +49,7 @@ GEM
     jekyll-compass (2.0.1)
       compass (~> 1.0)
       jekyll (~> 3.0)
+    jekyll-paginate (1.1.0)
     jekyll-sass-converter (1.4.0)
       sass (~> 3.4)
     jekyll-sitemap (0.11.0)
@@ -135,7 +136,6 @@ GEM
     safe_yaml (1.0.4)
     sass (3.4.22)
     slop (3.6.0)
-    stringex (2.6.0)
     titlecase (0.1.1)
     uglifier (2.7.2)
       execjs (>= 0.3.0)
@@ -146,6 +146,7 @@ PLATFORMS
 
 DEPENDENCIES
   jekyll-compass (~> 2.0)
+  jekyll-paginate (~> 1.1)
   jekyll-sitemap (~> 0.11)
   octopress (~> 3.0)
   octopress-codeblock (~> 1.0)
@@ -160,4 +161,3 @@ DEPENDENCIES
   octopress-solarized (~> 1.1)
   pry (~> 0.10)
   rake (~> 11.2)
-  stringex (~> 2.6)

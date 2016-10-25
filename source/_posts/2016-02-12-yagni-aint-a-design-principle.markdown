@@ -6,7 +6,7 @@ comments: true
 categories: ["design", "patterns"]
 ---
 
->[You Ain’t Gonna Need It](http://c2.com/cgi/wiki?YouArentGonnaNeedIt) is an XP practice that encourages developers to focus on the requirements at hand right now. It warns against the tendency to over-engineer by developing features based on what you __think__ you will need later. Easy in theory. Hard in practice.
+[You Ain’t Gonna Need It](http://c2.com/cgi/wiki?YouArentGonnaNeedIt) is an XP practice that encourages developers to focus on the requirements at hand right now. It warns against the tendency to over-engineer by developing features based on what you __think__ you will need later. Easy in theory. Hard in practice.
 
 YAGNI Blinders
 -------------------------------

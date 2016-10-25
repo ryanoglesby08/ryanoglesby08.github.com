@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'stringex', '~> 2.6'
+# gem 'stringex', '~> 2.6'
 gem 'rake', '~> 11.2'
 
 group :jekyll_plugins do
@@ -22,6 +22,7 @@ group :jekyll_plugins do
 
   gem 'jekyll-compass', '~> 2.0'
   gem 'jekyll-sitemap', '~> 0.11'
+  gem 'jekyll-paginate', '~> 1.1'
 end
 
 group :development do

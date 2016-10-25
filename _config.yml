@@ -1,102 +1,137 @@
 # ----------------------- #
-#      Main Configs       #
+#         Site            #
 # ----------------------- #
-
-url: http://ryanogles.by
-title: Ryan Oglesby
-subtitle: Musings of a software dev
-author: Ryan Oglesby
-simple_search: http://google.com/search
-description: My thoughts and experiences as I navigate the world of Agile software development.
-
-subscribe_rss: /atom.xml
+title:       Ryan Oglesby
+email:       ryan.oglesby08@gmail.com
+author:      Ryan Oglesby
+description: "My thoughts and experiences as I navigate the world of Agile software development."
+baseurl:     ""
+url:         "http://ryanogles.by"
+date_format: "%b %-d, %Y"
 
 # ----------------------- #
 #        Jekyll           #
 # ----------------------- #
-
-source: source
-
-# ------------------------------- #
-#  Category Generator/Tag Cloud   #
-# ------------------------------- #
-#root: /
-category_dir: categories
-
-# ----------------------- #
-#     Recent posts        #
-# ----------------------- #
-
-recent_posts: 5
-
-# ----------------------- #
-#         Excerpts        #
-# ----------------------- #
-
-excerpt_link: "Read on &rarr;"
+source:       source
 excerpt_separator: "<!-- more -->"
-
-
-# ----------------------- #
-#    titlecase plugin     #
-# ----------------------- #
-
-titlecase: true       # Converts page and post titles to titlecase
-
-# ----------------------- #
-#       Github plugin     #
-# ----------------------- #
-
-github_user: ryanoglesby08
-github_repo_count: 0
-github_show_profile_link: true
-github_skip_forks: true
-
-# Order matters here
+markdown:     kramdown
+redcarpet:
+  extensions: ['smart', 'tables', 'with_toc_data']
+permalink:    date
+paginate:     4
+sass:
+  compressed: true
 gems:
-  - octopress-hooks
-  - octopress-image-tag
-  - octopress-codeblock
   - octopress-codefence
   - octopress-solarized
-  - octopress-paginate
-  - octopress-date-format
-  - octopress-social
-  - octopress-debugger
-  - jekyll-compass
+  - jekyll-paginate
   - jekyll-sitemap
-
-
-# ----------------------- #
-#  octopress-date-format  #
-# ----------------------- #
-
-# Defaults
-# date_format: 'ordinal'     # July 3rd, 2014
-# time_format: '%-I:%M %P'   # 2:08 pm
+# https://github.com/jekyll/jekyll/issues/2938
+exclude: [vendor]
 
 # ----------------------- #
-#    octopress-social     #
+#    Google Services      #
 # ----------------------- #
+google_verification:
+# Use either direct GA implementation or set up GTM account
+# - using both will skew your data (leave blank to not use at all)
+google_analytics: UA-51481422-1
+google_tag_manager:
 
-github:
-  username: ryanoglesby08
-
-twitter:
-  username: ryanoglesby08
-
-email:
-  address: ryan.oglesby08@gmail.com
-
-disqus:
-  shortname: ryanoglesby
-
-facebook:
-  action: like
-
+# Bing services
+bing_verification:
 
 # ----------------------- #
-#    Google Analytics     #
+#   Optional Features     #
 # ----------------------- #
+animated:             false
+show_related_posts:   false
+show_post_footers:    false
+show_social_icons:    true
+ajaxify_contact_form: false
+enable_mathjax: false
+extended_fonts: false
+enable_anchorjs: false
 
-google_analytics_tracking_id: UA-51481422-1
+# Facebook Page integration
+# (for instant articles and other stuff)
+fb_page: false
+fb_page_id:
+
+# ----------------------- #
+#     Disqus Comments     #
+# ----------------------- #
+# (leave blank to disable Disqus)
+disqus_shortname: ryanoglesby
+
+# Facebook Comments plugin
+# (leave blank to disable Facebook Comments, otherwise set it to true)
+facebook_comments:
+facebook_appid:
+facebook_comments_number: 10
+
+# ----------------------- #
+#      Social Icons       #
+# ----------------------- #
+github_username: ryanoglesby08
+bitbucket_username:
+stackoverflow_id:
+twitter_username: ryanoglesby08
+skype_username:
+steam_nickname:
+google_plus_id:
+linkedin_username:
+angellist_username:
+medium_id:
+bitcoin_url:
+paypal_url:
+flattr_button:
+
+# Post sharing icons
+show_sharing_icons: false
+# Change to 'true' to enable individual icons
+share_facebook: false
+share_twitter: false
+share_googleplus: false
+share_linkedin: false
+share_digg: false
+share_tumblr: false
+share_reddit: false
+share_stumbleupon: false
+share_hackernews: false
+
+# ----------------------- #
+#          Text           #
+# ----------------------- #
+text:
+  pagination:
+    newer: 'Newer'
+    older: 'Older'
+  share_buttons:
+    text:         'Share this post!'
+    facebook:     'Share on Facebook'
+    twitter:      'Share on Twitter'
+    googleplus:   'Share on Google+'
+    linkedin:     'Share on LinkedIn'
+    digg:         'Share on Digg'
+    tumblr:       'Share on Tumblr'
+    reddit:       'Share on Reddit'
+    stumbleupon:  'Share on StumbleUpon'
+    hackernews:   'Share on Hacker News'
+  post:
+    updated:        'Updated'
+    minute_read:    'minute read'
+    related_posts:  'Related Posts'
+  index:
+    coming_soon: 'Coming soon...'
+  contact:
+    email:    'Email Address'
+    content:  'What would you like to say?'
+    subject:  'New submission!'
+    submit:   'Say Hello'
+    ajax:
+      sending:  'sending..'
+      sent:     'Message sent!'
+      error:    'Error!'
+  thanks: 'Thanks for contacting us. We will reply as soon as possible.'
+  og_locale: 'en_US'

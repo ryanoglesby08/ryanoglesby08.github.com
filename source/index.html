@@ -1,28 +1,28 @@
 ---
 layout: default
-paginate: true
 ---
+{% assign posts_count = (paginator.posts | size) %}
 
-<div class="blog-index">
-  {% assign index = true %}
-  {% for post in paginator.posts %}
-    {% assign content = post.content %}
-    <article>
-      {% include article.html %}
-    </article>
-  {% endfor %}
-  <div class="pagination">
-    {% if paginator.next_page %}
-      <a class="prev" href="{{paginator.next_page_path}}">&larr; Older</a>
-    {% endif %}
-    <a href="/archives">Blog Archives</a>
-    {% if paginator.previous_page %}
-      <a class="next" href="{{paginator.previous_page_path}}">Newer &rarr;</a>
-    {% endif %}
-  </div>
+<div class="home">
+  {% if posts_count > 0 %}
+    <div class="posts">
+      {% for post in paginator.posts %}
+        <div class="post py3">
+          <p class="post-meta">{{ post.date | date: site.date_format }}</p>
+          <a href="{{ post.url | prepend: site.baseurl }}" class="post-link"><h3 class="h1 post-title">{{ post.title }}</h3></a>
+          <p class="post-summary">
+            {% if post.summary %}
+              {{ post.summary }}
+            {% else %}
+              {{ post.excerpt }}
+            {% endif %}
+          </p>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% include pagination.html %}
+  {% else %}
+    <h1 class='center'>{{ site.text.index.coming_soon }}</h3>
+  {% endif %}
 </div>
-<aside class="sidebar">
-  {% include asides/recent_posts.html %}
-  {% include custom/asides/tag_cloud.html %}
-  {% include asides/github.html %}
-</aside>

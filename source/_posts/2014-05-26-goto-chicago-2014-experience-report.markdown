@@ -57,11 +57,12 @@ Michael Nygard: Five Years of DevOps: Where are we Now?
 **Author of "Release It!"**
 
 It was pretty great to hear a talk about DevOps from Michael Nygard. He started with the basics and growth of DevOps, including CAMS (Culture, Automation, Measurement, Sharing). He made a good point by applying Donella Meadows' [“Leverage Points in a System”](http://www.donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/) to DevOps, and how the best place to affect an organization with DevOps comes at the information flow level and goals of the organization. Eventually, he outlined that DevOps over the past few years has come to mean:
-> CAMS + human factors + Agile values + Continuous Delivery = DevOps
+
+>CAMS + human factors + Agile values + Continuous Delivery = DevOps
 
 I really enjoyed his scorecard of where we are currently at with DevOps:
 
-<table class="blog-table goto-table">
+<table>
   <thead>
     <tr>
       <th>Category</th><th>Score</th><th></th>
@@ -96,7 +97,10 @@ Going forward, some more things to expect in this space:
 
 Finally, some cautions:
 Michael thinks DevOps is at the top of the "innovative technology adoption curve" right now.
-{% img http://s9.postimg.org/8unpmxe2n/Technology_Adoption_Curve.png Innovative technology adoption curve %} There is a market penetration and DevOps is the most popular one at the party. He warned against trying to emulate practices without adopting the DevOps culture though. There is no such thing as DevOps-in-a-box. Having a separate DevOps team is also an anti-pattern.
+
+{% img http://s9.postimg.org/8unpmxe2n/Technology_Adoption_Curve.png Innovative technology adoption curve %}
+
+There is a market penetration and DevOps is the most popular one at the party. He warned against trying to emulate practices without adopting the DevOps culture though. There is no such thing as DevOps-in-a-box. Having a separate DevOps team is also an anti-pattern.
 
 
 Martin Odersky: Scala - The Simple Parts

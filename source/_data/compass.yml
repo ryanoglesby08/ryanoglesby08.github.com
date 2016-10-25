@@ -2,7 +2,7 @@
 require:
 - jekyll-compass
 http_path: "/"
-css_dir: stylesheets
+css_dir: css
 sass_dir: _sass
 images_dir: images
 javascripts_dir: javascripts
