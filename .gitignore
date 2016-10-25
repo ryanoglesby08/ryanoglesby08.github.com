@@ -7,3 +7,5 @@ vendor/bundle
 
 _deploy.yml
 .deploy
+
+_site
