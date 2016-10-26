@@ -22,13 +22,13 @@ Our first step was to take on honest look at our dev team culture and how everyo
 We came to the conclusion that we would identify five new development practices that promote a more supportive and safe environment for Apprentice-level developers. So we carved out about two hours to come up with them, which I facilitated. To start things off, we narrowed our focus just a bit by creating a few categories that we thought would have challenges from the initial group discussion notes and feedback. From here, we took about five minutes to do some divergent thinking and come up with as many ideas as we could for addressing anything in any of the categories. After reviewing, clarifying, and grouping similar ideas, we each used five votes to start converging on the ones that we wanted to take further. It looked like this.
 
 <div class="center">
-  {% img /images/dev_practices_brainstorming.jpg Dev Team Practices Brainstorming %}
+  {% img /assets/images/dev_practices_brainstorming.jpg Dev Team Practices Brainstorming %}
 </div>
 
 Next, we discussed the ideas one-by-one in descending order of votes, with the outcome of each discussion being a tangible, immediately-implementable practice for the team. Here is what we came up with:
 
 <div class="center">
-  {% img /images/five_dev_practices.jpg Five New Dev Team Practices %}
+  {% img /assets/images/five_dev_practices.jpg Five New Dev Team Practices %}
 </div>
 
 As facilitator, the most obvious feedback for myself is that I was not an impartial outside facilitator. I had my own ideas and biases. Though I consciously tried not to let them interfere with any discussions, I'm sure that happened a little bit. That is probably unavoidable and a big reason why an outside facilitator for exercises such as this one is preferable.
