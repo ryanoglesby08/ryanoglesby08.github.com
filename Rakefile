@@ -1,6 +1,6 @@
 desc 'Serve locally'
 task :serve do
-  sh 'jekyll serve'
+  sh 'jekyll serve --open-url'
 end
 
 desc 'Push source'

@@ -1,0 +1,9 @@
+// Pixyll gives all `a` tags a background link. This caption-link is used
+//  in a gist and should not have a background.
+.code-highlight-caption-link {
+  background: none;
+
+  &:hover {
+    background: none;
+  }
+}

@@ -22,8 +22,11 @@ paginate:     4
 sass:
   compressed: true
 gems:
+  - octopress-image-tag
+  - octopress-codeblock
   - octopress-codefence
   - octopress-solarized
+  - octopress-gist
   - jekyll-paginate
   - jekyll-sitemap
 # https://github.com/jekyll/jekyll/issues/2938
