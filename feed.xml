@@ -196,7 +196,7 @@
       </item>
     
       <item>
-        <title>How your &#39;Mother&#39; can help you &#39;Build&#39; cleaner unit tests - Part III</title>
+        <title>How your 'Mother' can help you 'Build' cleaner unit tests - Part III</title>
         <description>&lt;p&gt;We ended &lt;a href=&quot;/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html&quot;&gt;Part II&lt;/a&gt; with an inner Builder for &lt;code class=&quot;highlighter-rouge&quot;&gt;Address&lt;/code&gt;, which forced us to revert to specifying seemingly arbitrary values in each test that needed to build an &lt;code class=&quot;highlighter-rouge&quot;&gt;Address&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;What I’ve usually seen at this point is pulling the Address objects into constants in each test class. As the test suite grows, the number of &lt;code class=&quot;highlighter-rouge&quot;&gt;private static final Address WHATEVER_ADDRESS = ...;&lt;/code&gt; grows and grows. Doing that makes it hard to keep control over your test data, especially in a large codebase. A minor change to Address, such as a new invariant or an added field, could cause cascading changes to keep all those objects valid.&lt;/p&gt;
@@ -262,7 +262,7 @@
       </item>
     
       <item>
-        <title>How your &#39;Mother&#39; can help you &#39;Build&#39; cleaner unit tests - Part II</title>
+        <title>How your 'Mother' can help you 'Build' cleaner unit tests - Part II</title>
         <description>&lt;p&gt;In &lt;a href=&quot;/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html&quot;&gt;Part I&lt;/a&gt;, we created a separate Builder class in an attempt to move away from a constructor with too many parameters. In the process, the separate Builder ended up taking on the additional responsibility of supplying default values, blurring the line between a Builder and Factory.&lt;/p&gt;
 
 &lt;p&gt;Though a step in the right direction, it didn’t actually fix any of the &lt;code class=&quot;highlighter-rouge&quot;&gt;Address&lt;/code&gt; constructor’s original problems, unfortunately. Oops. Other classes can still call it directly, meaning all of the risks of having a method with multiple parameters of the same type are still there, and we have another class in our system to maintain.&lt;/p&gt;
@@ -377,7 +377,7 @@
       </item>
     
       <item>
-        <title>How your &#39;Mother&#39; can help you &#39;Build&#39; cleaner unit tests - Part I</title>
+        <title>How your 'Mother' can help you 'Build' cleaner unit tests - Part I</title>
         <description>&lt;p&gt;Over the past few months on my project, a pattern emerged for using Builders and Object Mothers to build-up objects for unit testing. We were able to keep our tests minimal and clean, decouple test code from production code, and solve some design issues such as constructors with too many parameters. In this multi-part series, I will take you through the evolution of the pattern over a series of refactorings.&lt;/p&gt;
 
 &lt;!-- more --&gt;
@@ -533,7 +533,7 @@ Because we were using the same &lt;code class=&quot;highlighter-rouge&quot;&gt;A
           This is yet another class to maintain.
         &lt;/p&gt;
         &lt;p&gt;
-          By making the Builder a separate object, we still need &lt;code&gt;Address&lt;/code&gt;&#39;s public all-args constructor. Any other test could easily bypass the builder. And, because the constructor is still there, all the problems from before remain.
+          By making the Builder a separate object, we still need &lt;code&gt;Address&lt;/code&gt;'s public all-args constructor. Any other test could easily bypass the builder. And, because the constructor is still there, all the problems from before remain.
         &lt;/p&gt;
         &lt;p&gt;
           Additionally, our Builder actually has two responsibilities. First is &lt;em&gt;how&lt;/em&gt; to construct the &lt;code&gt;Address&lt;/code&gt;, as in, which parameters to pass into the constructor. Second, &lt;em&gt;what&lt;/em&gt; to construct it with, because the Builder has default values.
@@ -551,7 +551,7 @@ Because we were using the same &lt;code class=&quot;highlighter-rouge&quot;&gt;A
       </item>
     
       <item>
-        <title>YAGNI a&#39;int a Design Principle</title>
+        <title>YAGNI a'int a Design Principle</title>
         <description>&lt;p&gt;&lt;a href=&quot;http://c2.com/cgi/wiki?YouArentGonnaNeedIt&quot;&gt;You Ain’t Gonna Need It&lt;/a&gt; is an XP practice that encourages developers to focus on the requirements at hand right now. It warns against the tendency to over-engineer by developing features based on what you &lt;strong&gt;think&lt;/strong&gt; you will need later. Easy in theory. Hard in practice.&lt;/p&gt;
 
 &lt;h2 id=&quot;yagni-blinders&quot;&gt;YAGNI Blinders&lt;/h2&gt;
@@ -585,7 +585,7 @@ Because we were using the same &lt;code class=&quot;highlighter-rouge&quot;&gt;A
       </item>
     
       <item>
-        <title>You&#39;re a Champion</title>
+        <title>You're a Champion</title>
         <description>&lt;p&gt;Recently, my team embarked on a strategy/experiment designed to distribute the effort of driving features from inception through completion more evenly across the team. We noticed that both myself (Tech Lead) and our BA were overloaded. Too many features. Too little time. What’s worse, our developers were feeling out of the loop most of the time. They wanted more insight into what goes on before a story gets to development and more say in the direction of the team.&lt;/p&gt;
 
 &lt;p&gt;Thus, Feature Champions were born.&lt;/p&gt;
@@ -677,7 +677,7 @@ Because we were using the same &lt;code class=&quot;highlighter-rouge&quot;&gt;A
       &lt;td&gt;5. Molly pulls new code and applies migrations again. But this time no change is made to her database because she already applied migration #8 and no new migrations were added. She is stuck with the typo. :(&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td colspan=&quot;2&quot; class=&quot;center&quot;&gt;6. Patrick&#39;s and Molly&#39;s database schemas are now out of sync.&lt;/td&gt;
+      &lt;td colspan=&quot;2&quot; class=&quot;center&quot;&gt;6. Patrick's and Molly's database schemas are now out of sync.&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
@@ -789,7 +789,7 @@ id | name   | phone_number
 
 &lt;p&gt;This one is the easiest and has a big ROI. When using the normal binding syntax ` {{ &lt;expression&gt; }} `, Angular sets up a two-way binding so that the view can be automatically upated when the underlying data changes. However, there are probably some static data in your app, which makes the two-way binding both redundant and costly because Angular re-evaluates that expression during every digest cycle to update your view with any changes. The bind once syntax eliminates that. Quick win.&lt;/expression&gt;&lt;/p&gt;
 
-&lt;figure class=&quot;code-highlight-figure&quot;&gt;&lt;div class=&quot;code-highlight&quot;&gt;&lt;pre class=&quot;code-highlight-pre&quot;&gt;&lt;div data-line=&quot;1&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7b;&amp;#x7b;&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&amp;#x7d;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// The &#39;::&#39; is the bind once construct&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;figure class=&quot;code-highlight-figure&quot;&gt;&lt;div class=&quot;code-highlight&quot;&gt;&lt;pre class=&quot;code-highlight-pre&quot;&gt;&lt;div data-line=&quot;1&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7b;&amp;#x7b;&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&amp;#x7d;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// The '::' is the bind once construct&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
 
 &lt;p&gt;&lt;em&gt;Note: only available in Angular 1.3 and later&lt;/em&gt;&lt;/p&gt;
 
