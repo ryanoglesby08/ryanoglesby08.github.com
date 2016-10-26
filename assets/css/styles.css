@@ -1192,3 +1192,7 @@ blockquote footer {
       color: #333; }
       .share-page .share-links a:hover {
         background: none; }
+
+.inline-left-image {
+  float: left;
+  margin-right: 1rem; }
