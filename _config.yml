@@ -90,18 +90,20 @@ bitcoin_url:
 paypal_url:
 flattr_button:
 
-# Post sharing icons
-show_sharing_icons: false
+# ----------------------- #
+#   Post Sharing Icons    #
+# ----------------------- #
+show_sharing_icons: true
 # Change to 'true' to enable individual icons
-share_facebook: false
-share_twitter: false
+share_facebook: true
+share_twitter: true
 share_googleplus: false
-share_linkedin: false
+share_linkedin: true
 share_digg: false
 share_tumblr: false
 share_reddit: false
 share_stumbleupon: false
-share_hackernews: false
+share_hackernews: true
 
 # ----------------------- #
 #          Text           #
@@ -111,7 +113,7 @@ text:
     newer: 'Newer'
     older: 'Older'
   share_buttons:
-    text:         'Share this post!'
+    text:         'Share me:'
     facebook:     'Share on Facebook'
     twitter:      'Share on Twitter'
     googleplus:   'Share on Google+'

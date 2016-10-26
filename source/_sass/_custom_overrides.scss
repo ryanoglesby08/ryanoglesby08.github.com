@@ -1,9 +1,33 @@
-// Pixyll gives all `a` tags a background link. This caption-link is used
-//  in a gist and should not have a background.
-.code-highlight-caption-link {
+// Pixyll gives all `a` tags a background image.
+// caption-link is used in gists. Share links is at the bottom of posts.
+@mixin remove-background {
   background: none;
+}
+
+.code-highlight-caption-link {
+  @include remove-background;
 
   &:hover {
-    background: none;
+    @include remove-background;
   }
+}
+
+.share-page {
+  padding: $share-page-padding;
+  border: $share-page-border;
+  background-color: $share-page-bg-color;
+
+  .share-links {
+    display: inline;
+
+    a {
+      @include remove-background;
+      color: $dark-gray;
+
+      &:hover {
+        @include remove-background;
+      }
+    }
+  }
+
 }
