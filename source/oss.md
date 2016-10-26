@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Open Source Software
-date: 2016-04-30 18:47
 ---
 
 ## {% img /images/rubygems.png 30 30 rubygems.org %} Rack Flags
