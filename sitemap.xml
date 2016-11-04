@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://ryanogles.by/javascript/2016/11/04/on-injecting-a-javascript-environment.html</loc>
+<lastmod>2016-11-04T16:44:20-05:00</lastmod>
+</url>
+<url>
 <loc>http://ryanogles.by/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html</loc>
 <lastmod>2016-10-15T16:28:00-05:00</lastmod>
 </url>

@@ -17,7 +17,7 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/assets/css/styles.css?201610261707" type="text/css">
+    <link rel="stylesheet" href="/assets/css/styles.css?201611041654" type="text/css">
     <link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
 
     <!-- Fonts -->
@@ -122,6 +122,24 @@
     <div class="posts">
       
         <div class="post py3">
+          <p class="post-meta">Nov 4, 2016</p>
+          <a href="/javascript/2016/11/04/on-injecting-a-javascript-environment.html" class="post-link"><h3 class="h1 post-title">On Injecting a JavaScript Environment</h3></a>
+          <p class="post-summary">
+            
+              <p>Recently, I needed to inject some configuration variables into my client-side app. Because Googling for it turned up a lot of “well, you could maybe do this…” I decided to write down what I see as the 3 main options:</p>
+
+<ul>
+  <li><strong>Prize for most interesting:</strong> Load configuration at <em>run time</em> with XHR.</li>
+  <li><strong>Prize for simplest solution:</strong> Build your application with configuration variables as constants at <em>compile time</em>.</li>
+  <li>Runner up: Use server-side templating to inject configuration at <em>render time</em>.</li>
+</ul>
+
+
+            
+          </p>
+        </div>
+      
+        <div class="post py3">
           <p class="post-meta">Oct 15, 2016</p>
           <a href="/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html" class="post-link"><h3 class="h1 post-title">Harmonious Stylesheets and Inline Styles in React</h3></a>
           <p class="post-summary">
@@ -163,22 +181,6 @@
 <p>What I’ve usually seen at this point is pulling the Address objects into constants in each test class. As the test suite grows, the number of <code class="highlighter-rouge">private static final Address WHATEVER_ADDRESS = ...;</code> grows and grows. Doing that makes it hard to keep control over your test data, especially in a large codebase. A minor change to Address, such as a new invariant or an added field, could cause cascading changes to keep all those objects valid.</p>
 
 <p>To avoid that, the next step is actually a very simple one, and boils down to centralizing the definition and creation of an <code class="highlighter-rouge">Address</code> with an Object Mother.</p>
-
-
-            
-          </p>
-        </div>
-      
-        <div class="post py3">
-          <p class="post-meta">Jun 25, 2016</p>
-          <a href="/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html" class="post-link"><h3 class="h1 post-title">How your 'Mother' can help you 'Build' cleaner unit tests - Part II</h3></a>
-          <p class="post-summary">
-            
-              <p>In <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">Part I</a>, we created a separate Builder class in an attempt to move away from a constructor with too many parameters. In the process, the separate Builder ended up taking on the additional responsibility of supplying default values, blurring the line between a Builder and Factory.</p>
-
-<p>Though a step in the right direction, it didn’t actually fix any of the <code class="highlighter-rouge">Address</code> constructor’s original problems, unfortunately. Oops. Other classes can still call it directly, meaning all of the risks of having a method with multiple parameters of the same type are still there, and we have another class in our system to maintain.</p>
-
-<p>What we need is a strictly controlled way of creating <code class="highlighter-rouge">Address</code> objects that can be accessed by test code <em>and</em> prod code that is decoupled from the current constructor and it’s baggage.</p>
 
 
             
