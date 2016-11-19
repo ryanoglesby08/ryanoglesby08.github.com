@@ -7,6 +7,44 @@
     <atom:link href="http://ryanogles.by/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>It's not magic, you just don't understand it yet</title>
+        <description>&lt;p&gt;&lt;strong&gt;Dev 1&lt;/strong&gt;: “Wait, how did it do that?”&lt;br /&gt;
+&lt;strong&gt;Dev 2&lt;/strong&gt;: “I have not clue, it’s Spring* magic.”&lt;br /&gt;
+&lt;strong&gt;Dev 1&lt;/strong&gt;: “Oh well, as long as it just works!”&lt;br /&gt;
+* &lt;em&gt;substitute Spring for any library or framework&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Every time I hear (or, admittedly, say) something like this, I cringe.&lt;/p&gt;
+
+&lt;p&gt;When we refer to code as magic, we perpetuate the mindset that some code is unaccessible. That we don’t need to know &lt;em&gt;how&lt;/em&gt; something works, only that is &lt;em&gt;does&lt;/em&gt; work. This is not the mindset of a true craftsman. A craftsman seeks to understand the tools she uses, because she knows that she will be able to use them more effectively, and will be more able to deal with inevitable failures.&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;p&gt;Of course it is natural to think that something you have not yet understood is magic. Language features such as Metaprogramming in Ruby or Java’s Reflection API are advanced features that are often called magical. However, under examination they can be understood and are usable, important parts of those languages. If we write-off things we don’t understand, or have not tried to understand, as magic, we are doing ourselves a disservice.&lt;/p&gt;
+
+&lt;p&gt;A real consequence of this is the reflex to grab a library/plugin/framework for everything. Many times the simplest and most flexible thing to do is implement something yourself. At some point you may realize that you need a library to avoid having to maintain a lot of code yourself, and when that happens, switch to it. But now you will have a good understanding of what it provides. Just the other day I had a conversation with a couple developers on my team who were fixing the formatting of currency values in our JavaScript app. They had found a library online for it. Instead, I encouraged them to start with using &lt;code class=&quot;highlighter-rouge&quot;&gt;toFixed&lt;/code&gt;, a native JavaScript method. Some day we may want the library, but until then the devs know a simple way for formatting a JavaScript number using fixed-point notation, and our app does not pull in yet another dependency.&lt;/p&gt;
+
+&lt;p&gt;Seek to understand how magic bits of code actually work. The easiest thing to do is to read the docs! I’m constantly surprised at how many developers breeze over documentation, missing key features. Take time to go through documentation, you’ll likely find some great things in there that you have not been doing.&lt;/p&gt;
+
+&lt;p&gt;Another way to understand is to imagine the simplest version of a library of framework. Take away all the bells and whistles and get to the core of what the library does. How do you think it works in its most basic form? Could you code a bare-bones version of it? Give it a shot! Don’t worry about “getting it right” or producing the most efficient, elegant solution. Just see if you can get something working, even a little bit. This is one of the most powerful ways to reveal the magic ways of a library or framework. You will likely be pleasantly surprised at the simplicity of your solution. And, you will likely learn a thing or two along the way.&lt;/p&gt;
+
+&lt;p&gt;So, in the process of writing this post, I decided to do just that. I took a stab at implementing a simple version of &lt;a href=&quot;http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/annotation/Autowired.html&quot;&gt;Spring’s autowired&lt;/a&gt; dependency injection facility. I spent a few hours on it, and managed to learn a few things in the process.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Detecting classes on the classpath is hard. I thought there was a simple Java API for doing this, but there does not seem to be. I ended up using some code I found online for this part so I wouldn’t have to re-implement it myself.&lt;/li&gt;
+  &lt;li&gt;I got a refresher in Java Reflection as my solution needed to be able to detect the presence of specific annotations, get constructor parameters, and dynamically construct objects.&lt;/li&gt;
+  &lt;li&gt;The simplest solution I could do did all the dependency injection right away, though I’m not sure if Spring actually does it this way or not. I am assuming it takes a lazy approach, which could be more efficient for program start up. Spring may even allow you to configure the dependency injection as eager or lazy.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Here is my solution: &lt;a href=&quot;https://github.com/ryanoglesby08/spring-autowired-revealed&quot;&gt;https://github.com/ryanoglesby08/spring-autowired-revealed&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Try to avoid using the term “magic” when talking about code. Remember, there is no magic. Just code.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 19 Nov 2016 14:09:35 -0600</pubDate>
+        <link>http://ryanogles.by/2016/11/19/its-not-magic-you-just-dont-understand-it-yet.html</link>
+        <guid isPermaLink="true">http://ryanogles.by/2016/11/19/its-not-magic-you-just-dont-understand-it-yet.html</guid>
+      </item>
+    
+      <item>
         <title>On Injecting a JavaScript Environment</title>
         <description>&lt;p&gt;Recently, I needed to inject some configuration variables into my client-side app. Because Googling for it turned up a lot of “well, you could maybe do this…” I decided to write down what I see as the 3 main options:&lt;/p&gt;
 
@@ -848,19 +886,6 @@ id | name   | phone_number
         <pubDate>Sat, 15 Aug 2015 15:53:23 -0500</pubDate>
         <link>http://ryanogles.by/databases/2015/08/15/database-migrations-best-practices.html</link>
         <guid isPermaLink="true">http://ryanogles.by/databases/2015/08/15/database-migrations-best-practices.html</guid>
-      </item>
-    
-      <item>
-        <title>Hackathons for the Enterprise</title>
-        <description>&lt;p&gt;A few months ago I helped to plan and execute a Hackathon for my project team. Thought it was not the first team Hackathon I have participated in, it was the most successful. Everyone on the team had a great time and learned a lot. Some of the hacks have even been turned into production solutions for the product or team!&lt;/p&gt;
-
-&lt;p&gt;I decided to take this experience and share it with a wide audience by contributing to the &lt;a href=&quot;http://www.thoughtworks.com/insights&quot;&gt;ThoughtWorks Insights&lt;/a&gt; blog. This is extremely exciting for me, as its my first time to be featured alongside so many of my brilliant colleagues! :)&lt;/p&gt;
-
-&lt;p&gt;Check out my article &lt;a href=&quot;http://www.thoughtworks.com/insights/blog/hackathons-enterprise&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 26 Jul 2015 00:00:04 -0500</pubDate>
-        <link>http://ryanogles.by/agile/teams/2015/07/26/hackathons-for-the-enterprise.html</link>
-        <guid isPermaLink="true">http://ryanogles.by/agile/teams/2015/07/26/hackathons-for-the-enterprise.html</guid>
       </item>
     
   </channel>
