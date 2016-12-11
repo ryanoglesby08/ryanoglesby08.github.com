@@ -72,11 +72,8 @@
 
 }
 
-.oss-title {
-  display: flex;
-  align-items: center;
-
-  img {
-    margin-right: 10px;
-  }
+table {
+  border-collapse: collapse;
+  font-size: 1rem;
+  margin-bottom: $space-2;
 }

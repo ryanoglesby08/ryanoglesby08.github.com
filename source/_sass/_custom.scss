@@ -2,3 +2,39 @@
   float: left;
   margin-right: $space-2;
 }
+
+.oss-title {
+  display: flex;
+  align-items: center;
+
+  img {
+    margin-right: 10px;
+  }
+}
+
+.blog-table {
+  th {
+    font-weight: $bold-font-weight;
+  }
+
+  td {
+    border: 1px solid darken($lighter-gray, 10%);
+    vertical-align: top;
+  }
+
+  tbody tr:nth-child(odd) {
+    background-color: lighten($lighter-gray, 3%);
+  }
+
+  &.goto-table {
+    th:first-child {
+      width: 30%;
+    }
+  }
+
+  &.even {
+    td {
+      width: 50%;
+    }
+  }
+}
