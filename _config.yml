@@ -2,7 +2,7 @@
 #         Site            #
 # ----------------------- #
 title:       Ryan Oglesby
-email:       ryan.oglesby08@gmail.com
+# email:       ryan.oglesby08@gmail.com
 author:      Ryan Oglesby
 description: "My thoughts and experiences as I navigate the world of Agile software development."
 baseurl:     ""
@@ -83,7 +83,7 @@ twitter_username: ryanoglesby08
 skype_username:
 steam_nickname:
 google_plus_id:
-linkedin_username:
+linkedin_username: ryanoglesby08
 angellist_username:
 medium_id:
 bitcoin_url:

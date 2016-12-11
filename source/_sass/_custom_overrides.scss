@@ -22,11 +22,51 @@
 
     a {
       @include remove-background;
-      color: $dark-gray;
 
       &:hover {
         @include remove-background;
       }
+    }
+  }
+
+}
+
+.social-icons, .share-links {
+  @mixin share-icon($color) {
+    color: $color;
+
+    &:hover {
+      color: darken($color, 10%);
+    }
+  }
+
+  .fa-rss {
+    @include share-icon(#F49C52);
+  }
+
+  .fa-twitter {
+    @include share-icon(#2AA3EF);
+  }
+
+  .fa-linkedin {
+    @include share-icon(#4393CC);
+  }
+
+  .fa-facebook {
+    @include share-icon(#4166B1);
+  }
+
+  .fa-hacker-news {
+    @include share-icon(#ff6600);
+  }
+
+
+  a.fa {
+    opacity: 1;
+    margin-right: 5px;
+
+    &:hover {
+      opacity: 1;
     }
   }
 
