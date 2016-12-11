@@ -1188,11 +1188,63 @@ blockquote footer {
   .share-page .share-links {
     display: inline; }
     .share-page .share-links a {
-      background: none;
-      color: #333; }
+      background: none; }
       .share-page .share-links a:hover {
         background: none; }
+
+.social-icons .fa-rss, .share-links .fa-rss {
+  color: #F49C52; }
+  .social-icons .fa-rss:hover, .share-links .fa-rss:hover {
+    color: #f18122; }
+.social-icons .fa-twitter, .share-links .fa-twitter {
+  color: #2AA3EF; }
+  .social-icons .fa-twitter:hover, .share-links .fa-twitter:hover {
+    color: #108ad6; }
+.social-icons .fa-linkedin, .share-links .fa-linkedin {
+  color: #4393CC; }
+  .social-icons .fa-linkedin:hover, .share-links .fa-linkedin:hover {
+    color: #2f79ad; }
+.social-icons .fa-facebook, .share-links .fa-facebook {
+  color: #4166B1; }
+  .social-icons .fa-facebook:hover, .share-links .fa-facebook:hover {
+    color: #33518c; }
+.social-icons .fa-hacker-news, .share-links .fa-hacker-news {
+  color: #ff6600; }
+  .social-icons .fa-hacker-news:hover, .share-links .fa-hacker-news:hover {
+    color: #cc5200; }
+.social-icons a.fa, .share-links a.fa {
+  opacity: 1;
+  margin-right: 5px; }
+  .social-icons a.fa:hover, .share-links a.fa:hover {
+    opacity: 1; }
+
+table {
+  border-collapse: collapse;
+  font-size: 1rem;
+  margin-bottom: 1rem; }
 
 .inline-left-image {
   float: left;
   margin-right: 1rem; }
+
+.oss-title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+  .oss-title img {
+    margin-right: 10px; }
+
+.blog-table th {
+  font-weight: bold; }
+.blog-table td {
+  border: 1px solid #d5d5d5;
+  vertical-align: top; }
+.blog-table tbody tr:nth-child(odd) {
+  background-color: #f6f6f6; }
+.blog-table.goto-table th:first-child {
+  width: 30%; }
+.blog-table.even td {
+  width: 50%; }
