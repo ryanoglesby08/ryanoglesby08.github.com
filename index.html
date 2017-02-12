@@ -17,7 +17,7 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/assets/css/styles.css?201612111751" type="text/css">
+    <link rel="stylesheet" href="/assets/css/styles.css?201702121721" type="text/css">
     <link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
 
     <!-- Fonts -->
@@ -146,10 +146,12 @@
           <a href="/javascript/2016/11/04/on-injecting-a-javascript-environment.html" class="post-link"><h3 class="h1 post-title">On Injecting a JavaScript Environment</h3></a>
           <p class="post-summary">
             
-              <p>Recently, I needed to inject some configuration variables into my client-side app. Because Googling for it turned up a lot of “well, you could maybe do this…” I decided to write down what I see as the 3 main options:</p>
+              <p><strong>Updated 2017-02-12</strong>: Added a strategy for loading configuration at initial page load, using an “env.js” file.</p>
+
+<p>Recently, I needed to inject some configuration variables into my client-side app. Because Googling for it turned up a lot of “well, you could maybe do this…” I decided to write down what I see as the 3 main options:</p>
 
 <ul>
-  <li><strong>Prize for most interesting:</strong> Load configuration at <em>run time</em> with XHR.</li>
+  <li><strong>Best in show:</strong> Load configuration at <em>run time</em>.</li>
   <li><strong>Prize for simplest solution:</strong> Build your application with configuration variables as constants at <em>compile time</em>.</li>
   <li>Runner up: Use server-side templating to inject configuration at <em>render time</em>.</li>
 </ul>

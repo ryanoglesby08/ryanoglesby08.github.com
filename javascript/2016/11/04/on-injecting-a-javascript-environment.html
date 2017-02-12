@@ -17,7 +17,7 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/assets/css/styles.css?201612111751" type="text/css">
+    <link rel="stylesheet" href="/assets/css/styles.css?201702121721" type="text/css">
     <link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
 
     <!-- Fonts -->
@@ -125,16 +125,18 @@
   
   <span class="post-meta small">
   
-    5 minute read
+    6 minute read
   
   </span>
 </div>
 
 <article class="post-content">
-  <p>Recently, I needed to inject some configuration variables into my client-side app. Because Googling for it turned up a lot of “well, you could maybe do this…” I decided to write down what I see as the 3 main options:</p>
+  <p><strong>Updated 2017-02-12</strong>: Added a strategy for loading configuration at initial page load, using an “env.js” file.</p>
+
+<p>Recently, I needed to inject some configuration variables into my client-side app. Because Googling for it turned up a lot of “well, you could maybe do this…” I decided to write down what I see as the 3 main options:</p>
 
 <ul>
-  <li><strong>Prize for most interesting:</strong> Load configuration at <em>run time</em> with XHR.</li>
+  <li><strong>Best in show:</strong> Load configuration at <em>run time</em>.</li>
   <li><strong>Prize for simplest solution:</strong> Build your application with configuration variables as constants at <em>compile time</em>.</li>
   <li>Runner up: Use server-side templating to inject configuration at <em>render time</em>.</li>
 </ul>
@@ -146,7 +148,7 @@
 
 <p>Client-side applications present some challenges. Because the app is delivered to the client web browser, loading files from the server does not work as easily. Specifying values with environment variables is also different, because the “environment” in a client app is the user’s web browser. We don’t have access to that JavaScript environment to inject values.</p>
 
-<p>Finally, I want to follow the guidelines set forth by the <a href="https://12factor.net/config">Twelve-Factor app</a>, which boils down to:</p>
+<p>Finally, I want to follow the recommendations for configuration of the <a href="https://12factor.net/config">Twelve-Factor app</a>, which boil down to:</p>
 <ul>
   <li>“strict separation of config from code”</li>
   <li>“…stores config in environment variables” rather than environment specific config files</li>
@@ -154,24 +156,66 @@
 
 <p>So, let’s examine the options, and consider the pros and cons of each.</p>
 
-<h2 id="load-configuration-at-run-time-with-xhr">Load configuration at <em>run time</em> with XHR.</h2>
-<p>With this approach, the client app loads configuration from a remote server with an XMLHttpRequest.</p>
+<h2 id="load-configuration-at-run-time">Load configuration at <em>run time</em></h2>
+<p>This is strategy I went with, and seems to be working well. With this approach, the client app loads configuration from a remote server on initial page load.</p>
 
-<p>As opposed to the second option, we build our JavaScript application only once, because we do not have to bake in the configuration values. This means we deploy the exact same code to all environments. Score.</p>
+<p>Because we do not have to bake in the configuration values to the compiled JavaScript, (one of the other options) we get to build our application only once. This means we deploy the exact same code to all environments. Score.</p>
 
 <p>We also do not have to use any server side templating, which gives us more freedom in how we deploy and serve our application. We can serve our application as static files if we want to.</p>
 
-<p>This feels like a cool approach to me, but the wrench here is that introducing network calls introduces complexity. Now, all of a sudden your config properties are not available until that call comes back. This can cause some awkward uses based on how/when you need your environment config.</p>
+<p>The trick here is to build a little bit of smarts into our web server, so that it converts an injected set of environment variables to a JavaScript file on startup, and then serves it as a static file.</p>
+
+<p>Here is the gist:</p>
+
+<ol>
+  <li>In your <code class="highlighter-rouge">index.html</code> file, add a script tag for an “env.js” file, which does not exist. (yet)</li>
+  <li>In your application server code, write the “env.js” file on startup using an environment variable as the contents. Then statically serve the directory containing the “env.js” file.</li>
+  <li>Make the environment variable available to the server when running it.</li>
+</ol>
+
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">1. index.html</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nt">&lt;html&gt;</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nt">&lt;body&gt;</span>
+</div></div><div data-line="3" class="code-highlight-row numbered marked-line start-marked-line end-marked-line"><div class="code-highlight-line">  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/env.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/app.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nt">&lt;/body&gt;</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nt">&lt;/html&gt;</span></div></div></pre></div></figure>
+
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">2. server.js</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'express'</span><span class="p">);</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'path'</span><span class="p">);</span>
+</div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'fs'</span><span class="p">);</span>
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">8080</span><span class="p">;</span>
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">();</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="7" class="code-highlight-row numbered marked-line start-marked-line"><div class="code-highlight-line"><span class="nx">fs</span><span class="p">.</span><span class="nx">writeFileSync</span><span class="p">(</span>
+</div></div><div data-line="8" class="code-highlight-row numbered marked-line"><div class="code-highlight-line">  <span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">'/config/env.js'</span><span class="p">,</span>
+</div></div><div data-line="9" class="code-highlight-row numbered marked-line"><div class="code-highlight-line">  <span class="s1">'var config = '</span> <span class="o">+</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">CLIENT_ENV</span> <span class="o">+</span> <span class="s1">';'</span>
+</div></div><div data-line="10" class="code-highlight-row numbered marked-line end-marked-line"><div class="code-highlight-line"><span class="p">);</span>
+</div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">'/dist'</span><span class="p">));</span>
+</div></div><div data-line="13" class="code-highlight-row numbered marked-line start-marked-line end-marked-line"><div class="code-highlight-line"><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">'/config'</span><span class="p">));</span>
+</div></div><div data-line="14" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'*'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="15" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">response</span><span class="p">.</span><span class="nx">sendFile</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s1">'index.html'</span><span class="p">));</span>
+</div></div><div data-line="16" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">&#x7d;);</span>
+</div></div><div data-line="17" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="18" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">);</span></div></div></pre></div></figure>
+
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">3. running the server</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nb">export </span><span class="nv">CLIENT_ENV</span><span class="o">=</span><span class="s1">'&#x7b;API_URL: "http://dev.my-api.some-domain.com"&#x7d;'</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line">node server.js</div></div></pre></div></figure>
+
+<p>One of the downsides here is that we are creating global state, the <code class="highlighter-rouge">config</code> variable, which is something that is
+generally frowned upon and avoided in modern JavaScript apps (and most applications for that matter). There are a few ways
+to address this, with the simplest being to agree not to read from the <code class="highlighter-rouge">config</code> variable directly, and create a function that your application always uses to access it. This way, the only place in your codebase where the config variable is touched is that function. You should also <strong>never</strong> modify the config variable. Treat it as read only.</p>
+
+<h3 id="an-experiment---asynchronous-configuration-loading">An experiment - asynchronous configuration loading</h3>
+
+<p>Along similar lines, I also played with loading configuration from a remote server with an XMLHttpRequest. This feels like a cool approach, but the wrench here is that introducing asynchronous network calls introduces un-necessary complexity. Now, all of a sudden your config properties are not available until that call comes back. This can cause some awkward uses based on how/when you need your environment config.</p>
 
 <p>To play with this idea, I wrote this <em>unreleased</em> npm package. Check it out if you are interested and provide feedback or make a pull request! <a href="https://github.com/ryanoglesby08/xhr-env-provider">xhr-env-provider</a></p>
 
 <h2 id="build-your-application-with-configuration-variables-as-constants-at-compile-time">Build your application with configuration variables as constants at <em>compile time</em>.</h2>
 <p>This is probably the most straight-forward option, and uses your build tool to inject constants into your code as global variables at compile time. The <a href="https://github.com/webpack/docs/wiki/list-of-plugins#defineplugin">DefinePlugin</a> is the best way to do this if you are bundling your app with webpack.</p>
 
-<figure class="code-highlight-figure"><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nb">export </span><span class="nv">API_URL</span><span class="o">=</span><span class="s2">"http://dev.my-api.some-domain.com"</span>
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">building your app</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nb">export </span><span class="nv">API_URL</span><span class="o">=</span><span class="s2">"http://dev.my-api.some-domain.com"</span>
 </div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line">webpack --define process.env.API_URL<span class="o">=</span><span class="s2">"'</span><span class="nv">$API_URL</span><span class="s2">'"</span></div></div></pre></div></figure>
 
-<figure class="code-highlight-figure"><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">apiUrl</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">&#x7b;</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">API_URL</span> <span class="o">||</span> <span class="s2">"http://localhost:8080"</span><span class="p">&#x7d;</span><span class="err">`</span><span class="p">;</span></div></div></pre></div></figure>
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">inside your application code</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">apiUrl</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">&#x7b;</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">API_URL</span> <span class="o">||</span> <span class="s2">"http://localhost:8080"</span><span class="p">&#x7d;</span><span class="err">`</span><span class="p">;</span></div></div></pre></div></figure>
 
 <p>The downside with this approach is that if your configuration varies for each deployed environment (which it surely will), you will have to build multiple versions of your app. This is less than ideal, as it adds extra steps to your build and deploy process. It also means that the asset you use in lower environments (dev) is not the same as the asset you use in production, because you have re-compiled it.</p>
 
@@ -180,7 +224,7 @@
 <p>This technique is best suited for externalizing configuration that does not change throughout your build and deploy process. Turning console logging on/off, for example. Locally, you may want console logging to be on, but in all deployed environments you may not want to be doing that.</p>
 
 <h2 id="use-server-side-templating-to-inject-configuration-at-render-time">Use server-side templating to inject configuration at <em>render time</em>.</h2>
-<p>In other words, just throw some globals into the <code class="highlighter-rouge">window</code> object when the page is rendered. Here is an example using <a href="https://pugjs.org">Pug</a> (formerly known as Jade)</p>
+<p>In other words, just throw some globals into the <code class="highlighter-rouge">window</code> object when the page is initially rendered. Here is an example using <a href="https://pugjs.org">Pug</a> (formerly known as Jade)</p>
 
 <figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">views/index.pug</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line">doctype html
 </div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line">html(lang="en")
@@ -192,29 +236,30 @@
 </div></div><div data-line="9" class="code-highlight-row numbered marked-line start-marked-line end-marked-line"><div class="code-highlight-line">      window.config = &#x7b;API_URL: "#&#x7b;API_URL&#x7d;"&#x7d;;
 </div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line">    script(type="text/javascript" src="/app.js")</div></div></pre></div></figure>
 
-<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">index.js</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'express'</span><span class="p">);</span>
-</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">4000</span><span class="p">;</span>
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">server.js</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'express'</span><span class="p">);</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">8080</span><span class="p">;</span>
 </div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">();</span>
-</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">'/assets'</span><span class="p">));</span>
-</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">app</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'view engine'</span><span class="p">,</span> <span class="s1">'pug'</span><span class="p">);</span>
-</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line="8" class="code-highlight-row numbered marked-line start-marked-line end-marked-line"><div class="code-highlight-line">  <span class="nx">res</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="s1">'index'</span><span class="p">,</span> <span class="p">&#x7b;</span> <span class="na">API_URL</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">API_URL</span> <span class="p">&#x7d;);</span>
-</div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">&#x7d;);</span>
-</div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">);</span></div></div></pre></div></figure>
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">'/public'</span><span class="p">));</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">'/assets'</span><span class="p">));</span>
+</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">app</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'view engine'</span><span class="p">,</span> <span class="s1">'pug'</span><span class="p">);</span>
+</div></div><div data-line="8" class="code-highlight-row numbered marked-line start-marked-line end-marked-line"><div class="code-highlight-line"><span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">res</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="s1">'index'</span><span class="p">,</span> <span class="p">&#x7b;</span> <span class="na">API_URL</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">API_URL</span> <span class="p">&#x7d;);</span>
+</div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">&#x7d;);</span>
+</div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">);</span></div></div></pre></div></figure>
 
-<figure class="code-highlight-figure"><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nb">export </span><span class="nv">API_URL</span><span class="o">=</span><span class="s2">"http://dev.my-api.some-domain.com"</span>
-</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line">node index.js</div></div></pre></div></figure>
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">running the server</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nb">export </span><span class="nv">API_URL</span><span class="o">=</span><span class="s2">"http://dev.my-api.some-domain.com"</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line">node server.js</div></div></pre></div></figure>
 
 <figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">app.js</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"The API_URL is: "</span> <span class="o">+</span> <span class="nb">window</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">API_URL</span><span class="p">);</span></div></div></pre></div></figure>
 
-<p>Two things here that are not so great. First, we are creating global state, which is something that is generally frowned upon and avoided in modern JavaScript apps (and most applications for that matter). Second, we have to introduce a dependency on a templating engine. This means we can no longer just serve our client application as static assets. With option #1, we could have used something like Amazon S3 to deliver our client app, while now we have to maintain our own server in order to do the templating.</p>
+<p>Two things here that are not so great. First, we are creating global state again. Second, we have to introduce a dependency on a templating engine. This means we can no longer just serve our client application as static assets. With option #1, we could have used something like Amazon S3 to deliver our client app, while now we have to maintain our own server in order to do the templating.</p>
 
-<p>This approach has more of an old-school feel to it with the server-side templating and the global variable.</p>
+<p>This approach has more of an old-school feel to it with the server-side templating and the global window variable.</p>
 
 <p>It might be fine for you though if you are already using server-side templating. This is pretty much the way I did it in the last Rails app I worked on (back in 2014).</p>
 
 <h2 id="conclusion">Conclusion</h2>
-<p>I think being able to inject env properties at runtime is a cool idea, I just have not discovered what I consider to be a good implementation and use case for that. Using the second approach and injecting environment values at compile time is probably the way to go at this point.</p>
+<p>I think being able to injecting env properties at runtime is the way to go for large-scale production applications, as it gives you the most flexible options for local development and deployments. But, if you want a quick win for a side-project or small app, injecting at compile time is super easy. I probably wouldn’t use the server-side templating unless I was working on an application that was already doing that.</p>
 
 </article>
 
