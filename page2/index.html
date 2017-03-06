@@ -17,7 +17,7 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/assets/css/styles.css?201702121721" type="text/css">
+    <link rel="stylesheet" href="/assets/css/styles.css?201703052010" type="text/css">
     <link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
 
     <!-- Fonts -->
@@ -123,6 +123,24 @@
     <div class="posts">
       
         <div class="post py3">
+          <p class="post-meta">Sep 26, 2016</p>
+          <a href="/docker/2016/09/26/homogeneous-pipelines-with-docker.html" class="post-link"><h3 class="h1 post-title">Homogeneous Pipelines with Docker</h3></a>
+          <p class="post-summary">
+            
+              <p><a href="http://martinfowler.com/articles/continuousIntegration.html">Continuous Integration Build Pipelines</a> are a dirty, nasty place. What usually starts out as a couple of simple tasks or bash scripts inevitably ends up as a heap of scripts, Gradle/Rake/Maven/(insert build tool here) tasks, and manually configured jobs held together with a thin layer of Elmer’s glue and Scotch tape.</p>
+
+<p>Why? Partly because modern applications are complex; even simple stacks use multiple languages and tools. And partly because developers are lazy, and sometimes hesitant to “mess with the pipeline.” I don’t often see the amount of rigor in cleanliness applied to them as to other parts of the codebase, leading to unnecessarily complex and unfortunately tangled build pipelines.</p>
+
+<p>So, my current team attacked this head-on using a great piece of technology: <a href="https://www.docker.com">Docker</a>! Using Docker as our sole interface to running things in our build pipeline, we sped it up, simplified it, and lived happily ever after.</p>
+
+<p><em>To give credit where credit is due, the implementation of this pattern was spearheaded by my colleague <a href="https://twitter.com/amber_ht">Amber Houle</a>.</em></p>
+
+
+            
+          </p>
+        </div>
+      
+        <div class="post py3">
           <p class="post-meta">Jun 26, 2016</p>
           <a href="/java/testing/patterns/2016/06/26/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html" class="post-link"><h3 class="h1 post-title">How your 'Mother' can help you 'Build' cleaner unit tests - Part III</h3></a>
           <p class="post-summary">
@@ -160,22 +178,6 @@
           <p class="post-summary">
             
               <p>Over the past few months on my project, a pattern emerged for using Builders and Object Mothers to build-up objects for unit testing. We were able to keep our tests minimal and clean, decouple test code from production code, and solve some design issues such as constructors with too many parameters. In this multi-part series, I will take you through the evolution of the pattern over a series of refactorings.</p>
-
-
-            
-          </p>
-        </div>
-      
-        <div class="post py3">
-          <p class="post-meta">Feb 12, 2016</p>
-          <a href="/design/patterns/2016/02/12/yagni-aint-a-design-principle.html" class="post-link"><h3 class="h1 post-title">YAGNI a'int a Design Principle</h3></a>
-          <p class="post-summary">
-            
-              <p><a href="http://c2.com/cgi/wiki?YouArentGonnaNeedIt">You Ain’t Gonna Need It</a> is an XP practice that encourages developers to focus on the requirements at hand right now. It warns against the tendency to over-engineer by developing features based on what you <strong>think</strong> you will need later. Easy in theory. Hard in practice.</p>
-
-<h2 id="yagni-blinders">YAGNI Blinders</h2>
-
-<p>I’ve noticed that developers, especially those just starting out, tend to apply YAGNI narrow-sightedly. I often see it being strictly adhered to at face-value only, by developers always choosing to do what seems to be the most obvious and straightforward thing at the time, without putting any thought into the design implications of their choices. When suggesting other options that seem to be less simple on the surface, they YAGNI argument gets used. “Oh, that’s YAGNI.”</p>
 
 
             

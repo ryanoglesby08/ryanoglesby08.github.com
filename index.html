@@ -17,7 +17,7 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/assets/css/styles.css?201702121721" type="text/css">
+    <link rel="stylesheet" href="/assets/css/styles.css?201703052010" type="text/css">
     <link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
 
     <!-- Fonts -->
@@ -123,6 +123,20 @@
     <div class="posts">
       
         <div class="post py3">
+          <p class="post-meta">Mar 3, 2017</p>
+          <a href="/javascript/testing/2017/03/03/an-exploration-of-javascript-builders.html" class="post-link"><h3 class="h1 post-title">An Exploration of JavaScript Builders</h3></a>
+          <p class="post-summary">
+            
+              <p>Builders seems to be a popular topic for me, as I’ve <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">blogged about the builder pattern before</a>. This time, however, I look at builders through a JavaScript lens. In this post I’ll explore three techniques for modeling builders in JavaScript, specifically ES6, utilizing some of the interesting features of the modern language.</p>
+
+<p><em>All the examples I show in this post show builders that are <strong>only</strong> for testing purposes. While the builder pattern can be used in production code, the builders shown below are not appropriate for production code because they contain pre-canned default values. Leave these in your test suite.</em></p>
+
+
+            
+          </p>
+        </div>
+      
+        <div class="post py3">
           <p class="post-meta">Nov 19, 2016</p>
           <a href="/2016/11/19/its-not-magic-you-just-dont-understand-it-yet.html" class="post-link"><h3 class="h1 post-title">It's not magic, you just don't understand it yet</h3></a>
           <p class="post-summary">
@@ -169,24 +183,6 @@
               <p>Styling React components seems to be one of those things where there are a lot of solutions (<a href="https://github.com/FormidableLabs/radium/blob/master/docs/comparison/README.md">libraries</a>) emerging that try to solve the problem of how to use <em>only</em> inline styles in JavaScript sustainably. To me, it seems that this problem has been invented and can easily be avoided; and introducing a new library or tool is only adding to the complexity and cognitive overhead of your app. Many times it really is just better to stick with plain ol CSS stylesheets.</p>
 
 <p>Both traditional stylesheets and inline styles have their place within React applications. By using them harmoniously you can have the best of both worlds.</p>
-
-
-            
-          </p>
-        </div>
-      
-        <div class="post py3">
-          <p class="post-meta">Sep 26, 2016</p>
-          <a href="/docker/2016/09/26/homogeneous-pipelines-with-docker.html" class="post-link"><h3 class="h1 post-title">Homogeneous Pipelines with Docker</h3></a>
-          <p class="post-summary">
-            
-              <p><a href="http://martinfowler.com/articles/continuousIntegration.html">Continuous Integration Build Pipelines</a> are a dirty, nasty place. What usually starts out as a couple of simple tasks or bash scripts inevitably ends up as a heap of scripts, Gradle/Rake/Maven/(insert build tool here) tasks, and manually configured jobs held together with a thin layer of Elmer’s glue and Scotch tape.</p>
-
-<p>Why? Partly because modern applications are complex; even simple stacks use multiple languages and tools. And partly because developers are lazy, and sometimes hesitant to “mess with the pipeline.” I don’t often see the amount of rigor in cleanliness applied to them as to other parts of the codebase, leading to unnecessarily complex and unfortunately tangled build pipelines.</p>
-
-<p>So, my current team attacked this head-on using a great piece of technology: <a href="https://www.docker.com">Docker</a>! Using Docker as our sole interface to running things in our build pipeline, we sped it up, simplified it, and lived happily ever after.</p>
-
-<p><em>To give credit where credit is due, the implementation of this pattern was spearheaded by my colleague <a href="https://twitter.com/amber_ht">Amber Houle</a>.</em></p>
 
 
             

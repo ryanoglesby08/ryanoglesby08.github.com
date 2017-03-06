@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://ryanogles.by/javascript/testing/2017/03/03/an-exploration-of-javascript-builders.html</loc>
+<lastmod>2017-03-03T08:40:44-06:00</lastmod>
+</url>
+<url>
 <loc>http://ryanogles.by/2016/11/19/its-not-magic-you-just-dont-understand-it-yet.html</loc>
 <lastmod>2016-11-19T14:09:35-06:00</lastmod>
 </url>

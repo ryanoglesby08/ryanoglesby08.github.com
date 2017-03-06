@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>An Exploration of JavaScript Builders &#8211; Ryan Oglesby</title>
+    <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com">
+    <link rel="dns-prefetch" href="//cdn.mathjax.org">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="My thoughts and experiences as I navigate the world of Agile software development.">
+    <meta name="robots" content="all">
+    <meta name="author" content="Ryan Oglesby">
+    
+    <meta name="keywords" content="javascript, testing">
+    <link rel="canonical" href="http://ryanogles.by/javascript/testing/2017/03/03/an-exploration-of-javascript-builders.html">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/assets/css/styles.css?201703052010" type="text/css">
+    <link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
+
+    <!-- Fonts -->
+    
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:900,900italic,300,300italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lato:900,300' rel='stylesheet' type='text/css'>
+    
+    
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    
+
+    <!-- MathJax -->
+    
+
+    <!-- Verifications -->
+    
+    
+
+    <!-- Open Graph -->
+    <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="An Exploration of JavaScript Builders">
+    <meta property="og:description" content="My thoughts and experiences as I navigate the world of Agile software development.">
+    <meta property="og:url" content="http://ryanogles.by/javascript/testing/2017/03/03/an-exploration-of-javascript-builders.html">
+    <meta property="og:site_name" content="Ryan Oglesby">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    
+        <meta name="twitter:site" content="@ryanoglesby08" />
+    
+    <meta name="twitter:title" content="An Exploration of JavaScript Builders" />
+    <meta name="twitter:description" content="My thoughts and experiences as I navigate the world of Agile software development." />
+    <meta name="twitter:url" content="http://ryanogles.by/javascript/testing/2017/03/03/an-exploration-of-javascript-builders.html" />
+
+    
+    <script type="text/javascript">
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+       ga('create', 'UA-51481422-1', 'auto');
+       ga('send', 'pageview');
+    </script>
+    
+</head>
+<body class="site">
+  
+	
+
+  <div class="site-wrap">
+    <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="http://ryanogles.by" class="site-title">Ryan Oglesby</a>
+      <nav class="site-nav">
+        <a href="/about.html">Me</a>
+<a href="/oss.html">OSS</a>
+<a href="/featured.html">Featured</a>
+      </nav>
+      <div class="clearfix"></div>
+      
+        <div class="social-icons">
+  <div class="social-icons-right">
+    
+      <a class="fa fa-github" href="https://github.com/ryanoglesby08"></a>
+    
+    
+    
+    <a class="fa fa-rss" href="/feed.xml"></a>
+    
+      <a class="fa fa-twitter" href="https://twitter.com/ryanoglesby08"></a>
+    
+    
+    
+    
+    
+    
+      <a class="fa fa-linkedin" href="https://www.linkedin.com/in/ryanoglesby08"></a>
+    
+    
+    
+  </div>
+  <div class="right">
+    
+    
+    
+  </div>
+</div>
+<div class="clearfix"></div>
+      
+    </div>
+  </div>
+</header>
+
+    <div class="post p2 p-responsive wrap" role="main">
+      <div class="measure">
+        
+
+
+<div class="post-header mb2">
+  <h1>An Exploration of JavaScript Builders</h1>
+  <span class="post-meta">Mar 3, 2017</span><br>
+  
+  <span class="post-meta small">
+  
+    7 minute read
+  
+  </span>
+</div>
+
+<article class="post-content">
+  <p>Builders seems to be a popular topic for me, as I’ve <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">blogged about the builder pattern before</a>. This time, however, I look at builders through a JavaScript lens. In this post I’ll explore three techniques for modeling builders in JavaScript, specifically ES6, utilizing some of the interesting features of the modern language.</p>
+
+<p><em>All the examples I show in this post show builders that are <strong>only</strong> for testing purposes. While the builder pattern can be used in production code, the builders shown below are not appropriate for production code because they contain pre-canned default values. Leave these in your test suite.</em></p>
+
+<!-- more -->
+
+<h2 id="the-classic">The Classic</h2>
+
+<p>I start with a simple, recognizable builder that uses “withers” to build up the object’s state. Returning <code class="highlighter-rouge">this</code> from each “wither” enables chaining. The <code class="highlighter-rouge">build</code> method will return the final plain JavaScript object.</p>
+
+<figure class="code-highlight-figure"><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">class</span> <span class="nx">ProductBuilder</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">constructor</span><span class="p">()</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">'A Product'</span><span class="p">;</span>
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="p">.</span><span class="nx">price</span> <span class="o">=</span> <span class="mf">9.99</span><span class="p">;</span>
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="p">.</span><span class="nx">category</span> <span class="o">=</span> <span class="s1">'other'</span><span class="p">;</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;</span>
+</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">withName</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+</div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+</div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;</span>
+</div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="13" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">withPrice</span><span class="p">(</span><span class="nx">price</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="14" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="p">.</span><span class="nx">price</span> <span class="o">=</span> <span class="nx">price</span><span class="p">;</span>
+</div></div><div data-line="15" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+</div></div><div data-line="16" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;</span>
+</div></div><div data-line="17" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="18" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">withCategory</span><span class="p">(</span><span class="nx">category</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="19" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="p">.</span><span class="nx">category</span> <span class="o">=</span> <span class="nx">category</span><span class="p">;</span>
+</div></div><div data-line="20" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+</div></div><div data-line="21" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;</span>
+</div></div><div data-line="22" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="23" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">build</span><span class="p">()</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="24" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">return</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="25" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="na">name</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span>
+</div></div><div data-line="26" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="na">price</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">price</span><span class="p">,</span>
+</div></div><div data-line="27" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="na">category</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">category</span>
+</div></div><div data-line="28" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">&#x7d;;</span>
+</div></div><div data-line="29" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;</span>
+</div></div><div data-line="30" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">&#x7d;</span>
+</div></div><div data-line="31" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="32" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>                    <span class="c1">// =&gt;</span>
+</div></div><div data-line="33" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">new</span> <span class="nx">ProductBuilder</span><span class="p">()</span>          <span class="c1">//    &#x7b;</span>
+</div></div><div data-line="34" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">.</span><span class="nx">withName</span><span class="p">(</span><span class="s1">'Harry Potter'</span><span class="p">)</span>   <span class="c1">//      name: 'Harry Potter',</span>
+</div></div><div data-line="35" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">.</span><span class="nx">withCategory</span><span class="p">(</span><span class="s1">'book'</span><span class="p">)</span>       <span class="c1">//      price: 9.99,</span>
+</div></div><div data-line="36" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">.</span><span class="nx">build</span><span class="p">()</span>                    <span class="c1">//      category: 'book'</span>
+</div></div><div data-line="37" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">);</span>                              <span class="c1">//    &#x7d;</span></div></div></pre></div></figure>
+
+<p>Simple. Familiar. But wordy. With only three fields our builder is already quite large, and needs a lot of boilerplate. The size of the builder grows linearly with the number of fields.</p>
+
+<p>While this technique is fine, it takes a very Java-esque approach, ignoring other powerful JavaScript features. Let’s investigate those.</p>
+
+<h2 id="generate-builders-with-metaprogramming">Generate Builders with Metaprogramming</h2>
+
+<p>Let’s address some of the shortcomings of the previous example, namely the repetition of the “withers.” Rather than manually typing out each “wither” method, let’s generate them automatically.</p>
+
+<figure class="code-highlight-figure"><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">class</span> <span class="nx">ProductBuilder</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">constructor</span><span class="p">()</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">'A metaprogrammed product'</span><span class="p">;</span>
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="p">.</span><span class="nx">price</span> <span class="o">=</span> <span class="mf">9.99</span><span class="p">;</span>
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="p">.</span><span class="nx">category</span> <span class="o">=</span> <span class="s1">'other'</span><span class="p">;</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="c1">// Generate "wither" methods for each property</span>
+</div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">key</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="kr">const</span> <span class="nx">witherName</span> <span class="o">=</span> <span class="err">`</span><span class="kd">with</span><span class="nx">$</span><span class="p">&#x7b;</span><span class="nx">key</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">).</span><span class="nx">toUpperCase</span><span class="p">()&#x7d;</span><span class="nx">$</span><span class="p">&#x7b;</span><span class="nx">key</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">)&#x7d;</span><span class="err">`</span><span class="p">;</span>
+</div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="k">this</span><span class="p">[</span><span class="nx">witherName</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line">        <span class="k">this</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+</div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line">        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+</div></div><div data-line="13" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="p">&#x7d;;</span>
+</div></div><div data-line="14" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">&#x7d;);</span>
+</div></div><div data-line="15" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;</span>
+</div></div><div data-line="16" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="17" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">build</span><span class="p">()</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="18" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="c1">// Get an array of all non-function properties of this builder</span>
+</div></div><div data-line="19" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="kr">const</span> <span class="nx">keysNoWithers</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">filter</span><span class="p">((</span><span class="nx">key</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span>
+</div></div><div data-line="20" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="k">typeof</span> <span class="k">this</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">!==</span> <span class="s1">'function'</span>
+</div></div><div data-line="21" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">));</span>
+</div></div><div data-line="22" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="23" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="c1">// Transform the array of keys into an object</span>
+</div></div><div data-line="24" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">return</span> <span class="nx">keysNoWithers</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">returnValue</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="25" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="k">return</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="26" class="code-highlight-row numbered"><div class="code-highlight-line">        <span class="p">...</span><span class="nx">returnValue</span><span class="p">,</span>
+</div></div><div data-line="27" class="code-highlight-row numbered"><div class="code-highlight-line">        <span class="p">[</span><span class="nx">key</span><span class="p">]:</span> <span class="k">this</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+</div></div><div data-line="28" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="p">&#x7d;;</span>
+</div></div><div data-line="29" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">&#x7d;,</span> <span class="p">&#x7b;&#x7d;);</span>
+</div></div><div data-line="30" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;</span>
+</div></div><div data-line="31" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">&#x7d;</span>
+</div></div><div data-line="32" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="33" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>                    <span class="c1">// =&gt;</span>
+</div></div><div data-line="34" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">new</span> <span class="nx">ProductBuilder</span><span class="p">()</span>          <span class="c1">//    &#x7b;</span>
+</div></div><div data-line="35" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">.</span><span class="nx">withName</span><span class="p">(</span><span class="s1">'Harry Potter'</span><span class="p">)</span>   <span class="c1">//      name: 'Harry Potter',</span>
+</div></div><div data-line="36" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">.</span><span class="nx">withCategory</span><span class="p">(</span><span class="s1">'book'</span><span class="p">)</span>       <span class="c1">//      price: 9.99,</span>
+</div></div><div data-line="37" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">.</span><span class="nx">build</span><span class="p">()</span>                    <span class="c1">//      category: 'book'</span>
+</div></div><div data-line="38" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">);</span>                              <span class="c1">//    &#x7d;</span></div></div></pre></div></figure>
+
+<p>This pattern produces an equivalent result as the first example. In the constructor, we automatically generate all the “wither” methods from the properties of the object. Then, in the <code class="highlighter-rouge">build</code> method, we use the properties of the object again to produce the resulting object. Some of the cool JavaScript features we use are <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys">Object.keys</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce">reduce</a>, and the proposed <a href="https://github.com/sebmarkbage/ecmascript-rest-spread">object rest spread</a>.</p>
+
+<p>While at first this may seem overly complicated (for a single builder, yes, it is), the real power is truly recognized when you have many builders. We can easily extract the generalized parts of this into a common superclass, making it extremely easy to create new builders.</p>
+
+<figure class="code-highlight-figure"><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">class</span> <span class="nx">BaseBuilder</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">init</span><span class="p">()</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">key</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="kr">const</span> <span class="nx">witherName</span> <span class="o">=</span> <span class="err">`</span><span class="kd">with</span><span class="nx">$</span><span class="p">&#x7b;</span><span class="nx">key</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">).</span><span class="nx">toUpperCase</span><span class="p">()&#x7d;</span><span class="nx">$</span><span class="p">&#x7b;</span><span class="nx">key</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">)&#x7d;</span><span class="err">`</span><span class="p">;</span>
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="k">this</span><span class="p">[</span><span class="nx">witherName</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line">        <span class="k">this</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line">        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+</div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="p">&#x7d;;</span>
+</div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">&#x7d;);</span>
+</div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;</span>
+</div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">build</span><span class="p">()</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="13" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="kr">const</span> <span class="nx">keysNoWithers</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">filter</span><span class="p">((</span><span class="nx">key</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span>
+</div></div><div data-line="14" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="k">typeof</span> <span class="k">this</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">!==</span> <span class="s1">'function'</span>
+</div></div><div data-line="15" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">));</span>
+</div></div><div data-line="16" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="17" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">return</span> <span class="nx">keysNoWithers</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">returnValue</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="18" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="k">return</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="19" class="code-highlight-row numbered"><div class="code-highlight-line">        <span class="p">...</span><span class="nx">returnValue</span><span class="p">,</span>
+</div></div><div data-line="20" class="code-highlight-row numbered"><div class="code-highlight-line">        <span class="p">[</span><span class="nx">key</span><span class="p">]:</span> <span class="k">this</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+</div></div><div data-line="21" class="code-highlight-row numbered"><div class="code-highlight-line">      <span class="p">&#x7d;;</span>
+</div></div><div data-line="22" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">&#x7d;,</span> <span class="p">&#x7b;&#x7d;);</span>
+</div></div><div data-line="23" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;</span>
+</div></div><div data-line="24" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">&#x7d;</span>
+</div></div><div data-line="25" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="26" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">class</span> <span class="nx">ProductBuilder</span> <span class="kr">extends</span> <span class="nx">BaseBuilder</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="27" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">constructor</span><span class="p">()</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="28" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="kr">super</span><span class="p">();</span>
+</div></div><div data-line="29" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="30" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">'A metaprogrammed product'</span><span class="p">;</span>
+</div></div><div data-line="31" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="p">.</span><span class="nx">price</span> <span class="o">=</span> <span class="mf">9.99</span><span class="p">;</span>
+</div></div><div data-line="32" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="p">.</span><span class="nx">category</span> <span class="o">=</span> <span class="s1">'other'</span><span class="p">;</span>
+</div></div><div data-line="33" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="34" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="kr">super</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
+</div></div><div data-line="35" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;</span>
+</div></div><div data-line="36" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">&#x7d;</span>
+</div></div><div data-line="37" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="38" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">class</span> <span class="nx">SandwichBuilder</span> <span class="kr">extends</span> <span class="nx">BaseBuilder</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="39" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">constructor</span><span class="p">()</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="40" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="kr">super</span><span class="p">();</span>
+</div></div><div data-line="41" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="42" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="p">.</span><span class="nx">meat</span> <span class="o">=</span> <span class="s1">'ham'</span><span class="p">;</span>
+</div></div><div data-line="43" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">this</span><span class="p">.</span><span class="nx">cheese</span> <span class="o">=</span> <span class="s1">'swiss'</span><span class="p">;</span>
+</div></div><div data-line="44" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="45" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="kr">super</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
+</div></div><div data-line="46" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;</span>
+</div></div><div data-line="47" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">&#x7d;</span>
+</div></div><div data-line="48" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="49" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>                    <span class="c1">// =&gt;</span>
+</div></div><div data-line="50" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">new</span> <span class="nx">ProductBuilder</span><span class="p">()</span>          <span class="c1">//    &#x7b;</span>
+</div></div><div data-line="51" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">.</span><span class="nx">withName</span><span class="p">(</span><span class="s1">'Harry Potter'</span><span class="p">)</span>   <span class="c1">//      name: 'Harry Potter',</span>
+</div></div><div data-line="52" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">.</span><span class="nx">withCategory</span><span class="p">(</span><span class="s1">'book'</span><span class="p">)</span>       <span class="c1">//      price: 9.99,</span>
+</div></div><div data-line="53" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">.</span><span class="nx">build</span><span class="p">()</span>                    <span class="c1">//      category: 'book'</span>
+</div></div><div data-line="54" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">);</span>                              <span class="c1">//    &#x7d;</span>
+</div></div><div data-line="55" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+</div></div><div data-line="56" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">new</span> <span class="nx">SandwichBuilder</span><span class="p">()</span>         <span class="c1">//  =&gt;</span>
+</div></div><div data-line="57" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">.</span><span class="nx">withMeat</span><span class="p">(</span><span class="s1">'Roast Beef'</span><span class="p">)</span>     <span class="c1">//    &#x7b;</span>
+</div></div><div data-line="58" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">.</span><span class="nx">withCheese</span><span class="p">(</span><span class="s1">'Havarti'</span><span class="p">)</span>      <span class="c1">//      meat: 'Roast Beef',</span>
+</div></div><div data-line="59" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="p">.</span><span class="nx">build</span><span class="p">()</span>                    <span class="c1">//      cheese: 'Havarti'</span>
+</div></div><div data-line="60" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">);</span>                              <span class="c1">//    &#x7d;</span>
+</div></div></pre></div></figure>
+
+<p>By adopting this standard structure built on top of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">ES6 inheritance</a>, we benefit from the predictability of the common interface and from the simplicity in creating new builders. Our builders are also still open for extension, as we can easily insert additional methods to add custom functionality as needed.</p>
+
+<p>But, we are still following the verbose “wither” syntax. This approach is inherently object oriented. While there is nothing wrong with OOP, JavaScript is flexible and adopts multiple paradigms. What if we approach builders using a more functional programming technique?</p>
+
+<h2 id="just-use-functions">Just Use Functions</h2>
+
+<p>Let’s get rid of the classes. Let’s get rid of the “withers”. Let’s model our builder as a function instead.</p>
+
+<figure class="code-highlight-figure"><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">buildProduct</span> <span class="o">=</span> <span class="p">(</span><span class="nx">overrides</span> <span class="o">=</span> <span class="p">&#x7b;&#x7d;)</span> <span class="o">=&gt;</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kr">const</span> <span class="nx">defaults</span> <span class="o">=</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">name</span><span class="p">:</span> <span class="s1">'A functional product'</span><span class="p">,</span>
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">price</span><span class="p">:</span> <span class="mf">9.99</span><span class="p">,</span>
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">category</span><span class="p">:</span> <span class="s1">'other'</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;;</span>
+</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">return</span> <span class="p">&#x7b;...</span><span class="nx">defaults</span><span class="p">,</span> <span class="p">...</span><span class="nx">overrides</span><span class="p">&#x7d;;</span>
+</div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">&#x7d;;</span>
+</div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>                <span class="c1">// =&gt;</span>
+</div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">buildProduct</span><span class="p">(&#x7b;</span>            <span class="c1">//    &#x7b;</span>
+</div></div><div data-line="13" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">name</span><span class="p">:</span> <span class="s1">'Harry Potter'</span><span class="p">,</span>   <span class="c1">//      name: 'Harry Potter',</span>
+</div></div><div data-line="14" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">category</span><span class="p">:</span> <span class="s1">'book'</span>        <span class="c1">//      price: 9.99,</span>
+</div></div><div data-line="15" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;)</span>                        <span class="c1">//      category: 'book'</span>
+</div></div><div data-line="16" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">);</span>                          <span class="c1">//    &#x7d;</span></div></div></pre></div></figure>
+
+<p>That’s it! Here, we rely heavily on the awesome object rest spread proposal to perform merging of two objects.</p>
+
+<p>While elegant, the most obvious deficiency is that there is no control over the contents of the <code class="highlighter-rouge">overrides</code> object, which could lead to mistakes. In the above example, if I were to do <code class="highlighter-rouge">buildProduct({nme: 'Harry Potter'})</code> I would end up with a product with the default name, <em>and</em> an additional property “nme.” This is not ideal and could be frustrating at the least. Let’s fix that.</p>
+
+<figure class="code-highlight-figure"><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">import</span> <span class="p">&#x7b;</span><span class="nx">difference</span><span class="p">&#x7d;</span> <span class="nx">from</span> <span class="s1">'lodash'</span><span class="p">;</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">buildProduct</span> <span class="o">=</span> <span class="p">(</span><span class="nx">overrides</span> <span class="o">=</span> <span class="p">&#x7b;&#x7d;)</span> <span class="o">=&gt;</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kr">const</span> <span class="nx">defaults</span> <span class="o">=</span>
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">name</span><span class="p">:</span> <span class="s1">'A functional product'</span><span class="p">,</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">price</span><span class="p">:</span> <span class="mf">9.99</span><span class="p">,</span>
+</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">category</span><span class="p">:</span> <span class="s1">'other'</span>
+</div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;;</span>
+</div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="c1">// Prevent extra keys from being introduced by the overrides</span>
+</div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kr">const</span> <span class="nx">extraOverrides</span> <span class="o">=</span> <span class="nx">difference</span><span class="p">(</span>
+</div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">overrides</span><span class="p">),</span>
+</div></div><div data-line="13" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">defaults</span><span class="p">)</span>
+</div></div><div data-line="14" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">);</span>
+</div></div><div data-line="15" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">if</span> <span class="p">(</span><span class="nx">extraOverrides</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="16" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="err">`</span><span class="nx">Invalid</span> <span class="nx">builder</span><span class="o">!</span> <span class="nx">$</span><span class="p">&#x7b;</span><span class="nx">extraOverrides</span><span class="p">&#x7d;</span><span class="err">`</span><span class="p">);</span>
+</div></div><div data-line="17" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;</span>
+</div></div><div data-line="18" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="19" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">return</span> <span class="p">&#x7b;...</span><span class="nx">defaults</span><span class="p">,</span> <span class="p">...</span><span class="nx">overrides</span><span class="p">&#x7d;;</span>
+</div></div><div data-line="20" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">&#x7d;;</span>
+</div></div><div data-line="21" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="22" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>                  <span class="c1">// =&gt; Error: Invalid builder! keyThatDoesNotExist</span>
+</div></div><div data-line="23" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">buildProduct</span><span class="p">(&#x7b;</span>
+</div></div><div data-line="24" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">name</span><span class="p">:</span> <span class="s1">'Harry Potter'</span><span class="p">,</span>
+</div></div><div data-line="25" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">category</span><span class="p">:</span> <span class="s1">'book'</span><span class="p">,</span>
+</div></div><div data-line="26" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">keyThatDoesNotExist</span><span class="p">:</span> <span class="s1">'oops'</span>
+</div></div><div data-line="27" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;)</span>
+</div></div><div data-line="28" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">);</span>
+</div></div></pre></div></figure>
+
+<p>By using the <a href="https://lodash.com/docs#difference">lodash library’s array diffing utility</a>, we can prevent this problem. And, as with other bits of reusable code, we could extract this into a function used by many builders.</p>
+
+<p>In all of these examples the product object is a toy. With a larger, more complex object containing multiple levels of nested objects, this functional technique could get out of control is not properly modeled. While you could go for deep merging, I would shy away from that as it will hard to reason about. Instead, I recommend composing many builders together.</p>
+
+<figure class="code-highlight-figure"><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">import</span> <span class="p">&#x7b;</span><span class="nx">difference</span><span class="p">&#x7d;</span> <span class="nx">from</span> <span class="s1">'lodash'</span><span class="p">;</span>
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">preventExtraOverrides</span> <span class="o">=</span> <span class="p">(</span><span class="nx">defaults</span><span class="p">,</span> <span class="nx">overrides</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kr">const</span> <span class="nx">extraOverrides</span> <span class="o">=</span> <span class="nx">difference</span><span class="p">(</span>
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">overrides</span><span class="p">),</span>
+</div></div><div data-line="6" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">defaults</span><span class="p">)</span>
+</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">);</span>
+</div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">if</span> <span class="p">(</span><span class="nx">extraOverrides</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="err">`</span><span class="nx">Invalid</span> <span class="nx">builder</span><span class="o">!</span> <span class="nx">$</span><span class="p">&#x7b;</span><span class="nx">extraOverrides</span><span class="p">&#x7d;</span><span class="err">`</span><span class="p">);</span>
+</div></div><div data-line="11" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;</span>
+</div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">&#x7d;;</span>
+</div></div><div data-line="13" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="14" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">buildProductName</span> <span class="o">=</span> <span class="p">(</span><span class="nx">overrides</span> <span class="o">=</span> <span class="p">&#x7b;&#x7d;)</span> <span class="o">=&gt;</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="15" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kr">const</span> <span class="nx">defaults</span> <span class="o">=</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="16" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">name</span><span class="p">:</span> <span class="s1">'A product'</span><span class="p">,</span>
+</div></div><div data-line="17" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">description</span><span class="p">:</span> <span class="s1">'A product description'</span><span class="p">,</span>
+</div></div><div data-line="18" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;;</span>
+</div></div><div data-line="19" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="20" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">preventExtraOverrides</span><span class="p">(</span><span class="nx">defaults</span><span class="p">,</span> <span class="nx">overrides</span><span class="p">);</span>
+</div></div><div data-line="21" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="22" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">return</span> <span class="p">&#x7b;...</span><span class="nx">defaults</span><span class="p">,</span> <span class="p">...</span><span class="nx">overrides</span><span class="p">&#x7d;;</span>
+</div></div><div data-line="23" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">&#x7d;;</span>
+</div></div><div data-line="24" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="25" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">buildProductPrice</span> <span class="o">=</span> <span class="p">(</span><span class="nx">overrides</span> <span class="o">=</span> <span class="p">&#x7b;&#x7d;)</span> <span class="o">=&gt;</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="26" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kr">const</span> <span class="nx">defaults</span> <span class="o">=</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="27" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">price</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+</div></div><div data-line="28" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">taxRate</span><span class="p">:</span> <span class="mf">0.08</span><span class="p">,</span>
+</div></div><div data-line="29" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;;</span>
+</div></div><div data-line="30" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="31" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">preventExtraOverrides</span><span class="p">(</span><span class="nx">defaults</span><span class="p">,</span> <span class="nx">overrides</span><span class="p">);</span>
+</div></div><div data-line="32" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="33" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">return</span> <span class="p">&#x7b;...</span><span class="nx">defaults</span><span class="p">,</span> <span class="p">...</span><span class="nx">overrides</span><span class="p">&#x7d;;</span>
+</div></div><div data-line="34" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">&#x7d;;</span>
+</div></div><div data-line="35" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="36" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="kr">const</span> <span class="nx">buildProduct</span> <span class="o">=</span> <span class="p">(</span><span class="nx">overrides</span> <span class="o">=</span> <span class="p">&#x7b;&#x7d;)</span> <span class="o">=&gt;</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="37" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="kr">const</span> <span class="nx">defaults</span> <span class="o">=</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="38" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">name</span><span class="p">:</span> <span class="nx">buildProductName</span><span class="p">(),</span>
+</div></div><div data-line="39" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">price</span><span class="p">:</span> <span class="nx">buildProductPrice</span><span class="p">(),</span>
+</div></div><div data-line="40" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">category</span><span class="p">:</span> <span class="s1">'other'</span>
+</div></div><div data-line="41" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;;</span>
+</div></div><div data-line="42" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="43" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">preventExtraOverrides</span><span class="p">(</span><span class="nx">defaults</span><span class="p">,</span> <span class="nx">overrides</span><span class="p">);</span>
+</div></div><div data-line="44" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="45" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="k">return</span> <span class="p">&#x7b;...</span><span class="nx">defaults</span><span class="p">,</span> <span class="p">...</span><span class="nx">overrides</span><span class="p">&#x7d;;</span>
+</div></div><div data-line="46" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">&#x7d;;</span>
+</div></div><div data-line="47" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="48" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+</div></div><div data-line="49" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nx">buildProduct</span><span class="p">(&#x7b;</span>
+</div></div><div data-line="50" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">name</span><span class="p">:</span> <span class="nx">buildProductName</span><span class="p">(&#x7b;</span><span class="na">name</span><span class="p">:</span> <span class="s1">'Harry Potter'</span><span class="p">&#x7d;),</span>
+</div></div><div data-line="51" class="code-highlight-row numbered"><div class="code-highlight-line">    <span class="na">price</span><span class="p">:</span> <span class="nx">buildProductPrice</span><span class="p">(&#x7b;</span><span class="na">price</span><span class="p">:</span> <span class="mf">9.99</span><span class="p">&#x7d;)</span>
+</div></div><div data-line="52" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="p">&#x7d;)</span>
+</div></div><div data-line="53" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="p">);</span>
+</div></div><div data-line="54" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="c1">// =&gt;</span>
+</div></div><div data-line="55" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="c1">//  &#x7b;</span>
+</div></div><div data-line="56" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="c1">//    name: &#x7b;</span>
+</div></div><div data-line="57" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="c1">//      name: 'Harry Potter',</span>
+</div></div><div data-line="58" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="c1">//      description: 'A product description'</span>
+</div></div><div data-line="59" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="c1">//    &#x7d;,</span>
+</div></div><div data-line="60" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="c1">//    price: &#x7b;</span>
+</div></div><div data-line="61" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="c1">//      price: 9.99,</span>
+</div></div><div data-line="62" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="c1">//      taxRate: 0.08</span>
+</div></div><div data-line="63" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="c1">//    &#x7d;,</span>
+</div></div><div data-line="64" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="c1">//    category: 'other'</span>
+</div></div><div data-line="65" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="c1">//  &#x7d;</span></div></div></pre></div></figure>
+
+<p>By composing builders we can easily reason about our object because we have broken it down into small, independent pieces. Each builder follows a similar pattern, but is self contained, which allows for customization in specific situations when needed.</p>
+
+<h2 id="so-which-one-is-best">So which one is best?</h2>
+<p>Well, it depends. Yep, not what you wanted to hear right? Of course it’s never that easy. Your unique situation may make some patterns more desirable than others. Are you on a team full of ex-Java devs who are not used to JavaScript semantics yet? Maybe starting with the classic approach and moving towards the metaprogramming technique eventually will suit you. Is your team ga-ga over functional paradigms? Reach for the functional approach.</p>
+
+<p>Overall, remember that JavaScript is a multi-paradigm language, capable of flexing to suit many needs. Enjoy!</p>
+
+</article>
+
+
+  <div class="share-page">
+  Share me:
+
+  <div class="share-links ml1">
+    
+      <a class="fa fa-facebook" href="https://facebook.com/sharer.php?u=http://ryanogles.by/javascript/testing/2017/03/03/an-exploration-of-javascript-builders.html" rel="nofollow" target="_blank" title="Share on Facebook"></a>
+    
+
+    
+      <a class="fa fa-twitter" href="https://twitter.com/intent/tweet?text=An Exploration of JavaScript Builders&url=http://ryanogles.by/javascript/testing/2017/03/03/an-exploration-of-javascript-builders.html" rel="nofollow" target="_blank" title="Share on Twitter"></a>
+    
+
+    
+
+    
+      <a class="fa fa-linkedin" href="http://www.linkedin.com/shareArticle?url=http://ryanogles.by/javascript/testing/2017/03/03/an-exploration-of-javascript-builders.html&title=An Exploration of JavaScript Builders" rel="nofollow" target="_blank" title="Share on LinkedIn"></a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+      <a class="fa fa-hacker-news" onclick="parent.postMessage('submit','*')" href="https://news.ycombinator.com/submitlink?u=http://ryanogles.by/javascript/testing/2017/03/03/an-exploration-of-javascript-builders.html&t=An Exploration of JavaScript Builders" rel="nofollow" target="_blank" title="Share on Hacker News"></a>
+    
+  </div>
+</div>
+
+
+
+
+
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname  = 'ryanoglesby';
+    var disqus_identifier = '/javascript/testing/2017/03/03/an-exploration-of-javascript-builders';
+    var disqus_title      = "An Exploration of JavaScript Builders";
+
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="center">
+  <div class="measure">
+    <small>
+      Theme crafted with &lt;3 by <a href="http://johnotander.com">John Otander</a> (<a href="https://twitter.com/4lpine">@4lpine</a>).<br>
+      &lt;/&gt; available on <a href="https://github.com/johnotander/pixyll">Github</a>.
+    </small>
+  </div>
+</footer>
+</body>
+</html>
