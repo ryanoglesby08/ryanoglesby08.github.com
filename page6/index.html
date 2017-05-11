@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>About Me &#8211; Ryan Oglesby</title>
+    <title>Ryan Oglesby</title>
     <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com">
     <link rel="dns-prefetch" href="//cdn.mathjax.org">
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
@@ -13,7 +13,7 @@
     <meta name="author" content="Ryan Oglesby">
     
     
-    <link rel="canonical" href="http://ryanogles.by/about.html">
+    <link rel="canonical" href="http://ryanogles.by/page6/">
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
 
     <!-- Custom CSS -->
@@ -40,9 +40,9 @@
     <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="About Me">
+    <meta property="og:title" content="Ryan Oglesby">
     <meta property="og:description" content="My thoughts and experiences as I navigate the world of Agile software development.">
-    <meta property="og:url" content="http://ryanogles.by/about.html">
+    <meta property="og:url" content="http://ryanogles.by/page6/">
     <meta property="og:site_name" content="Ryan Oglesby">
 
     <!-- Twitter Card -->
@@ -50,9 +50,9 @@
     
         <meta name="twitter:site" content="@ryanoglesby08" />
     
-    <meta name="twitter:title" content="About Me" />
+    <meta name="twitter:title" content="Ryan Oglesby" />
     <meta name="twitter:description" content="My thoughts and experiences as I navigate the world of Agile software development." />
-    <meta name="twitter:url" content="http://ryanogles.by/about.html" />
+    <meta name="twitter:url" content="http://ryanogles.by/page6/" />
 
     
     <script type="text/javascript">
@@ -116,18 +116,45 @@
 
     <div class="post p2 p-responsive wrap" role="main">
       <div class="measure">
-        <div class="post">
-  <header class="post-header">
-    <h1 class="h2">About Me</h1>
-  </header>
-  <article class="post-content">
-  <p><img class="inline-left-image" src="/assets/images/profile.jpeg" alt="Profile photo" /> Hi! I’m Ryan. I write code for a living. I also write code-related things down here sometimes.</p>
+        
 
-<p>I currently work as a developer at <a href="https://www.thoughtworks.com">ThoughtWorks</a>, which has taken me on a whirlwind journey through building enterprise-scale systems using multiple languages, coaching junior devs, working with small start-ups, mobile development, and being a trainer for our intensive new-hire training program in India - so far. More recently, I call myself a Tech Lead and I prefer to hang out with Front-end tech.</p>
+<div class="home">
+  
+    <div class="posts">
+      
+        <div class="post py3">
+          <p class="post-meta">Dec 26, 2012</p>
+          <a href="/rails/hashie/rspec/testing/2012/12/26/rails-controller-specs-dont-always-play-nice-with-hashie.html" class="post-link"><h3 class="h1 post-title">Rails Controller Specs Don't Always Play Nice With Hashie</h3></a>
+          <p class="post-summary">
+            
+              <h2 id="hashie-and-rspec---the-problem">Hashie and Rspec - The Problem:</h2>
+<p><a href="https://github.com/intridea/hashie">Hashie</a> is a neat little Ruby gem that extends Hash and gives object-like access and functionality to hashes.  Classes can extend from Hashie and add other functionality as needed. It is especially useful when marshaling JSON or XML data from a service layer into your business models.</p>
 
-<p>When I’m not coding I am staying active - rock climbing, snowboarding, playing volleyball, or galavanting around the world.</p>
+<p>While Hashie is very useful, we have to be careful using this gem with ActionController Rspec tests.  When creating the <code class="highlighter-rouge">assigns</code> hash used in controller tests, Rspec creates a <code class="highlighter-rouge">HashWithIndifferentAccess</code>, which is dangerous with objects that act like Hash (such as Hashie objects). Rspec ends up converting user-defined objects that inherit from Hashie into <code class="highlighter-rouge">HashWithIndifferentAccess</code> objects, causing us to lose any data that exists outside of the backing hash.</p>
 
-  </article>
+
+            
+          </p>
+        </div>
+      
+    </div>
+
+    <div class="pagination clearfix mb1 mt4">
+  <div class="left">
+    
+      
+        <a class="pagination-item" href="/page5">Newer</a>
+      
+    
+  </div>
+  <div class="right">
+    
+      <span class="pagination-item disabled">Older</span>
+    
+  </div>
+  <div class="pagination-meta">Page 6 of 6</div>
+</div>
+  
 </div>
 
       </div>

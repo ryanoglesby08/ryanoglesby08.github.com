@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Conceptualizing How a Modern Single Page App is Served &#8211; Ryan Oglesby</title>
+    <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com">
+    <link rel="dns-prefetch" href="//cdn.mathjax.org">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="My thoughts and experiences as I navigate the world of Agile software development.">
+    <meta name="robots" content="all">
+    <meta name="author" content="Ryan Oglesby">
+    
+    <meta name="keywords" content="javascript">
+    <link rel="canonical" href="http://ryanogles.by/javascript/2017/05/11/conceptualizing-how-a-modern-single-page-app-is-served.html">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/assets/css/styles.css?201705111428" type="text/css">
+    <link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
+
+    <!-- Fonts -->
+    
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:900,900italic,300,300italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lato:900,300' rel='stylesheet' type='text/css'>
+    
+    
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    
+
+    <!-- MathJax -->
+    
+
+    <!-- Verifications -->
+    
+    
+
+    <!-- Open Graph -->
+    <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Conceptualizing How a Modern Single Page App is Served">
+    <meta property="og:description" content="My thoughts and experiences as I navigate the world of Agile software development.">
+    <meta property="og:url" content="http://ryanogles.by/javascript/2017/05/11/conceptualizing-how-a-modern-single-page-app-is-served.html">
+    <meta property="og:site_name" content="Ryan Oglesby">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    
+        <meta name="twitter:site" content="@ryanoglesby08" />
+    
+    <meta name="twitter:title" content="Conceptualizing How a Modern Single Page App is Served" />
+    <meta name="twitter:description" content="My thoughts and experiences as I navigate the world of Agile software development." />
+    <meta name="twitter:url" content="http://ryanogles.by/javascript/2017/05/11/conceptualizing-how-a-modern-single-page-app-is-served.html" />
+
+    
+    <script type="text/javascript">
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+       ga('create', 'UA-51481422-1', 'auto');
+       ga('send', 'pageview');
+    </script>
+    
+</head>
+<body class="site">
+  
+	
+
+  <div class="site-wrap">
+    <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="http://ryanogles.by" class="site-title">Ryan Oglesby</a>
+      <nav class="site-nav">
+        <a href="/about.html">Me</a>
+<a href="/oss.html">OSS</a>
+<a href="/featured.html">Featured</a>
+      </nav>
+      <div class="clearfix"></div>
+      
+        <div class="social-icons">
+  <div class="social-icons-right">
+    
+      <a class="fa fa-github" href="https://github.com/ryanoglesby08"></a>
+    
+    
+    
+    <a class="fa fa-rss" href="/feed.xml"></a>
+    
+      <a class="fa fa-twitter" href="https://twitter.com/ryanoglesby08"></a>
+    
+    
+    
+    
+    
+    
+      <a class="fa fa-linkedin" href="https://www.linkedin.com/in/ryanoglesby08"></a>
+    
+    
+    
+  </div>
+  <div class="right">
+    
+    
+    
+  </div>
+</div>
+<div class="clearfix"></div>
+      
+    </div>
+  </div>
+</header>
+
+    <div class="post p2 p-responsive wrap" role="main">
+      <div class="measure">
+        
+
+
+<div class="post-header mb2">
+  <h1>Conceptualizing How a Modern Single Page App is Served</h1>
+  <span class="post-meta">May 11, 2017</span><br>
+  
+  <span class="post-meta small">
+  
+    2 minute read
+  
+  </span>
+</div>
+
+<article class="post-content">
+  <p>I’ve noticed some confusion in how Single Page Applications are served among developers who are new to these apps. This post is a short explanation of how a Single Page Application gets from the web server to a user’s web browser.</p>
+
+<!-- more -->
+
+<h2 id="first-what-is-a-single-page-application">First, what is a Single Page Application?</h2>
+
+<blockquote>
+  <p>A Single Page Application (SPA) is a web application or web site that fits on a single web page, with the goal of providing a user experience similar to that of a desktop application.</p>
+</blockquote>
+
+<p>All necessary code – HTML, JavaScript, and CSS – is retrieved with one page load. The page does not reload at any point, nor does control transfer to another page. As the user navigates around the application, the URL shown in the browser can be updated to provide the perception and navigability of separate logical pages in the application, but no more page loads occur unless the user forces one by clicking the browser’s refresh button or by typing a new address into the URL bar and pressing the &lt;enter&gt; key.</p>
+
+<h2 id="what-might-this-look-like">What might this look like?</h2>
+
+<p>This is the only HTML file for the entire application, and the only file returned to a client who requests the application. Both the <code class="highlighter-rouge">app.css</code> file and the <code class="highlighter-rouge">app.js</code> file contain all the necessary CSS and JavaScript that any part of the app needs.</p>
+
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">index.html</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="err">&lt;</span>!DOCTYPE&gt;
+</div></div><div data-line="2" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nt">&lt;html&gt;</span>
+</div></div><div data-line="3" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nt">&lt;head&gt;</span>
+</div></div><div data-line="4" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nt">&lt;title&gt;</span>A single page app<span class="nt">&lt;/title&gt;</span>
+</div></div><div data-line="5" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="6" class="code-highlight-row numbered marked-line start-marked-line end-marked-line"><div class="code-highlight-line">  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">type=</span><span class="s">"text/css"</span> <span class="na">href=</span><span class="s">"app.css"</span> <span class="nt">/&gt;</span>
+</div></div><div data-line="7" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nt">&lt;/head&gt;</span>
+</div></div><div data-line="8" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nt">&lt;body&gt;</span>
+</div></div><div data-line="9" class="code-highlight-row numbered"><div class="code-highlight-line">  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"app_root"</span><span class="nt">/&gt;</span>
+</div></div><div data-line="10" class="code-highlight-row numbered"><div class="code-highlight-line"> </div></div><div data-line="11" class="code-highlight-row numbered marked-line start-marked-line end-marked-line"><div class="code-highlight-line">  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/css"</span> <span class="na">src=</span><span class="s">"app.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</div></div><div data-line="12" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nt">&lt;/body&gt;</span>
+</div></div><div data-line="13" class="code-highlight-row numbered"><div class="code-highlight-line"><span class="nt">&lt;/html&gt;</span></div></div></pre></div></figure>
+
+<p>In this example, <code class="highlighter-rouge">app.js</code> could be a <a href="https://facebook.github.io/react/">React</a> application that produces rest of the DOM elements when it is evaluated.</p>
+
+<h2 id="what-about-interaction-with-the-web-server">What about interaction with the web server?</h2>
+
+<p>The sequence diagram below shows how and when the front end SPA interacts with the back end web server.</p>
+
+<p>The UI server below has one and only one job: deliver the single page and all assets that the application needs when a browser requests them. Therefore, the UI server must be configured as follows:</p>
+
+<ul>
+  <li>Serve static assets. Handle any request for a static file, such as a JavaScript file, a CSS file, an image, or a font file, by loading it from the filesystem and returning it.</li>
+  <li>Match all other routes. The UI server uses a “match all” strategy so that any received request that does not match a static asset will be handled by returning the single page of the application, usually called index.html. This is necessary because the user could force a page load while on a specific URL within the application, as shown in the diagram below.</li>
+</ul>
+
+<div class="center">
+  <img src="/assets/images/spa-sequence-diagram.png" alt="Single Page App Sequence Diagram" />
+</div>
+
+<p>It’s important to remember that while the SPA is primarily written in JavaScript, there is no requirement that necessitates a JavaScript-based UI server. Any web server that is able to handle the configurations described above will work fine, such as <a href="https://access.redhat.com/solutions/67298">Apache</a>, <a href="https://www.nginx.com/resources/admin-guide/serving-static-content/">NGINX</a>, or even <a href="https://keita.blog/2015/11/24/hosting-a-single-page-app-on-s3-with-proper-urls/">Amazon S3</a>!</p>
+
+</article>
+
+
+  <div class="share-page">
+  Share me:
+
+  <div class="share-links ml1">
+    
+      <a class="fa fa-facebook" href="https://facebook.com/sharer.php?u=http://ryanogles.by/javascript/2017/05/11/conceptualizing-how-a-modern-single-page-app-is-served.html" rel="nofollow" target="_blank" title="Share on Facebook"></a>
+    
+
+    
+      <a class="fa fa-twitter" href="https://twitter.com/intent/tweet?text=Conceptualizing How a Modern Single Page App is Served&url=http://ryanogles.by/javascript/2017/05/11/conceptualizing-how-a-modern-single-page-app-is-served.html" rel="nofollow" target="_blank" title="Share on Twitter"></a>
+    
+
+    
+
+    
+      <a class="fa fa-linkedin" href="http://www.linkedin.com/shareArticle?url=http://ryanogles.by/javascript/2017/05/11/conceptualizing-how-a-modern-single-page-app-is-served.html&title=Conceptualizing How a Modern Single Page App is Served" rel="nofollow" target="_blank" title="Share on LinkedIn"></a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+      <a class="fa fa-hacker-news" onclick="parent.postMessage('submit','*')" href="https://news.ycombinator.com/submitlink?u=http://ryanogles.by/javascript/2017/05/11/conceptualizing-how-a-modern-single-page-app-is-served.html&t=Conceptualizing How a Modern Single Page App is Served" rel="nofollow" target="_blank" title="Share on Hacker News"></a>
+    
+  </div>
+</div>
+
+
+
+
+
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname  = 'ryanoglesby';
+    var disqus_identifier = '/javascript/2017/05/11/conceptualizing-how-a-modern-single-page-app-is-served';
+    var disqus_title      = "Conceptualizing How a Modern Single Page App is Served";
+
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="center">
+  <div class="measure">
+    <small>
+      Theme crafted with &lt;3 by <a href="http://johnotander.com">John Otander</a> (<a href="https://twitter.com/4lpine">@4lpine</a>).<br>
+      &lt;/&gt; available on <a href="https://github.com/johnotander/pixyll">Github</a>.
+    </small>
+  </div>
+</footer>
+</body>
+</html>

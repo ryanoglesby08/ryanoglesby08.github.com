@@ -7,6 +7,60 @@
     <atom:link href="http://ryanogles.by/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Conceptualizing How a Modern Single Page App is Served</title>
+        <description>&lt;p&gt;I’ve noticed some confusion in how Single Page Applications are served among developers who are new to these apps. This post is a short explanation of how a Single Page Application gets from the web server to a user’s web browser.&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;h2 id=&quot;first-what-is-a-single-page-application&quot;&gt;First, what is a Single Page Application?&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;A Single Page Application (SPA) is a web application or web site that fits on a single web page, with the goal of providing a user experience similar to that of a desktop application.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;All necessary code – HTML, JavaScript, and CSS – is retrieved with one page load. The page does not reload at any point, nor does control transfer to another page. As the user navigates around the application, the URL shown in the browser can be updated to provide the perception and navigability of separate logical pages in the application, but no more page loads occur unless the user forces one by clicking the browser’s refresh button or by typing a new address into the URL bar and pressing the &amp;lt;enter&amp;gt; key.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-might-this-look-like&quot;&gt;What might this look like?&lt;/h2&gt;
+
+&lt;p&gt;This is the only HTML file for the entire application, and the only file returned to a client who requests the application. Both the &lt;code class=&quot;highlighter-rouge&quot;&gt;app.css&lt;/code&gt; file and the &lt;code class=&quot;highlighter-rouge&quot;&gt;app.js&lt;/code&gt; file contain all the necessary CSS and JavaScript that any part of the app needs.&lt;/p&gt;
+
+&lt;figure class=&quot;code-highlight-figure&quot;&gt;&lt;figcaption class=&quot;code-highlight-caption&quot;&gt;&lt;span class=&quot;code-highlight-caption-title&quot;&gt;index.html&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;code-highlight&quot;&gt;&lt;pre class=&quot;code-highlight-pre&quot;&gt;&lt;div data-line=&quot;1&quot; class=&quot;code-highlight-row numbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;&lt;span class=&quot;err&quot;&gt;&amp;lt;&lt;/span&gt;!DOCTYPE&amp;gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;2&quot; class=&quot;code-highlight-row numbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;3&quot; class=&quot;code-highlight-row numbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;4&quot; class=&quot;code-highlight-row numbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;  &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;A single page app&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;5&quot; class=&quot;code-highlight-row numbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;6&quot; class=&quot;code-highlight-row numbered marked-line start-marked-line end-marked-line&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;  &lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stylesheet&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/css&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;app.css&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;7&quot; class=&quot;code-highlight-row numbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;8&quot; class=&quot;code-highlight-row numbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;9&quot; class=&quot;code-highlight-row numbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;  &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;app_root&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;10&quot; class=&quot;code-highlight-row numbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;11&quot; class=&quot;code-highlight-row numbered marked-line start-marked-line end-marked-line&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;  &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/css&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;app.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;12&quot; class=&quot;code-highlight-row numbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;13&quot; class=&quot;code-highlight-row numbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;In this example, &lt;code class=&quot;highlighter-rouge&quot;&gt;app.js&lt;/code&gt; could be a &lt;a href=&quot;https://facebook.github.io/react/&quot;&gt;React&lt;/a&gt; application that produces rest of the DOM elements when it is evaluated.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-about-interaction-with-the-web-server&quot;&gt;What about interaction with the web server?&lt;/h2&gt;
+
+&lt;p&gt;The sequence diagram below shows how and when the front end SPA interacts with the back end web server.&lt;/p&gt;
+
+&lt;p&gt;The UI server below has one and only one job: deliver the single page and all assets that the application needs when a browser requests them. Therefore, the UI server must be configured as follows:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Serve static assets. Handle any request for a static file, such as a JavaScript file, a CSS file, an image, or a font file, by loading it from the filesystem and returning it.&lt;/li&gt;
+  &lt;li&gt;Match all other routes. The UI server uses a “match all” strategy so that any received request that does not match a static asset will be handled by returning the single page of the application, usually called index.html. This is necessary because the user could force a page load while on a specific URL within the application, as shown in the diagram below.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;center&quot;&gt;
+  &lt;img src=&quot;/assets/images/spa-sequence-diagram.png&quot; alt=&quot;Single Page App Sequence Diagram&quot; /&gt;
+&lt;/div&gt;
+
+&lt;p&gt;It’s important to remember that while the SPA is primarily written in JavaScript, there is no requirement that necessitates a JavaScript-based UI server. Any web server that is able to handle the configurations described above will work fine, such as &lt;a href=&quot;https://access.redhat.com/solutions/67298&quot;&gt;Apache&lt;/a&gt;, &lt;a href=&quot;https://www.nginx.com/resources/admin-guide/serving-static-content/&quot;&gt;NGINX&lt;/a&gt;, or even &lt;a href=&quot;https://keita.blog/2015/11/24/hosting-a-single-page-app-on-s3-with-proper-urls/&quot;&gt;Amazon S3&lt;/a&gt;!&lt;/p&gt;
+</description>
+        <pubDate>Thu, 11 May 2017 13:30:08 -0400</pubDate>
+        <link>http://ryanogles.by/javascript/2017/05/11/conceptualizing-how-a-modern-single-page-app-is-served.html</link>
+        <guid isPermaLink="true">http://ryanogles.by/javascript/2017/05/11/conceptualizing-how-a-modern-single-page-app-is-served.html</guid>
+      </item>
+    
+      <item>
         <title>An Exploration of JavaScript Builders</title>
         <description>&lt;p&gt;Builders seems to be a popular topic for me, as I’ve &lt;a href=&quot;/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html&quot;&gt;blogged about the builder pattern before&lt;/a&gt;. This time, however, I look at builders through a JavaScript lens. In this post I’ll explore three techniques for modeling builders in JavaScript, specifically ES6, utilizing some of the interesting features of the modern language.&lt;/p&gt;
 
@@ -269,7 +323,7 @@
 
 &lt;p&gt;Overall, remember that JavaScript is a multi-paradigm language, capable of flexing to suit many needs. Enjoy!&lt;/p&gt;
 </description>
-        <pubDate>Fri, 03 Mar 2017 08:40:44 -0600</pubDate>
+        <pubDate>Fri, 03 Mar 2017 09:40:44 -0500</pubDate>
         <link>http://ryanogles.by/javascript/testing/2017/03/03/an-exploration-of-javascript-builders.html</link>
         <guid isPermaLink="true">http://ryanogles.by/javascript/testing/2017/03/03/an-exploration-of-javascript-builders.html</guid>
       </item>
@@ -307,7 +361,7 @@
 
 &lt;p&gt;Try to avoid using the term “magic” when talking about code. Remember, there is no magic. Just code.&lt;/p&gt;
 </description>
-        <pubDate>Sat, 19 Nov 2016 14:09:35 -0600</pubDate>
+        <pubDate>Sat, 19 Nov 2016 15:09:35 -0500</pubDate>
         <link>http://ryanogles.by/2016/11/19/its-not-magic-you-just-dont-understand-it-yet.html</link>
         <guid isPermaLink="true">http://ryanogles.by/2016/11/19/its-not-magic-you-just-dont-understand-it-yet.html</guid>
       </item>
@@ -444,7 +498,7 @@ to address this, with the simplest being to agree not to read from the &lt;code 
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;I think being able to injecting env properties at runtime is the way to go for large-scale production applications, as it gives you the most flexible options for local development and deployments. But, if you want a quick win for a side-project or small app, injecting at compile time is super easy. I probably wouldn’t use the server-side templating unless I was working on an application that was already doing that.&lt;/p&gt;
 </description>
-        <pubDate>Fri, 04 Nov 2016 16:44:20 -0500</pubDate>
+        <pubDate>Fri, 04 Nov 2016 17:44:20 -0400</pubDate>
         <link>http://ryanogles.by/javascript/2016/11/04/on-injecting-a-javascript-environment.html</link>
         <guid isPermaLink="true">http://ryanogles.by/javascript/2016/11/04/on-injecting-a-javascript-environment.html</guid>
       </item>
@@ -528,7 +582,7 @@ to address this, with the simplest being to agree not to read from the &lt;code 
   &lt;li&gt;&lt;a href=&quot;http://jamesknelson.com/why-you-shouldnt-style-with-javascript/&quot;&gt;http://jamesknelson.com/why-you-shouldnt-style-with-javascript/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-        <pubDate>Sat, 15 Oct 2016 16:28:00 -0500</pubDate>
+        <pubDate>Sat, 15 Oct 2016 17:28:00 -0400</pubDate>
         <link>http://ryanogles.by/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html</link>
         <guid isPermaLink="true">http://ryanogles.by/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html</guid>
       </item>
@@ -633,7 +687,7 @@ to address this, with the simplest being to agree not to read from the &lt;code 
 
 &lt;p&gt;Overall, this pattern has worked well for the team! Would love to hear your opinions and experiences with Docker in a build pipeline.&lt;/p&gt;
 </description>
-        <pubDate>Mon, 26 Sep 2016 09:55:17 -0500</pubDate>
+        <pubDate>Mon, 26 Sep 2016 10:55:17 -0400</pubDate>
         <link>http://ryanogles.by/docker/2016/09/26/homogeneous-pipelines-with-docker.html</link>
         <guid isPermaLink="true">http://ryanogles.by/docker/2016/09/26/homogeneous-pipelines-with-docker.html</guid>
       </item>
@@ -699,7 +753,7 @@ to address this, with the simplest being to agree not to read from the &lt;code 
 
 &lt;p&gt;Whew, that’s it! Thanks for making it this far. If you skipped Parts &lt;a href=&quot;/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html&quot;&gt;I&lt;/a&gt; or &lt;a href=&quot;/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html&quot;&gt;II&lt;/a&gt;, I’d recommend going back to see the entire journey. We teased out a nice pattern for managing test data using the Builder pattern + Object Mothers. In doing so, we improved the design of our production code by making &lt;code class=&quot;highlighter-rouge&quot;&gt;Address&lt;/code&gt; immutable and avoiding a sketchy constructor with a lot of parameters.&lt;/p&gt;
 </description>
-        <pubDate>Sun, 26 Jun 2016 21:28:58 -0500</pubDate>
+        <pubDate>Sun, 26 Jun 2016 22:28:58 -0400</pubDate>
         <link>http://ryanogles.by/java/testing/patterns/2016/06/26/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html</link>
         <guid isPermaLink="true">http://ryanogles.by/java/testing/patterns/2016/06/26/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html</guid>
       </item>
@@ -814,7 +868,7 @@ to address this, with the simplest being to agree not to read from the &lt;code 
 
 &lt;p&gt;Next up, &lt;a href=&quot;/java/testing/patterns/2016/06/26/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html&quot;&gt;Part III&lt;/a&gt; - where we truly divide the responsibilities for object construction into a Builder and a Factory, removing the arbitrary default values from the test itself.&lt;/p&gt;
 </description>
-        <pubDate>Sat, 25 Jun 2016 14:20:26 -0500</pubDate>
+        <pubDate>Sat, 25 Jun 2016 15:20:26 -0400</pubDate>
         <link>http://ryanogles.by/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html</link>
         <guid isPermaLink="true">http://ryanogles.by/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html</guid>
       </item>
@@ -988,7 +1042,7 @@ Because we were using the same &lt;code class=&quot;highlighter-rouge&quot;&gt;A
 
 &lt;p&gt;&lt;a href=&quot;/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html&quot;&gt;Part II&lt;/a&gt; will look at moving the Builder into a static inner class to fix the constructor with too many parameters issue.&lt;/p&gt;
 </description>
-        <pubDate>Thu, 23 Jun 2016 13:34:08 -0500</pubDate>
+        <pubDate>Thu, 23 Jun 2016 14:34:08 -0400</pubDate>
         <link>http://ryanogles.by/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html</link>
         <guid isPermaLink="true">http://ryanogles.by/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html</guid>
       </item>
@@ -1022,49 +1076,9 @@ Because we were using the same &lt;code class=&quot;highlighter-rouge&quot;&gt;A
   &lt;p&gt;You always need good design. If you find yourself with a pair of YAGNI blinders on, ignoring design and code quality for purely YAGNI arguments, take a step back and remember that YAGNI ain’t a design principle.&lt;/p&gt;
 &lt;/blockquote&gt;
 </description>
-        <pubDate>Fri, 12 Feb 2016 13:21:24 -0600</pubDate>
+        <pubDate>Fri, 12 Feb 2016 14:21:24 -0500</pubDate>
         <link>http://ryanogles.by/design/patterns/2016/02/12/yagni-aint-a-design-principle.html</link>
         <guid isPermaLink="true">http://ryanogles.by/design/patterns/2016/02/12/yagni-aint-a-design-principle.html</guid>
-      </item>
-    
-      <item>
-        <title>You're a Champion</title>
-        <description>&lt;p&gt;Recently, my team embarked on a strategy/experiment designed to distribute the effort of driving features from inception through completion more evenly across the team. We noticed that both myself (Tech Lead) and our BA were overloaded. Too many features. Too little time. What’s worse, our developers were feeling out of the loop most of the time. They wanted more insight into what goes on before a story gets to development and more say in the direction of the team.&lt;/p&gt;
-
-&lt;p&gt;Thus, Feature Champions were born.&lt;/p&gt;
-
-&lt;!-- more --&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;em&gt;A Feature Champion is the champion of a feature throughout its entire lifecycle, naturally becoming the knowledge expert in that feature.&lt;/em&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;A Champion can be anybody on the team, though we chose to limit our Champions to the developers and QAs. It may sound like a lot of pressure, but that’s why the word champion is important. &lt;strong&gt;Champion != owner&lt;/strong&gt;. Championing is &lt;strong&gt;not&lt;/strong&gt; meant to introduce silos of knowledge or eliminate roles. Championing does &lt;strong&gt;not&lt;/strong&gt; leave the champion alone to do the entire feature in isolation. Above all else, the Champion is a collaborative role that works closely with other team members and stakeholders.&lt;/p&gt;
-
-&lt;p&gt;So, what does a feature champion actually do?&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;engages with team/feature stakeholders to gather requirements and priority&lt;/li&gt;
-  &lt;li&gt;takes guidance from BAs/QAs to help with business and quality analysis&lt;/li&gt;
-  &lt;li&gt;works with the PM/IM to track the progress and scope of the feature&lt;/li&gt;
-  &lt;li&gt;participates in architecture and technical discussions with the tech lead or architects&lt;/li&gt;
-  &lt;li&gt;presents the feature to the team as the knowledge expert&lt;/li&gt;
-  &lt;li&gt;acts as a touch person for questions about the feature from other teams&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Notice the big thing that is not in this list: Does all the development on the feature themselves. No! You are a Feature Champion, not a Feature Owner. You guide the feature throughout its wonderful life, but rely heavily on support from the entire team along the way.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-road-ahead&quot;&gt;The Road Ahead&lt;/h2&gt;
-
-&lt;p&gt;Some developers have taken to this exceptionally well - researching, scheduling meetings with stakeholders, writing stories, and asking tons of questions. Others have struggled with the less structured role. Championing some features involves much more than coming into work and writing code all day. Learning new skills is always difficult. It has forced us to prioritize our work. Now, a dev might be wearing many hats throughout the day, coding on a story for awhile, then doing analysis for a feature for awhile.&lt;/p&gt;
-
-&lt;p&gt;To outsiders looking in, it may seem like the team’s velocity would take a hit. While we have not done this long enough to tell for sure, I don’t think this will happen in the long term. I see the team ending up with more shared knowledge about the product, and more understanding of other roles. So, when the BA or Tech Lead win the lottery, the rest of the team already has the experience to step up and fill that gap.&lt;/p&gt;
-
-&lt;p&gt;Finally, I see Feature Championing as being a great way to build up less experienced devs in a safe way. They are learning what goes into analyzing a feature and interacting with non-technical stakeholders. They are thinking at a higher level technically about architecture and system design.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 23 Jan 2016 14:04:06 -0600</pubDate>
-        <link>http://ryanogles.by/agile/teams/2016/01/23/youre-a-champion.html</link>
-        <guid isPermaLink="true">http://ryanogles.by/agile/teams/2016/01/23/youre-a-champion.html</guid>
       </item>
     
   </channel>
