@@ -23,7 +23,7 @@ What might this look like?
 This is the only HTML file for the entire application, and the only file returned to a client who requests the application. Both the `app.css` file and the `app.js` file contain all the necessary CSS and JavaScript that any part of the app needs.
 
 ```html index.html mark:6,11
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
 <head>
   <title>A single page app</title>
