@@ -126,6 +126,7 @@ DEPENDENCIES
   octopress-debugger (~> 1.0)
   octopress-gist (~> 1.3)
   octopress-image-tag (~> 1.1)
+  octopress-include-tag (~> 1.1)
   octopress-solarized (~> 1.1)
   pry (~> 0.10)
   rake (~> 11.2)

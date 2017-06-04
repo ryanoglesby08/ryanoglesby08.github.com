@@ -27,6 +27,7 @@ gems:
   - octopress-codefence
   - octopress-solarized
   - octopress-gist
+  - octopress-include-tag
   - jekyll-paginate
   - jekyll-sitemap
 # https://github.com/jekyll/jekyll/issues/2938
