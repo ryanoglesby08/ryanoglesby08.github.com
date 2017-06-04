@@ -17,7 +17,7 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/assets/css/styles.css?201705111544" type="text/css">
+    <link rel="stylesheet" href="/assets/css/styles.css?201706041347" type="text/css">
     <link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
 
     <!-- Fonts -->
@@ -123,6 +123,22 @@
     <div class="posts">
       
         <div class="post py3">
+          <p class="post-meta">Jun 25, 2016</p>
+          <a href="/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html" class="post-link"><h3 class="h1 post-title">How your 'Mother' can help you 'Build' cleaner unit tests - Part II</h3></a>
+          <p class="post-summary">
+            
+              <p>In <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">Part I</a>, we created a separate Builder class in an attempt to move away from a constructor with too many parameters. In the process, the separate Builder ended up taking on the additional responsibility of supplying default values, blurring the line between a Builder and Factory.</p>
+
+<p>Though a step in the right direction, it didn’t actually fix any of the <code class="highlighter-rouge">Address</code> constructor’s original problems, unfortunately. Oops. Other classes can still call it directly, meaning all of the risks of having a method with multiple parameters of the same type are still there, and we have another class in our system to maintain.</p>
+
+<p>What we need is a strictly controlled way of creating <code class="highlighter-rouge">Address</code> objects that can be accessed by test code <em>and</em> prod code that is decoupled from the current constructor and it’s baggage.</p>
+
+
+            
+          </p>
+        </div>
+      
+        <div class="post py3">
           <p class="post-meta">Jun 23, 2016</p>
           <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html" class="post-link"><h3 class="h1 post-title">How your 'Mother' can help you 'Build' cleaner unit tests - Part I</h3></a>
           <p class="post-summary">
@@ -158,20 +174,6 @@
               <p>Recently, my team embarked on a strategy/experiment designed to distribute the effort of driving features from inception through completion more evenly across the team. We noticed that both myself (Tech Lead) and our BA were overloaded. Too many features. Too little time. What’s worse, our developers were feeling out of the loop most of the time. They wanted more insight into what goes on before a story gets to development and more say in the direction of the team.</p>
 
 <p>Thus, Feature Champions were born.</p>
-
-
-            
-          </p>
-        </div>
-      
-        <div class="post py3">
-          <p class="post-meta">Aug 15, 2015</p>
-          <a href="/databases/2015/08/15/database-migrations-best-practices.html" class="post-link"><h3 class="h1 post-title">Database Migrations Best Practices</h3></a>
-          <p class="post-summary">
-            
-              <p>Only once have I worked on a project that did not interact directly with a relational database. (Awww, those were the days) In every other case, I used database migrations to apply small changes to a database over time. Using migrations provides an incremental path towards building the current state of a database. In my opinion it’s the only way to do it.</p>
-
-<p>Database migrations are nothing new, and over the years I have come to follow a few best practices:</p>
 
 
             

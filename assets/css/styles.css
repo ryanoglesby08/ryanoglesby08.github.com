@@ -1248,3 +1248,11 @@ table {
   width: 30%; }
 .blog-table.even td {
   width: 50%; }
+
+.image {
+  margin: 0;
+  padding: 0; }
+
+.image-source {
+  line-height: 1;
+  font-style: italic; }

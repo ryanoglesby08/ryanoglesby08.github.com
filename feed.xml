@@ -7,6 +7,191 @@
     <atom:link href="http://ryanogles.by/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>The State of CSS</title>
+        <description>&lt;p&gt;It’s no secret that we are currently experiencing a Cambrian explosion of innovation by the JavaScript community. But what you may not be aware of are the equally evolutionary innovations under development by the CSS community.&lt;/p&gt;
+
+&lt;p&gt;CSS has quietly been improving by leaps and bounds lately. So much so, that you may not even recognize it much anymore. While you weren’t looking, the CSS community has developed real solutions to many of the oddities, hacks, and deficiencies that made CSS the black sheep of the front end family in the past.&lt;/p&gt;
+
+&lt;p&gt;In this post I’ll reveal 5 old-fashioned CSS things that you don’t need to do anymore, and what you should do instead.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;You don’t need a naming convention.&lt;/li&gt;
+  &lt;li&gt;You don’t need float.&lt;/li&gt;
+  &lt;li&gt;You don’t need a grid framework.&lt;/li&gt;
+  &lt;li&gt;You don’t need a preprocessor.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;You don’t need CSS.&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!-- more --&gt;
+
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;you-dont-need-naming-conventions&quot;&gt;You don’t need naming conventions.&lt;/h2&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;And we begin with the number one problem with CSS, especially at scale: everything is global.&lt;/p&gt;
+
+&lt;div class=&quot;center&quot;&gt;
+  &lt;p&gt;
+  &lt;figure class=&quot;image&quot;&gt;
+    &lt;img src=&quot;/assets/images/global-css.png&quot; style=&quot;max-width: 650px;&quot; alt=&quot;Problems with CSS at scale&quot; /&gt;
+    &lt;figcaption class=&quot;image-source&quot;&gt;
+      &lt;small&gt;(source: &lt;a href=&quot;http://speakerdeck.com/vjeux/react-css-in-js&quot;&gt;http://speakerdeck.com/vjeux/react-css-in-js&lt;/a&gt;)&lt;/small&gt;
+    &lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Because all selectors exist in the same global namespace, over time it becomes very likely that you’ll run into unexpected side effects such as selectors targeting elements that you didn’t intend, or selectors being overridden by other selectors. So, we have side-stepped these issues with methodologies (&lt;a href=&quot;http://oocss.org/&quot;&gt;OOCSS&lt;/a&gt;, &lt;a href=&quot;https://smacss.com/&quot;&gt;SMACSS&lt;/a&gt;, or the more popular &lt;a href=&quot;http://getbem.com/&quot;&gt;BEM&lt;/a&gt;) that define naming conventions to help us avoid class name collisions.&lt;/p&gt;
+
+&lt;p&gt;While we can’t discount the importance of these methodologies, they are merely a workaround. They don’t actually solve the problems. We needed something more. And then &lt;a href=&quot;https://medium.com/seek-blog/the-end-of-global-css-90d2a4a06284&quot;&gt;this&lt;/a&gt; happened.&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;figure class=&quot;image&quot;&gt;
+    &lt;img src=&quot;/assets/images/end-of-global-css.png&quot; style=&quot;max-width: ;&quot; alt=&quot;The End of Global CSS&quot; /&gt;
+    &lt;figcaption class=&quot;image-source&quot;&gt;
+      &lt;small&gt;(source: &lt;a href=&quot;http://medium.com/seek-blog/the-end-of-global-css-90d2a4a06284&quot;&gt;http://medium.com/seek-blog/the-end-of-global-css-90d2a4a06284&lt;/a&gt;)&lt;/small&gt;
+    &lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://twitter.com/markdalgleish&quot;&gt;Mark Dalgleish&lt;/a&gt; and others have since pioneered the concept of &lt;strong&gt;locally scoped CSS&lt;/strong&gt;, which led to the development of &lt;a href=&quot;https://github.com/css-modules/css-modules&quot;&gt;CSS Modules&lt;/a&gt;, and which has now been incorporated into modern tooling, most notably webpack’s &lt;a href=&quot;https://github.com/webpack-contrib/css-loader#modules&quot;&gt;css-loader&lt;/a&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;code-highlight-figure&quot;&gt;&lt;figcaption class=&quot;code-highlight-caption&quot;&gt;&lt;span class=&quot;code-highlight-caption-title&quot;&gt;webpack.config.js&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;code-highlight&quot;&gt;&lt;pre class=&quot;code-highlight-pre&quot;&gt;&lt;div data-line=&quot;1&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;2&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;  &lt;span class=&quot;nl&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\.&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;css$/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;3&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;  &lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;4&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;5&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;      &lt;span class=&quot;na&quot;&gt;loader&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'css-loader'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;6&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;      &lt;span class=&quot;na&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;7&quot; class=&quot;code-highlight-row unnumbered marked-line start-marked-line&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;        &lt;span class=&quot;na&quot;&gt;modules&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;8&quot; class=&quot;code-highlight-row unnumbered marked-line end-marked-line&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;        &lt;span class=&quot;na&quot;&gt;localIdentName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'[path][name]__[local]--[hash:base64:5]'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;9&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;      &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;10&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;11&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;  &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;12&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;This is huge. When using CSS Modules, name your classes however you like. &lt;strong&gt;At build time, all local selectors are replaced by unique identifiers, completely removing the need for a global naming convention.&lt;/strong&gt; Check out the docs above for CSS Modules for a deeper dive.&lt;/p&gt;
+
+&lt;p&gt;While this technology was born from component-oriented front-end development (think &lt;a href=&quot;http://www.reactjs.com&quot;&gt;React&lt;/a&gt;), you can also get support for CSS Modules &lt;a href=&quot;https://github.com/css-modules/postcss-modules&quot;&gt;everywhere&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;you-dont-need-float&quot;&gt;You don’t need float.&lt;/h2&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://css-tricks.com/all-about-floats/&quot;&gt;Float&lt;/a&gt; has managed to become both the positioning property of choice and the bane of many a developer’s existence by weaseling its way into everything from &lt;a href=&quot;http://getbootstrap.com/css/#helper-classes-floats&quot;&gt;helper classes&lt;/a&gt; to &lt;a href=&quot;https://unsemantic.com/demo-responsive&quot;&gt;entire grid systems&lt;/a&gt;. While occasionally using float to push an element left or right doesn’t get you into too much trouble, pervasive use of it for full page layouts leads to odd behavior that is a pain to figure out and fix, often requiring hacks. Pretty soon you find yourself copying the admittedly elegant, yet unintuitive &lt;a href=&quot;https://css-tricks.com/snippets/css/clear-fix/&quot;&gt;“clearfix”&lt;/a&gt; onto every element and hoping for the best.&lt;/p&gt;
+
+&lt;p&gt;Thankfully, CSS3 introduced a new layout module called flexible boxes, or &lt;a href=&quot;https://www.w3schools.com/css/css3_flexbox.asp&quot;&gt;Flexbox&lt;/a&gt; for short. Flexbox is a mostly 1-dimensional layout system that ensures elements behave predictably on various screen sizes and devices. It also solves the common, yet previously frustrating task of vertical and horizontal centering. &lt;strong&gt;When you switch to Flexbox, you no longer have any use for float.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p data-height=&quot;320&quot; data-theme-id=&quot;0&quot; data-slug-hash=&quot;GmbYjd&quot; data-default-tab=&quot;result&quot; data-user=&quot;ryanoglesby08&quot; data-embed-version=&quot;2&quot; data-pen-title=&quot;GmbYjd&quot; class=&quot;codepen&quot;&gt;See the Pen &lt;a href=&quot;https://codepen.io/ryanoglesby08/pen/GmbYjd/&quot;&gt;GmbYjd&lt;/a&gt; by Ryan Oglesby (&lt;a href=&quot;https://codepen.io/ryanoglesby08&quot;&gt;@ryanoglesby08&lt;/a&gt;) on &lt;a href=&quot;https://codepen.io&quot;&gt;CodePen&lt;/a&gt;.&lt;/p&gt;
+&lt;script async=&quot;&quot; src=&quot;https://production-assets.codepen.io/assets/embed/ei.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;While Flexbox is &lt;a href=&quot;http://caniuse.com/#feat=flexbox&quot;&gt;fully supported by all modern browsers&lt;/a&gt;, you will run into issues on older ones. So, if you have to support IE &amp;lt; 10 you will likely still need to fall back to floats, tables, or some other layout method.&lt;/p&gt;
+
+&lt;p&gt;Some browsers also need vendor prefixes, so I recommend using &lt;a href=&quot;https://github.com/postcss/autoprefixer&quot;&gt;Autoprefixer&lt;/a&gt; to get the most coverage.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;you-dont-need-a-grid-framework&quot;&gt;You don’t need a grid framework.&lt;/h2&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Everyone uses a grid. It’s a crucial part of every CSS codebase, letting you build complex full-page layouts by aligning elements along rows and columns. While rolling your own simple grid using traditional techniques is &lt;a href=&quot;https://css-tricks.com/dont-overthink-it-grids/&quot;&gt;fairly straightforward&lt;/a&gt;, no one does it. Instead, we reach for one of the many grid frameworks, such as the original &lt;a href=&quot;https://960.gs/&quot;&gt;960gs&lt;/a&gt; or the Sass-based &lt;a href=&quot;http://neat.bourbon.io/&quot;&gt;Bourbon Neat&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Finally, as of March 2017, most browsers added support for the &lt;a href=&quot;https://css-tricks.com/snippets/css/complete-guide-grid/&quot;&gt;CSS Grid Layout&lt;/a&gt;, a 2-dimensional layout system built directly into CSS. Since most traditional grid frameworks still rely on float, CSS Grid is an attractive alternative. CSS Grid makes it easy to define your own grid without the help of a framework by providing an intuitive interface for defining the number and sizes of rows and columns, the gutter spacing, alignment of elements within the grid, named areas, and more.&lt;/p&gt;
+
+&lt;p data-height=&quot;253&quot; data-theme-id=&quot;0&quot; data-slug-hash=&quot;pwzNdB&quot; data-default-tab=&quot;css&quot; data-user=&quot;ryanoglesby08&quot; data-embed-version=&quot;2&quot; data-pen-title=&quot;pwzNdB&quot; class=&quot;codepen&quot;&gt;See the Pen &lt;a href=&quot;https://codepen.io/ryanoglesby08/pen/pwzNdB/&quot;&gt;pwzNdB&lt;/a&gt; by Ryan Oglesby (&lt;a href=&quot;https://codepen.io/ryanoglesby08&quot;&gt;@ryanoglesby08&lt;/a&gt;) on &lt;a href=&quot;https://codepen.io&quot;&gt;CodePen&lt;/a&gt;.&lt;/p&gt;
+&lt;script async=&quot;&quot; src=&quot;https://production-assets.codepen.io/assets/embed/ei.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://caniuse.com/#feat=css-grid&quot;&gt;At the time of writing this article&lt;/a&gt;, CSS Grid is supported by all modern browsers, with partial support on IE if you use vendor prefixes (use &lt;a href=&quot;https://github.com/postcss/autoprefixer&quot;&gt;Autoprefixer&lt;/a&gt;).&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;you-dont-need-a-preprocessor&quot;&gt;You don’t need a preprocessor.&lt;/h2&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Undeniably, CSS language extensions such as &lt;a href=&quot;http://sass-lang.com/&quot;&gt;Sass&lt;/a&gt; and &lt;a href=&quot;http://lesscss.org/&quot;&gt;Less&lt;/a&gt; brought game-changing features to CSS, including data reuse with variables, better organization with nesting, and property reuse with mixins. But, these languages didn’t change anything about the core language of CSS; they added a layer of abstraction on top of it. In the case of Sass, you also need an &lt;a href=&quot;http://sass-lang.com/libsass&quot;&gt;additional binary&lt;/a&gt; to compile the Sass files into CSS. When using one of these preprocessors, you now have to learn CSS &lt;em&gt;and&lt;/em&gt; the preprocessor specific syntax.&lt;/p&gt;
+
+&lt;p&gt;But, while most developers were blissfully coupling to their preprocessors, CSS was quietly progressing. Modern browsers now have native support for &lt;a href=&quot;https://www.w3.org/TR/css-variables/&quot;&gt;CSS variables&lt;/a&gt; and &lt;a href=&quot;https://www.w3.org/TR/css3-values/#calc&quot;&gt;calc()&lt;/a&gt;. Other features such as &lt;a href=&quot;https://drafts.csswg.org/css-color/#modifying-colors&quot;&gt;color modifications&lt;/a&gt;, and &lt;a href=&quot;http://tabatkins.github.io/specs/css-apply-rule/&quot;&gt;mixins&lt;/a&gt; are not far behind.&lt;/p&gt;
+
+&lt;figure class=&quot;code-highlight-figure&quot;&gt;&lt;div class=&quot;code-highlight&quot;&gt;&lt;pre class=&quot;code-highlight-pre&quot;&gt;&lt;div data-line=&quot;1&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;&lt;span class=&quot;nd&quot;&gt;:root&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;2&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;  &lt;span class=&quot;py&quot;&gt;--spacing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1.5em&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;declaring&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;variable&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;3&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;  &lt;span class=&quot;py&quot;&gt;--base-colors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;&amp;#x7b;&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;declaring&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mixin&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;4&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;    &lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#fff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;5&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;    &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;#fff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;80%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;modifying&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;color&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;6&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;  &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;7&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;&lt;span class=&quot;err&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;8&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;9&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;&lt;span class=&quot;nc&quot;&gt;.some-class&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;10&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;  &lt;span class=&quot;nl&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;--spacing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;11&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;  &lt;span class=&quot;nl&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;calc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;100%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;--spacing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;dynamically&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;calculating&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;value&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;12&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;  &lt;span class=&quot;err&quot;&gt;@apply&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;--base-colors;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&quot;13&quot; class=&quot;code-highlight-row unnumbered&quot;&gt;&lt;div class=&quot;code-highlight-line&quot;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;Fortunately for CSS, the JavaScript community has already had the problem of browsers not supporting new features fast enough, which led to &lt;a href=&quot;https://babeljs.io/&quot;&gt;Babel&lt;/a&gt;, giving JavaScript developers everywhere access to “next generation JavaScript, today.” Similarly, &lt;a href=&quot;http://postcss.org/&quot;&gt;PostCSS&lt;/a&gt; is a “tool for transforming CSS with JavaScript”, which gets its power from the extensive list of community maintained &lt;a href=&quot;https://github.com/postcss/postcss/blob/master/docs/plugins.md&quot;&gt;plugins&lt;/a&gt;. CSS developers can even “use tomorrow’s CSS syntax, today” with the &lt;a href=&quot;http://cssnext.io/&quot;&gt;cssnext&lt;/a&gt; PostCSS plugin.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Writing plain CSS and transforming it with PostCSS plugins produces more future-proof CSS with less cognitive and technical overhead than old preprocessors.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;you-dont-need-css&quot;&gt;You don’t need CSS.&lt;/h2&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Ok, so that’s not entirely true. While CSS remains the only document styling language that browsers understand, &lt;strong&gt;you can style web applications without ever writing a single .css file&lt;/strong&gt;. With the help of UI libraries such as React or Vue.js, modern web application architecture has embraced loosely coupled, highly cohesive components that often co-locate HTML, CSS, and JavaScript in the same file. Interestingly, this idea is in direct contradiction to previously held best practices around separation of these concerns. (&lt;a href=&quot;https://www.youtube.com/watch?v=x7cQ3mrcKaY&quot;&gt;This conference talk&lt;/a&gt;, called “Rethinking best practices” gives a great explanation.)&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;figure class=&quot;image&quot;&gt;
+    &lt;img src=&quot;/assets/images/separation-of-concerns.png&quot; style=&quot;max-width: ;&quot; alt=&quot;Separation of Concerns&quot; /&gt;
+    &lt;figcaption class=&quot;image-source&quot;&gt;
+      &lt;small&gt;(source: &lt;a href=&quot;http://speakerdeck.com/didoo/let-there-be-peace-on-css&quot;&gt;http://speakerdeck.com/didoo/let-there-be-peace-on-css&lt;/a&gt;)&lt;/small&gt;
+    &lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;p&gt;From a CSS perspective, this rethinking has even been given a catchy name: &lt;a href=&quot;https://speakerdeck.com/vjeux/react-css-in-js&quot;&gt;CSS-in-JS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;At first, CSS-in-JS libraries used the HTML “style” attribute to attach styles onto elements, a flawed approach because the “style” attribute can’t do everything CSS can do. Now, most libraries generate real style sheets with the full power of CSS, eschewing use of the “style” attribute for the most part.&lt;/p&gt;
+
+&lt;p&gt;Writing CSS using JavaScript addresses most of the other points I’ve brought up in this article. Most new libraries scope styles automatically, make reuse of classes easy and efficient, identify and inline critical-path CSS for faster initial load times, and enable real modular sharing of open-source CSS packages. &lt;a href=&quot;https://medium.com/seek-blog/a-unified-styling-language-d0c208de2660&quot;&gt;This must-read article&lt;/a&gt; outlines the architectural benefits for CSS-in-JS and is the best I’ve read so far.&lt;/p&gt;
+
+&lt;p&gt;As this space is new and exciting, there has been an &lt;a href=&quot;https://github.com/MicheleBertoli/css-in-js&quot;&gt;explosion of libraries&lt;/a&gt; (this list is even slightly old now). This is a good thing. It will take some time to settle down as the community discovers best practices, such as avoidance of the “style” attribute, proper support for media queries, and the ability to use proper CSS syntax instead of a JavaScript object.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://cssinjs.org/&quot;&gt;JSS&lt;/a&gt; is a very popular choice, with an active community and a stable interface; but I’m especially excited about the direction of &lt;a href=&quot;https://www.styled-components.com/&quot;&gt;styled-components&lt;/a&gt;, which cleverly attaches CSS to components via &lt;a href=&quot;https://www.styled-components.com/docs/advanced#tagged-template-literals&quot;&gt;tagged template literals&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;figure class=&quot;image&quot;&gt;
+    &lt;img src=&quot;/assets/images/styled-components.png&quot; style=&quot;max-width: ;&quot; alt=&quot;Styled Components Example&quot; /&gt;
+    &lt;figcaption class=&quot;image-source&quot;&gt;
+      &lt;small&gt;(source: &lt;a href=&quot;http://www.styled-components.com/&quot;&gt;http://www.styled-components.com/&lt;/a&gt;)&lt;/small&gt;
+    &lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;css-is-dead-long-live-css&quot;&gt;CSS is dead. Long Live CSS.&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;You don’t need naming conventions because &lt;em&gt;locally-scoped styles by default are now baked-in to libraries&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;You don’t need float because &lt;em&gt;Flexbox is more powerful and less hacky&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;You don’t need a grid framework because &lt;em&gt;there’s one built into CSS&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;You don’t need a preprocessor because &lt;em&gt;CSS has more advanced features now&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;You don’t need CSS because &lt;em&gt;writing styles in JavaScript enables more architectural and community benefits&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I’m excited about the large-scale adoption of modern JavaScript techniques and UI libraries, especially React. But, I’m frustrated at the same time because those same codebases continue using dated, flawed CSS techniques and technologies instead of embracing modernity. It’s time we recognize the importance of these new developments in the CSS community and find a way out of our old, comfortable habits.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 25 May 2017 15:34:35 -0500</pubDate>
+        <link>http://ryanogles.by/css/javascript/2017/05/25/the-state-of-css.html</link>
+        <guid isPermaLink="true">http://ryanogles.by/css/javascript/2017/05/25/the-state-of-css.html</guid>
+      </item>
+    
+      <item>
         <title>Conceptualizing How a Modern Single Page App is Served</title>
         <description>&lt;p&gt;I’ve noticed some confusion in how Single Page Applications are served among developers who are new to these apps. This post is a short explanation of how a Single Page Application gets from the web server to a user’s web browser.&lt;/p&gt;
 
@@ -55,7 +240,7 @@
 
 &lt;p&gt;It’s important to remember that while the SPA is primarily written in JavaScript, there is no requirement that necessitates a JavaScript-based UI server. Any web server that is able to handle the configurations described above will work fine, such as &lt;a href=&quot;https://access.redhat.com/solutions/67298&quot;&gt;Apache&lt;/a&gt;, &lt;a href=&quot;https://www.nginx.com/resources/admin-guide/serving-static-content/&quot;&gt;NGINX&lt;/a&gt;, or even &lt;a href=&quot;https://keita.blog/2015/11/24/hosting-a-single-page-app-on-s3-with-proper-urls/&quot;&gt;Amazon S3&lt;/a&gt;!&lt;/p&gt;
 </description>
-        <pubDate>Thu, 11 May 2017 13:30:08 -0400</pubDate>
+        <pubDate>Thu, 11 May 2017 12:30:08 -0500</pubDate>
         <link>http://ryanogles.by/javascript/2017/05/11/conceptualizing-how-a-modern-single-page-app-is-served.html</link>
         <guid isPermaLink="true">http://ryanogles.by/javascript/2017/05/11/conceptualizing-how-a-modern-single-page-app-is-served.html</guid>
       </item>
@@ -323,7 +508,7 @@
 
 &lt;p&gt;Overall, remember that JavaScript is a multi-paradigm language, capable of flexing to suit many needs. Enjoy!&lt;/p&gt;
 </description>
-        <pubDate>Fri, 03 Mar 2017 09:40:44 -0500</pubDate>
+        <pubDate>Fri, 03 Mar 2017 08:40:44 -0600</pubDate>
         <link>http://ryanogles.by/javascript/testing/2017/03/03/an-exploration-of-javascript-builders.html</link>
         <guid isPermaLink="true">http://ryanogles.by/javascript/testing/2017/03/03/an-exploration-of-javascript-builders.html</guid>
       </item>
@@ -361,7 +546,7 @@
 
 &lt;p&gt;Try to avoid using the term “magic” when talking about code. Remember, there is no magic. Just code.&lt;/p&gt;
 </description>
-        <pubDate>Sat, 19 Nov 2016 15:09:35 -0500</pubDate>
+        <pubDate>Sat, 19 Nov 2016 14:09:35 -0600</pubDate>
         <link>http://ryanogles.by/2016/11/19/its-not-magic-you-just-dont-understand-it-yet.html</link>
         <guid isPermaLink="true">http://ryanogles.by/2016/11/19/its-not-magic-you-just-dont-understand-it-yet.html</guid>
       </item>
@@ -498,7 +683,7 @@ to address this, with the simplest being to agree not to read from the &lt;code 
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;I think being able to injecting env properties at runtime is the way to go for large-scale production applications, as it gives you the most flexible options for local development and deployments. But, if you want a quick win for a side-project or small app, injecting at compile time is super easy. I probably wouldn’t use the server-side templating unless I was working on an application that was already doing that.&lt;/p&gt;
 </description>
-        <pubDate>Fri, 04 Nov 2016 17:44:20 -0400</pubDate>
+        <pubDate>Fri, 04 Nov 2016 16:44:20 -0500</pubDate>
         <link>http://ryanogles.by/javascript/2016/11/04/on-injecting-a-javascript-environment.html</link>
         <guid isPermaLink="true">http://ryanogles.by/javascript/2016/11/04/on-injecting-a-javascript-environment.html</guid>
       </item>
@@ -582,7 +767,7 @@ to address this, with the simplest being to agree not to read from the &lt;code 
   &lt;li&gt;&lt;a href=&quot;http://jamesknelson.com/why-you-shouldnt-style-with-javascript/&quot;&gt;http://jamesknelson.com/why-you-shouldnt-style-with-javascript/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-        <pubDate>Sat, 15 Oct 2016 17:28:00 -0400</pubDate>
+        <pubDate>Sat, 15 Oct 2016 16:28:00 -0500</pubDate>
         <link>http://ryanogles.by/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html</link>
         <guid isPermaLink="true">http://ryanogles.by/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html</guid>
       </item>
@@ -687,7 +872,7 @@ to address this, with the simplest being to agree not to read from the &lt;code 
 
 &lt;p&gt;Overall, this pattern has worked well for the team! Would love to hear your opinions and experiences with Docker in a build pipeline.&lt;/p&gt;
 </description>
-        <pubDate>Mon, 26 Sep 2016 10:55:17 -0400</pubDate>
+        <pubDate>Mon, 26 Sep 2016 09:55:17 -0500</pubDate>
         <link>http://ryanogles.by/docker/2016/09/26/homogeneous-pipelines-with-docker.html</link>
         <guid isPermaLink="true">http://ryanogles.by/docker/2016/09/26/homogeneous-pipelines-with-docker.html</guid>
       </item>
@@ -753,7 +938,7 @@ to address this, with the simplest being to agree not to read from the &lt;code 
 
 &lt;p&gt;Whew, that’s it! Thanks for making it this far. If you skipped Parts &lt;a href=&quot;/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html&quot;&gt;I&lt;/a&gt; or &lt;a href=&quot;/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html&quot;&gt;II&lt;/a&gt;, I’d recommend going back to see the entire journey. We teased out a nice pattern for managing test data using the Builder pattern + Object Mothers. In doing so, we improved the design of our production code by making &lt;code class=&quot;highlighter-rouge&quot;&gt;Address&lt;/code&gt; immutable and avoiding a sketchy constructor with a lot of parameters.&lt;/p&gt;
 </description>
-        <pubDate>Sun, 26 Jun 2016 22:28:58 -0400</pubDate>
+        <pubDate>Sun, 26 Jun 2016 21:28:58 -0500</pubDate>
         <link>http://ryanogles.by/java/testing/patterns/2016/06/26/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html</link>
         <guid isPermaLink="true">http://ryanogles.by/java/testing/patterns/2016/06/26/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html</guid>
       </item>
@@ -868,7 +1053,7 @@ to address this, with the simplest being to agree not to read from the &lt;code 
 
 &lt;p&gt;Next up, &lt;a href=&quot;/java/testing/patterns/2016/06/26/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html&quot;&gt;Part III&lt;/a&gt; - where we truly divide the responsibilities for object construction into a Builder and a Factory, removing the arbitrary default values from the test itself.&lt;/p&gt;
 </description>
-        <pubDate>Sat, 25 Jun 2016 15:20:26 -0400</pubDate>
+        <pubDate>Sat, 25 Jun 2016 14:20:26 -0500</pubDate>
         <link>http://ryanogles.by/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html</link>
         <guid isPermaLink="true">http://ryanogles.by/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html</guid>
       </item>
@@ -1042,43 +1227,9 @@ Because we were using the same &lt;code class=&quot;highlighter-rouge&quot;&gt;A
 
 &lt;p&gt;&lt;a href=&quot;/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html&quot;&gt;Part II&lt;/a&gt; will look at moving the Builder into a static inner class to fix the constructor with too many parameters issue.&lt;/p&gt;
 </description>
-        <pubDate>Thu, 23 Jun 2016 14:34:08 -0400</pubDate>
+        <pubDate>Thu, 23 Jun 2016 13:34:08 -0500</pubDate>
         <link>http://ryanogles.by/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html</link>
         <guid isPermaLink="true">http://ryanogles.by/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html</guid>
-      </item>
-    
-      <item>
-        <title>YAGNI a'int a Design Principle</title>
-        <description>&lt;p&gt;&lt;a href=&quot;http://c2.com/cgi/wiki?YouArentGonnaNeedIt&quot;&gt;You Ain’t Gonna Need It&lt;/a&gt; is an XP practice that encourages developers to focus on the requirements at hand right now. It warns against the tendency to over-engineer by developing features based on what you &lt;strong&gt;think&lt;/strong&gt; you will need later. Easy in theory. Hard in practice.&lt;/p&gt;
-
-&lt;h2 id=&quot;yagni-blinders&quot;&gt;YAGNI Blinders&lt;/h2&gt;
-
-&lt;p&gt;I’ve noticed that developers, especially those just starting out, tend to apply YAGNI narrow-sightedly. I often see it being strictly adhered to at face-value only, by developers always choosing to do what seems to be the most obvious and straightforward thing at the time, without putting any thought into the design implications of their choices. When suggesting other options that seem to be less simple on the surface, they YAGNI argument gets used. “Oh, that’s YAGNI.”&lt;/p&gt;
-
-&lt;!-- more --&gt;
-
-&lt;p&gt;YAGNI encourages simplicity. But many developers read simple as easy, which can lead to design problems with their code that easily have been avoided. An easy solution doesn’t require any thought or skill. A simple solution involves elegance, is purposeful, and is built with extensibility and evolvability in mind.
-&lt;em&gt;(Rich Hickey, the creator of Clojure, gave a wonderful talk along these same lines in 2011. &lt;a href=&quot;http://www.infoq.com/presentations/Simple-Made-Easy&quot;&gt;Simple Made Easy&lt;/a&gt;)&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;As an example of YAGNI Blinders, take internationalization (i18n) of a web-app. Usually, the first requirement is to support only a single language, with support for other languages pretty far down the line. A classic YAGNI solution here: hard coding everything in the HTML files. Done. (I’ll come back to this soon….)&lt;/p&gt;
-
-&lt;h2 id=&quot;see-the-light&quot;&gt;See the Light!&lt;/h2&gt;
-
-&lt;p&gt;The YAGNI argument breaks down because it does not take critical design characteristics such as readability, flexibility, and loose coupling into account. A purely YAGNI-based solution does not necessarily imply those things. By sticking to a YAGNI-only solution, you make it harder to quickly move forward later, because extensive refactoring or rewriting would be needed first. By considering simplicity along with many other design principles, you will end up with better factored code.&lt;/p&gt;
-
-&lt;p&gt;The most obvious choice is not always the right one. YAGNI does not mean to plow headfirst into the first solution you think of. Good design trumps. But figuring out how to satisfy the requirements at hand, while building a simple, flexible solution without gold-plating, over-engineering, or solving for unknown future requirements is hard! Good. Glad our job isn’t boring. :)&lt;/p&gt;
-
-&lt;p&gt;Back to i18n, instead of hard coding all the strings in the HTML, we can introduce a simple lookup mechanism. We store all our strings in a JSON file, and create a simple module that loads that file into a map structure, so that strings can be looked up by a key.&lt;/p&gt;
-
-&lt;p&gt;Yes, this is not the absolute easiest solution. However, it is simple, and a better design. We have better separation of concerns. We have pushed configuration (the strings) out of code, allowing them to change independently as they may change at a different rate than the application code. We could extend the lookup mechanism without changing the strings or keys. Event If we never get a requirement to add another language, this is still a better design, and we did not have to build a complex architecture involving locales, multiple languages, unicode character support, or any of the other myriad of problems that come with i18n. Not easy, but simple.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;You always need good design. If you find yourself with a pair of YAGNI blinders on, ignoring design and code quality for purely YAGNI arguments, take a step back and remember that YAGNI ain’t a design principle.&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
-        <pubDate>Fri, 12 Feb 2016 14:21:24 -0500</pubDate>
-        <link>http://ryanogles.by/design/patterns/2016/02/12/yagni-aint-a-design-principle.html</link>
-        <guid isPermaLink="true">http://ryanogles.by/design/patterns/2016/02/12/yagni-aint-a-design-principle.html</guid>
       </item>
     
   </channel>

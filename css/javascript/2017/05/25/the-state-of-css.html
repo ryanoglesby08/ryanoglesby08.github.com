@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>The State of CSS &#8211; Ryan Oglesby</title>
+    <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com">
+    <link rel="dns-prefetch" href="//cdn.mathjax.org">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="My thoughts and experiences as I navigate the world of Agile software development.">
+    <meta name="robots" content="all">
+    <meta name="author" content="Ryan Oglesby">
+    
+    <meta name="keywords" content="css, javascript">
+    <link rel="canonical" href="http://ryanogles.by/css/javascript/2017/05/25/the-state-of-css.html">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/assets/css/styles.css?201706041347" type="text/css">
+    <link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
+
+    <!-- Fonts -->
+    
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:900,900italic,300,300italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lato:900,300' rel='stylesheet' type='text/css'>
+    
+    
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    
+
+    <!-- MathJax -->
+    
+
+    <!-- Verifications -->
+    
+    
+
+    <!-- Open Graph -->
+    <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="The State of CSS">
+    <meta property="og:description" content="My thoughts and experiences as I navigate the world of Agile software development.">
+    <meta property="og:url" content="http://ryanogles.by/css/javascript/2017/05/25/the-state-of-css.html">
+    <meta property="og:site_name" content="Ryan Oglesby">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    
+        <meta name="twitter:site" content="@ryanoglesby08" />
+    
+    <meta name="twitter:title" content="The State of CSS" />
+    <meta name="twitter:description" content="My thoughts and experiences as I navigate the world of Agile software development." />
+    <meta name="twitter:url" content="http://ryanogles.by/css/javascript/2017/05/25/the-state-of-css.html" />
+
+    
+    <script type="text/javascript">
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+       ga('create', 'UA-51481422-1', 'auto');
+       ga('send', 'pageview');
+    </script>
+    
+</head>
+<body class="site">
+  
+	
+
+  <div class="site-wrap">
+    <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="http://ryanogles.by" class="site-title">Ryan Oglesby</a>
+      <nav class="site-nav">
+        <a href="/about.html">Me</a>
+<a href="/oss.html">OSS</a>
+<a href="/featured.html">Featured</a>
+      </nav>
+      <div class="clearfix"></div>
+      
+        <div class="social-icons">
+  <div class="social-icons-right">
+    
+      <a class="fa fa-github" href="https://github.com/ryanoglesby08"></a>
+    
+    
+    
+    <a class="fa fa-rss" href="/feed.xml"></a>
+    
+      <a class="fa fa-twitter" href="https://twitter.com/ryanoglesby08"></a>
+    
+    
+    
+    
+    
+    
+      <a class="fa fa-linkedin" href="https://www.linkedin.com/in/ryanoglesby08"></a>
+    
+    
+    
+  </div>
+  <div class="right">
+    
+    
+    
+  </div>
+</div>
+<div class="clearfix"></div>
+      
+    </div>
+  </div>
+</header>
+
+    <div class="post p2 p-responsive wrap" role="main">
+      <div class="measure">
+        
+
+
+<div class="post-header mb2">
+  <h1>The State of CSS</h1>
+  <span class="post-meta">May 25, 2017</span><br>
+  
+  <span class="post-meta small">
+  
+    8 minute read
+  
+  </span>
+</div>
+
+<article class="post-content">
+  <p>It’s no secret that we are currently experiencing a Cambrian explosion of innovation by the JavaScript community. But what you may not be aware of are the equally evolutionary innovations under development by the CSS community.</p>
+
+<p>CSS has quietly been improving by leaps and bounds lately. So much so, that you may not even recognize it much anymore. While you weren’t looking, the CSS community has developed real solutions to many of the oddities, hacks, and deficiencies that made CSS the black sheep of the front end family in the past.</p>
+
+<p>In this post I’ll reveal 5 old-fashioned CSS things that you don’t need to do anymore, and what you should do instead.</p>
+
+<ol>
+  <li>You don’t need a naming convention.</li>
+  <li>You don’t need float.</li>
+  <li>You don’t need a grid framework.</li>
+  <li>You don’t need a preprocessor.</li>
+  <li><strong>You don’t need CSS.</strong></li>
+</ol>
+
+<!-- more -->
+
+<blockquote>
+  <h2 id="you-dont-need-naming-conventions">You don’t need naming conventions.</h2>
+</blockquote>
+
+<p>And we begin with the number one problem with CSS, especially at scale: everything is global.</p>
+
+<div class="center">
+  <p>
+  <figure class="image">
+    <img src="/assets/images/global-css.png" style="max-width: 650px;" alt="Problems with CSS at scale" />
+    <figcaption class="image-source">
+      <small>(source: <a href="http://speakerdeck.com/vjeux/react-css-in-js">http://speakerdeck.com/vjeux/react-css-in-js</a>)</small>
+    </figcaption>
+  </figure>
+</p>
+</div>
+
+<p>Because all selectors exist in the same global namespace, over time it becomes very likely that you’ll run into unexpected side effects such as selectors targeting elements that you didn’t intend, or selectors being overridden by other selectors. So, we have side-stepped these issues with methodologies (<a href="http://oocss.org/">OOCSS</a>, <a href="https://smacss.com/">SMACSS</a>, or the more popular <a href="http://getbem.com/">BEM</a>) that define naming conventions to help us avoid class name collisions.</p>
+
+<p>While we can’t discount the importance of these methodologies, they are merely a workaround. They don’t actually solve the problems. We needed something more. And then <a href="https://medium.com/seek-blog/the-end-of-global-css-90d2a4a06284">this</a> happened.</p>
+
+<p>
+  <figure class="image">
+    <img src="/assets/images/end-of-global-css.png" style="max-width: ;" alt="The End of Global CSS" />
+    <figcaption class="image-source">
+      <small>(source: <a href="http://medium.com/seek-blog/the-end-of-global-css-90d2a4a06284">http://medium.com/seek-blog/the-end-of-global-css-90d2a4a06284</a>)</small>
+    </figcaption>
+  </figure>
+</p>
+
+<p><a href="https://twitter.com/markdalgleish">Mark Dalgleish</a> and others have since pioneered the concept of <strong>locally scoped CSS</strong>, which led to the development of <a href="https://github.com/css-modules/css-modules">CSS Modules</a>, and which has now been incorporated into modern tooling, most notably webpack’s <a href="https://github.com/webpack-contrib/css-loader#modules">css-loader</a>.</p>
+
+<figure class="code-highlight-figure"><figcaption class="code-highlight-caption"><span class="code-highlight-caption-title">webpack.config.js</span></figcaption><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row unnumbered"><div class="code-highlight-line"><span class="p">&#x7b;</span>
+</div></div><div data-line="2" class="code-highlight-row unnumbered"><div class="code-highlight-line">  <span class="nl">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">css$/</span><span class="p">,</span>
+</div></div><div data-line="3" class="code-highlight-row unnumbered"><div class="code-highlight-line">  <span class="nx">use</span><span class="err">:</span> <span class="p">[</span>
+</div></div><div data-line="4" class="code-highlight-row unnumbered"><div class="code-highlight-line">    <span class="p">&#x7b;</span>
+</div></div><div data-line="5" class="code-highlight-row unnumbered"><div class="code-highlight-line">      <span class="na">loader</span><span class="p">:</span> <span class="s1">'css-loader'</span><span class="p">,</span>
+</div></div><div data-line="6" class="code-highlight-row unnumbered"><div class="code-highlight-line">      <span class="na">options</span><span class="p">:</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="7" class="code-highlight-row unnumbered marked-line start-marked-line"><div class="code-highlight-line">        <span class="na">modules</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</div></div><div data-line="8" class="code-highlight-row unnumbered marked-line end-marked-line"><div class="code-highlight-line">        <span class="na">localIdentName</span><span class="p">:</span> <span class="s1">'[path][name]__[local]--[hash:base64:5]'</span>
+</div></div><div data-line="9" class="code-highlight-row unnumbered"><div class="code-highlight-line">      <span class="p">&#x7d;</span>
+</div></div><div data-line="10" class="code-highlight-row unnumbered"><div class="code-highlight-line">    <span class="p">&#x7d;</span>
+</div></div><div data-line="11" class="code-highlight-row unnumbered"><div class="code-highlight-line">  <span class="p">]</span>
+</div></div><div data-line="12" class="code-highlight-row unnumbered"><div class="code-highlight-line"><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<p>This is huge. When using CSS Modules, name your classes however you like. <strong>At build time, all local selectors are replaced by unique identifiers, completely removing the need for a global naming convention.</strong> Check out the docs above for CSS Modules for a deeper dive.</p>
+
+<p>While this technology was born from component-oriented front-end development (think <a href="http://www.reactjs.com">React</a>), you can also get support for CSS Modules <a href="https://github.com/css-modules/postcss-modules">everywhere</a>.</p>
+
+<hr />
+
+<blockquote>
+  <h2 id="you-dont-need-float">You don’t need float.</h2>
+</blockquote>
+
+<p><a href="https://css-tricks.com/all-about-floats/">Float</a> has managed to become both the positioning property of choice and the bane of many a developer’s existence by weaseling its way into everything from <a href="http://getbootstrap.com/css/#helper-classes-floats">helper classes</a> to <a href="https://unsemantic.com/demo-responsive">entire grid systems</a>. While occasionally using float to push an element left or right doesn’t get you into too much trouble, pervasive use of it for full page layouts leads to odd behavior that is a pain to figure out and fix, often requiring hacks. Pretty soon you find yourself copying the admittedly elegant, yet unintuitive <a href="https://css-tricks.com/snippets/css/clear-fix/">“clearfix”</a> onto every element and hoping for the best.</p>
+
+<p>Thankfully, CSS3 introduced a new layout module called flexible boxes, or <a href="https://www.w3schools.com/css/css3_flexbox.asp">Flexbox</a> for short. Flexbox is a mostly 1-dimensional layout system that ensures elements behave predictably on various screen sizes and devices. It also solves the common, yet previously frustrating task of vertical and horizontal centering. <strong>When you switch to Flexbox, you no longer have any use for float.</strong></p>
+
+<p data-height="320" data-theme-id="0" data-slug-hash="GmbYjd" data-default-tab="result" data-user="ryanoglesby08" data-embed-version="2" data-pen-title="GmbYjd" class="codepen">See the Pen <a href="https://codepen.io/ryanoglesby08/pen/GmbYjd/">GmbYjd</a> by Ryan Oglesby (<a href="https://codepen.io/ryanoglesby08">@ryanoglesby08</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async="" src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+<p></p>
+
+<p>While Flexbox is <a href="http://caniuse.com/#feat=flexbox">fully supported by all modern browsers</a>, you will run into issues on older ones. So, if you have to support IE &lt; 10 you will likely still need to fall back to floats, tables, or some other layout method.</p>
+
+<p>Some browsers also need vendor prefixes, so I recommend using <a href="https://github.com/postcss/autoprefixer">Autoprefixer</a> to get the most coverage.</p>
+
+<hr />
+
+<blockquote>
+  <h2 id="you-dont-need-a-grid-framework">You don’t need a grid framework.</h2>
+</blockquote>
+
+<p>Everyone uses a grid. It’s a crucial part of every CSS codebase, letting you build complex full-page layouts by aligning elements along rows and columns. While rolling your own simple grid using traditional techniques is <a href="https://css-tricks.com/dont-overthink-it-grids/">fairly straightforward</a>, no one does it. Instead, we reach for one of the many grid frameworks, such as the original <a href="https://960.gs/">960gs</a> or the Sass-based <a href="http://neat.bourbon.io/">Bourbon Neat</a>.</p>
+
+<p>Finally, as of March 2017, most browsers added support for the <a href="https://css-tricks.com/snippets/css/complete-guide-grid/">CSS Grid Layout</a>, a 2-dimensional layout system built directly into CSS. Since most traditional grid frameworks still rely on float, CSS Grid is an attractive alternative. CSS Grid makes it easy to define your own grid without the help of a framework by providing an intuitive interface for defining the number and sizes of rows and columns, the gutter spacing, alignment of elements within the grid, named areas, and more.</p>
+
+<p data-height="253" data-theme-id="0" data-slug-hash="pwzNdB" data-default-tab="css" data-user="ryanoglesby08" data-embed-version="2" data-pen-title="pwzNdB" class="codepen">See the Pen <a href="https://codepen.io/ryanoglesby08/pen/pwzNdB/">pwzNdB</a> by Ryan Oglesby (<a href="https://codepen.io/ryanoglesby08">@ryanoglesby08</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async="" src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+<p></p>
+
+<p><a href="http://caniuse.com/#feat=css-grid">At the time of writing this article</a>, CSS Grid is supported by all modern browsers, with partial support on IE if you use vendor prefixes (use <a href="https://github.com/postcss/autoprefixer">Autoprefixer</a>).</p>
+
+<hr />
+
+<blockquote>
+  <h2 id="you-dont-need-a-preprocessor">You don’t need a preprocessor.</h2>
+</blockquote>
+
+<p>Undeniably, CSS language extensions such as <a href="http://sass-lang.com/">Sass</a> and <a href="http://lesscss.org/">Less</a> brought game-changing features to CSS, including data reuse with variables, better organization with nesting, and property reuse with mixins. But, these languages didn’t change anything about the core language of CSS; they added a layer of abstraction on top of it. In the case of Sass, you also need an <a href="http://sass-lang.com/libsass">additional binary</a> to compile the Sass files into CSS. When using one of these preprocessors, you now have to learn CSS <em>and</em> the preprocessor specific syntax.</p>
+
+<p>But, while most developers were blissfully coupling to their preprocessors, CSS was quietly progressing. Modern browsers now have native support for <a href="https://www.w3.org/TR/css-variables/">CSS variables</a> and <a href="https://www.w3.org/TR/css3-values/#calc">calc()</a>. Other features such as <a href="https://drafts.csswg.org/css-color/#modifying-colors">color modifications</a>, and <a href="http://tabatkins.github.io/specs/css-apply-rule/">mixins</a> are not far behind.</p>
+
+<figure class="code-highlight-figure"><div class="code-highlight"><pre class="code-highlight-pre"><div data-line="1" class="code-highlight-row unnumbered"><div class="code-highlight-line"><span class="nd">:root</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="2" class="code-highlight-row unnumbered"><div class="code-highlight-line">  <span class="py">--spacing</span><span class="p">:</span> <span class="m">1.5em</span><span class="p">;</span> <span class="err">//</span> <span class="err">declaring</span> <span class="err">a</span> <span class="err">variable</span>
+</div></div><div data-line="3" class="code-highlight-row unnumbered"><div class="code-highlight-line">  <span class="py">--base-colors</span><span class="p">:</span> <span class="err">&#x7b;</span>  <span class="p">//</span> <span class="n">declaring</span> <span class="n">a</span> <span class="n">mixin</span>
+</div></div><div data-line="4" class="code-highlight-row unnumbered"><div class="code-highlight-line">    <span class="n">color</span><span class="p">:</span> <span class="m">#fff</span><span class="p">;</span>
+</div></div><div data-line="5" class="code-highlight-row unnumbered"><div class="code-highlight-line">    <span class="nl">background-color</span><span class="p">:</span> <span class="n">color</span><span class="p">(</span><span class="m">#fff</span> <span class="n">shade</span><span class="p">(</span><span class="err">+</span><span class="m">80%</span><span class="p">));</span> <span class="err">//</span> <span class="err">modifying</span> <span class="err">a</span> <span class="err">color</span>
+</div></div><div data-line="6" class="code-highlight-row unnumbered"><div class="code-highlight-line">  <span class="p">&#x7d;</span>
+</div></div><div data-line="7" class="code-highlight-row unnumbered"><div class="code-highlight-line"><span class="err">&#x7d;</span>
+</div></div><div data-line="8" class="code-highlight-row unnumbered"><div class="code-highlight-line"> </div></div><div data-line="9" class="code-highlight-row unnumbered"><div class="code-highlight-line"><span class="nc">.some-class</span> <span class="p">&#x7b;</span>
+</div></div><div data-line="10" class="code-highlight-row unnumbered"><div class="code-highlight-line">  <span class="nl">padding</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="n">--spacing</span><span class="p">);</span>
+</div></div><div data-line="11" class="code-highlight-row unnumbered"><div class="code-highlight-line">  <span class="nl">width</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="m">100%</span> <span class="n">-</span> <span class="n">var</span><span class="p">(</span><span class="n">--spacing</span><span class="p">));</span> <span class="err">//</span> <span class="err">dynamically</span> <span class="err">calculating</span> <span class="err">a</span> <span class="err">value</span>
+</div></div><div data-line="12" class="code-highlight-row unnumbered"><div class="code-highlight-line">  <span class="err">@apply</span> <span class="err">--base-colors;</span>
+</div></div><div data-line="13" class="code-highlight-row unnumbered"><div class="code-highlight-line"><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<p>Fortunately for CSS, the JavaScript community has already had the problem of browsers not supporting new features fast enough, which led to <a href="https://babeljs.io/">Babel</a>, giving JavaScript developers everywhere access to “next generation JavaScript, today.” Similarly, <a href="http://postcss.org/">PostCSS</a> is a “tool for transforming CSS with JavaScript”, which gets its power from the extensive list of community maintained <a href="https://github.com/postcss/postcss/blob/master/docs/plugins.md">plugins</a>. CSS developers can even “use tomorrow’s CSS syntax, today” with the <a href="http://cssnext.io/">cssnext</a> PostCSS plugin.</p>
+
+<p><strong>Writing plain CSS and transforming it with PostCSS plugins produces more future-proof CSS with less cognitive and technical overhead than old preprocessors.</strong></p>
+
+<hr />
+
+<blockquote>
+  <h2 id="you-dont-need-css">You don’t need CSS.</h2>
+</blockquote>
+
+<p>Ok, so that’s not entirely true. While CSS remains the only document styling language that browsers understand, <strong>you can style web applications without ever writing a single .css file</strong>. With the help of UI libraries such as React or Vue.js, modern web application architecture has embraced loosely coupled, highly cohesive components that often co-locate HTML, CSS, and JavaScript in the same file. Interestingly, this idea is in direct contradiction to previously held best practices around separation of these concerns. (<a href="https://www.youtube.com/watch?v=x7cQ3mrcKaY">This conference talk</a>, called “Rethinking best practices” gives a great explanation.)</p>
+
+<p>
+  <figure class="image">
+    <img src="/assets/images/separation-of-concerns.png" style="max-width: ;" alt="Separation of Concerns" />
+    <figcaption class="image-source">
+      <small>(source: <a href="http://speakerdeck.com/didoo/let-there-be-peace-on-css">http://speakerdeck.com/didoo/let-there-be-peace-on-css</a>)</small>
+    </figcaption>
+  </figure>
+</p>
+
+<p>From a CSS perspective, this rethinking has even been given a catchy name: <a href="https://speakerdeck.com/vjeux/react-css-in-js">CSS-in-JS</a>.</p>
+
+<p>At first, CSS-in-JS libraries used the HTML “style” attribute to attach styles onto elements, a flawed approach because the “style” attribute can’t do everything CSS can do. Now, most libraries generate real style sheets with the full power of CSS, eschewing use of the “style” attribute for the most part.</p>
+
+<p>Writing CSS using JavaScript addresses most of the other points I’ve brought up in this article. Most new libraries scope styles automatically, make reuse of classes easy and efficient, identify and inline critical-path CSS for faster initial load times, and enable real modular sharing of open-source CSS packages. <a href="https://medium.com/seek-blog/a-unified-styling-language-d0c208de2660">This must-read article</a> outlines the architectural benefits for CSS-in-JS and is the best I’ve read so far.</p>
+
+<p>As this space is new and exciting, there has been an <a href="https://github.com/MicheleBertoli/css-in-js">explosion of libraries</a> (this list is even slightly old now). This is a good thing. It will take some time to settle down as the community discovers best practices, such as avoidance of the “style” attribute, proper support for media queries, and the ability to use proper CSS syntax instead of a JavaScript object.</p>
+
+<p><a href="http://cssinjs.org/">JSS</a> is a very popular choice, with an active community and a stable interface; but I’m especially excited about the direction of <a href="https://www.styled-components.com/">styled-components</a>, which cleverly attaches CSS to components via <a href="https://www.styled-components.com/docs/advanced#tagged-template-literals">tagged template literals</a>.</p>
+
+<p>
+  <figure class="image">
+    <img src="/assets/images/styled-components.png" style="max-width: ;" alt="Styled Components Example" />
+    <figcaption class="image-source">
+      <small>(source: <a href="http://www.styled-components.com/">http://www.styled-components.com/</a>)</small>
+    </figcaption>
+  </figure>
+</p>
+
+<hr />
+
+<h2 id="css-is-dead-long-live-css">CSS is dead. Long Live CSS.</h2>
+
+<ul>
+  <li>You don’t need naming conventions because <em>locally-scoped styles by default are now baked-in to libraries</em>.</li>
+  <li>You don’t need float because <em>Flexbox is more powerful and less hacky</em>.</li>
+  <li>You don’t need a grid framework because <em>there’s one built into CSS</em>.</li>
+  <li>You don’t need a preprocessor because <em>CSS has more advanced features now</em>.</li>
+  <li>You don’t need CSS because <em>writing styles in JavaScript enables more architectural and community benefits</em>.</li>
+</ul>
+
+<p>I’m excited about the large-scale adoption of modern JavaScript techniques and UI libraries, especially React. But, I’m frustrated at the same time because those same codebases continue using dated, flawed CSS techniques and technologies instead of embracing modernity. It’s time we recognize the importance of these new developments in the CSS community and find a way out of our old, comfortable habits.</p>
+
+</article>
+
+
+  <div class="share-page">
+  Share me:
+
+  <div class="share-links ml1">
+    
+      <a class="fa fa-facebook" href="https://facebook.com/sharer.php?u=http://ryanogles.by/css/javascript/2017/05/25/the-state-of-css.html" rel="nofollow" target="_blank" title="Share on Facebook"></a>
+    
+
+    
+      <a class="fa fa-twitter" href="https://twitter.com/intent/tweet?text=The State of CSS&url=http://ryanogles.by/css/javascript/2017/05/25/the-state-of-css.html" rel="nofollow" target="_blank" title="Share on Twitter"></a>
+    
+
+    
+
+    
+      <a class="fa fa-linkedin" href="http://www.linkedin.com/shareArticle?url=http://ryanogles.by/css/javascript/2017/05/25/the-state-of-css.html&title=The State of CSS" rel="nofollow" target="_blank" title="Share on LinkedIn"></a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+      <a class="fa fa-hacker-news" onclick="parent.postMessage('submit','*')" href="https://news.ycombinator.com/submitlink?u=http://ryanogles.by/css/javascript/2017/05/25/the-state-of-css.html&t=The State of CSS" rel="nofollow" target="_blank" title="Share on Hacker News"></a>
+    
+  </div>
+</div>
+
+
+
+
+
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname  = 'ryanoglesby';
+    var disqus_identifier = '/css/javascript/2017/05/25/the-state-of-css';
+    var disqus_title      = "The State of CSS";
+
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="center">
+  <div class="measure">
+    <small>
+      Theme crafted with &lt;3 by <a href="http://johnotander.com">John Otander</a> (<a href="https://twitter.com/4lpine">@4lpine</a>).<br>
+      &lt;/&gt; available on <a href="https://github.com/johnotander/pixyll">Github</a>.
+    </small>
+  </div>
+</footer>
+</body>
+</html>
