@@ -26,7 +26,7 @@ In this post I'll reveal 5 old-fashioned CSS things that you don't need to do an
 And we begin with the number one problem with CSS, especially at scale: everything is global.
 
 <div class="center">
-  {% include image.html file="/assets/images/global-css.png" alt="Problems with CSS at scale" max-width="650px" url="speakerdeck.com/vjeux/react-css-in-js" %}
+  {% include image.html file="/assets/images/global-css.png" alt="Problems with CSS at scale" url="speakerdeck.com/vjeux/react-css-in-js" %}
 </div>
 
 Because all selectors exist in the same global namespace, over time it becomes very likely that you'll run into unexpected side effects such as selectors targeting elements that you didn't intend, or selectors being overridden by other selectors. So, we have side-stepped these issues with methodologies ([OOCSS](http://oocss.org/), [SMACSS](https://smacss.com/), or the more popular [BEM](http://getbem.com/)) that define naming conventions to help us avoid class name collisions.
