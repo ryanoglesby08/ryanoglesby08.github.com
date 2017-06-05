@@ -33,7 +33,7 @@
 &lt;div class=&quot;center&quot;&gt;
   &lt;p&gt;
   &lt;figure class=&quot;image&quot;&gt;
-    &lt;img src=&quot;/assets/images/global-css.png&quot; style=&quot;max-width: 650px;&quot; alt=&quot;Problems with CSS at scale&quot; /&gt;
+    &lt;img src=&quot;/assets/images/global-css.png&quot; alt=&quot;Problems with CSS at scale&quot; /&gt;
     &lt;figcaption class=&quot;image-source&quot;&gt;
       &lt;small&gt;(source: &lt;a href=&quot;http://speakerdeck.com/vjeux/react-css-in-js&quot;&gt;http://speakerdeck.com/vjeux/react-css-in-js&lt;/a&gt;)&lt;/small&gt;
     &lt;/figcaption&gt;
@@ -47,7 +47,7 @@
 
 &lt;p&gt;
   &lt;figure class=&quot;image&quot;&gt;
-    &lt;img src=&quot;/assets/images/end-of-global-css.png&quot; style=&quot;max-width: ;&quot; alt=&quot;The End of Global CSS&quot; /&gt;
+    &lt;img src=&quot;/assets/images/end-of-global-css.png&quot; alt=&quot;The End of Global CSS&quot; /&gt;
     &lt;figcaption class=&quot;image-source&quot;&gt;
       &lt;small&gt;(source: &lt;a href=&quot;http://medium.com/seek-blog/the-end-of-global-css-90d2a4a06284&quot;&gt;http://medium.com/seek-blog/the-end-of-global-css-90d2a4a06284&lt;/a&gt;)&lt;/small&gt;
     &lt;/figcaption&gt;
@@ -146,7 +146,7 @@
 
 &lt;p&gt;
   &lt;figure class=&quot;image&quot;&gt;
-    &lt;img src=&quot;/assets/images/separation-of-concerns.png&quot; style=&quot;max-width: ;&quot; alt=&quot;Separation of Concerns&quot; /&gt;
+    &lt;img src=&quot;/assets/images/separation-of-concerns.png&quot; alt=&quot;Separation of Concerns&quot; /&gt;
     &lt;figcaption class=&quot;image-source&quot;&gt;
       &lt;small&gt;(source: &lt;a href=&quot;http://speakerdeck.com/didoo/let-there-be-peace-on-css&quot;&gt;http://speakerdeck.com/didoo/let-there-be-peace-on-css&lt;/a&gt;)&lt;/small&gt;
     &lt;/figcaption&gt;
@@ -165,7 +165,7 @@
 
 &lt;p&gt;
   &lt;figure class=&quot;image&quot;&gt;
-    &lt;img src=&quot;/assets/images/styled-components.png&quot; style=&quot;max-width: ;&quot; alt=&quot;Styled Components Example&quot; /&gt;
+    &lt;img src=&quot;/assets/images/styled-components.png&quot; alt=&quot;Styled Components Example&quot; /&gt;
     &lt;figcaption class=&quot;image-source&quot;&gt;
       &lt;small&gt;(source: &lt;a href=&quot;http://www.styled-components.com/&quot;&gt;http://www.styled-components.com/&lt;/a&gt;)&lt;/small&gt;
     &lt;/figcaption&gt;
