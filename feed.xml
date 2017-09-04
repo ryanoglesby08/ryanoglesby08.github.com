@@ -186,7 +186,7 @@
 
 &lt;p&gt;I’m excited about the large-scale adoption of modern JavaScript techniques and UI libraries, especially React. But, I’m frustrated at the same time because those same codebases continue using dated, flawed CSS techniques and technologies instead of embracing modernity. It’s time we recognize the importance of these new developments in the CSS community and find a way out of our old, comfortable habits.&lt;/p&gt;
 </description>
-        <pubDate>Thu, 25 May 2017 15:34:35 -0500</pubDate>
+        <pubDate>Thu, 25 May 2017 16:34:35 -0400</pubDate>
         <link>http://ryanogles.by/css/javascript/2017/05/25/the-state-of-css.html</link>
         <guid isPermaLink="true">http://ryanogles.by/css/javascript/2017/05/25/the-state-of-css.html</guid>
       </item>
@@ -240,7 +240,7 @@
 
 &lt;p&gt;It’s important to remember that while the SPA is primarily written in JavaScript, there is no requirement that necessitates a JavaScript-based UI server. Any web server that is able to handle the configurations described above will work fine, such as &lt;a href=&quot;https://access.redhat.com/solutions/67298&quot;&gt;Apache&lt;/a&gt;, &lt;a href=&quot;https://www.nginx.com/resources/admin-guide/serving-static-content/&quot;&gt;NGINX&lt;/a&gt;, or even &lt;a href=&quot;https://keita.blog/2015/11/24/hosting-a-single-page-app-on-s3-with-proper-urls/&quot;&gt;Amazon S3&lt;/a&gt;!&lt;/p&gt;
 </description>
-        <pubDate>Thu, 11 May 2017 12:30:08 -0500</pubDate>
+        <pubDate>Thu, 11 May 2017 13:30:08 -0400</pubDate>
         <link>http://ryanogles.by/javascript/2017/05/11/conceptualizing-how-a-modern-single-page-app-is-served.html</link>
         <guid isPermaLink="true">http://ryanogles.by/javascript/2017/05/11/conceptualizing-how-a-modern-single-page-app-is-served.html</guid>
       </item>
@@ -508,7 +508,7 @@
 
 &lt;p&gt;Overall, remember that JavaScript is a multi-paradigm language, capable of flexing to suit many needs. Enjoy!&lt;/p&gt;
 </description>
-        <pubDate>Fri, 03 Mar 2017 08:40:44 -0600</pubDate>
+        <pubDate>Fri, 03 Mar 2017 09:40:44 -0500</pubDate>
         <link>http://ryanogles.by/javascript/testing/2017/03/03/an-exploration-of-javascript-builders.html</link>
         <guid isPermaLink="true">http://ryanogles.by/javascript/testing/2017/03/03/an-exploration-of-javascript-builders.html</guid>
       </item>
@@ -546,7 +546,7 @@
 
 &lt;p&gt;Try to avoid using the term “magic” when talking about code. Remember, there is no magic. Just code.&lt;/p&gt;
 </description>
-        <pubDate>Sat, 19 Nov 2016 14:09:35 -0600</pubDate>
+        <pubDate>Sat, 19 Nov 2016 15:09:35 -0500</pubDate>
         <link>http://ryanogles.by/2016/11/19/its-not-magic-you-just-dont-understand-it-yet.html</link>
         <guid isPermaLink="true">http://ryanogles.by/2016/11/19/its-not-magic-you-just-dont-understand-it-yet.html</guid>
       </item>
@@ -683,7 +683,7 @@ to address this, with the simplest being to agree not to read from the &lt;code 
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;I think being able to injecting env properties at runtime is the way to go for large-scale production applications, as it gives you the most flexible options for local development and deployments. But, if you want a quick win for a side-project or small app, injecting at compile time is super easy. I probably wouldn’t use the server-side templating unless I was working on an application that was already doing that.&lt;/p&gt;
 </description>
-        <pubDate>Fri, 04 Nov 2016 16:44:20 -0500</pubDate>
+        <pubDate>Fri, 04 Nov 2016 17:44:20 -0400</pubDate>
         <link>http://ryanogles.by/javascript/2016/11/04/on-injecting-a-javascript-environment.html</link>
         <guid isPermaLink="true">http://ryanogles.by/javascript/2016/11/04/on-injecting-a-javascript-environment.html</guid>
       </item>
@@ -767,7 +767,7 @@ to address this, with the simplest being to agree not to read from the &lt;code 
   &lt;li&gt;&lt;a href=&quot;http://jamesknelson.com/why-you-shouldnt-style-with-javascript/&quot;&gt;http://jamesknelson.com/why-you-shouldnt-style-with-javascript/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-        <pubDate>Sat, 15 Oct 2016 16:28:00 -0500</pubDate>
+        <pubDate>Sat, 15 Oct 2016 17:28:00 -0400</pubDate>
         <link>http://ryanogles.by/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html</link>
         <guid isPermaLink="true">http://ryanogles.by/javascript/react/css/2016/10/15/harmonious-stylesheets-and-inline-styles-in-react.html</guid>
       </item>
@@ -872,7 +872,7 @@ to address this, with the simplest being to agree not to read from the &lt;code 
 
 &lt;p&gt;Overall, this pattern has worked well for the team! Would love to hear your opinions and experiences with Docker in a build pipeline.&lt;/p&gt;
 </description>
-        <pubDate>Mon, 26 Sep 2016 09:55:17 -0500</pubDate>
+        <pubDate>Mon, 26 Sep 2016 10:55:17 -0400</pubDate>
         <link>http://ryanogles.by/docker/2016/09/26/homogeneous-pipelines-with-docker.html</link>
         <guid isPermaLink="true">http://ryanogles.by/docker/2016/09/26/homogeneous-pipelines-with-docker.html</guid>
       </item>
@@ -938,7 +938,7 @@ to address this, with the simplest being to agree not to read from the &lt;code 
 
 &lt;p&gt;Whew, that’s it! Thanks for making it this far. If you skipped Parts &lt;a href=&quot;/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html&quot;&gt;I&lt;/a&gt; or &lt;a href=&quot;/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html&quot;&gt;II&lt;/a&gt;, I’d recommend going back to see the entire journey. We teased out a nice pattern for managing test data using the Builder pattern + Object Mothers. In doing so, we improved the design of our production code by making &lt;code class=&quot;highlighter-rouge&quot;&gt;Address&lt;/code&gt; immutable and avoiding a sketchy constructor with a lot of parameters.&lt;/p&gt;
 </description>
-        <pubDate>Sun, 26 Jun 2016 21:28:58 -0500</pubDate>
+        <pubDate>Sun, 26 Jun 2016 22:28:58 -0400</pubDate>
         <link>http://ryanogles.by/java/testing/patterns/2016/06/26/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html</link>
         <guid isPermaLink="true">http://ryanogles.by/java/testing/patterns/2016/06/26/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html</guid>
       </item>
@@ -1053,7 +1053,7 @@ to address this, with the simplest being to agree not to read from the &lt;code 
 
 &lt;p&gt;Next up, &lt;a href=&quot;/java/testing/patterns/2016/06/26/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html&quot;&gt;Part III&lt;/a&gt; - where we truly divide the responsibilities for object construction into a Builder and a Factory, removing the arbitrary default values from the test itself.&lt;/p&gt;
 </description>
-        <pubDate>Sat, 25 Jun 2016 14:20:26 -0500</pubDate>
+        <pubDate>Sat, 25 Jun 2016 15:20:26 -0400</pubDate>
         <link>http://ryanogles.by/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html</link>
         <guid isPermaLink="true">http://ryanogles.by/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html</guid>
       </item>
@@ -1227,7 +1227,7 @@ Because we were using the same &lt;code class=&quot;highlighter-rouge&quot;&gt;A
 
 &lt;p&gt;&lt;a href=&quot;/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html&quot;&gt;Part II&lt;/a&gt; will look at moving the Builder into a static inner class to fix the constructor with too many parameters issue.&lt;/p&gt;
 </description>
-        <pubDate>Thu, 23 Jun 2016 13:34:08 -0500</pubDate>
+        <pubDate>Thu, 23 Jun 2016 14:34:08 -0400</pubDate>
         <link>http://ryanogles.by/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html</link>
         <guid isPermaLink="true">http://ryanogles.by/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html</guid>
       </item>
