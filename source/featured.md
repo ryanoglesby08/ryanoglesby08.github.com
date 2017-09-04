@@ -9,3 +9,7 @@ title: Featured Posts
 
 ### Pairing, Are You Doing it Wrong?
   * [Jul 28, 2016 on ThoughtWorks Insights](https://www.thoughtworks.com/insights/blog/pairing-are-you-doing-it-wrong)
+
+### UI Components by design
+  * [Jun 24, 2017 on ThoughtWorks Insights](https://www.thoughtworks.com/insights/blog/ui-components-design)
+  * [Jun 26, 2017 at Chicago Coder Conference](https://www.thoughtworks.com/talks/ui-components-designers-developers-chicago-2017)
