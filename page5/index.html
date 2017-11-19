@@ -17,7 +17,7 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/assets/css/styles.css?201709041445" type="text/css">
+    <link rel="stylesheet" href="/assets/css/styles.css?201711191751" type="text/css">
     <link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
 
     <!-- Fonts -->
@@ -123,6 +123,21 @@
     <div class="posts">
       
         <div class="post py3">
+          <p class="post-meta">Feb 25, 2015</p>
+          <a href="/ruby/git/2015/02/25/easing-into-rubocop-with-git.html" class="post-link"><h3 class="h1 post-title">Easing into Rubocop with git</h3></a>
+          <p class="post-summary">
+            
+              <h2 id="dropping-rubocop-into-an-existing-codebase">Dropping Rubocop into an existing codebase</h2>
+<p>We (my team) recently introduced <a href="https://github.com/bbatsov/rubocop">rubocop</a> to a Rails app and a Sinatra app to encourage (aka enforce) us to follow established Ruby style and semantics. This was my first experience with dropping a static code analyzer into an established codebase. Just for reference, our Rails app is not huge - 16 controllers, 25 models, 10 services, and a smattering of other files.</p>
+
+<p>Even so, the first run of <code class="highlighter-rouge">bundle exec rubocop</code> on the entire application revealed about 2,500 warnings. Whomp whomp. Thankfully, Rubocop comes with a handy-dandy autocorrect feature. A quick <code class="highlighter-rouge">bundle exec rubocop --auto-correct</code> fixed almost half of them. Good, but not quite there yet.</p>
+
+
+            
+          </p>
+        </div>
+      
+        <div class="post py3">
           <p class="post-meta">Jan 26, 2015</p>
           <a href="/agile/teams/facilitation/2015/01/26/how-to-support-apprentices-on-an-agile-development-team.html" class="post-link"><h3 class="h1 post-title">How to Support Apprentices on an Agile Development Team</h3></a>
           <p class="post-summary">
@@ -158,20 +173,6 @@
               <p>I had the privilege of attending <a href="http://gotocon.com/chicago-2014/">Goto;con 2014</a> in Chicago. It was smaller than I anticipated, spread over just a few conference rooms in a small corner of the Drake Hotel, with no more than 400 attendees. This gave the conference a fairly informal, casual vibe. The talks were spread over a variety of tracks, from distributed systems to UX to functional programming languages, which kept things fresh over the 2 day conference.</p>
 
 <p>Here I will capture summaries and my key takeaways from some of the sessions I attended (which represents only a small fraction of the 40+ presentations).</p>
-
-
-            
-          </p>
-        </div>
-      
-        <div class="post py3">
-          <p class="post-meta">Dec 25, 2013</p>
-          <a href="/ruby/patterns/2013/12/25/meet-lazydoc.html" class="post-link"><h3 class="h1 post-title">Meet LazyDoc</h3></a>
-          <p class="post-summary">
-            
-              <p>I’ve been pretty heads down in a <a href="http://www.thoughtworks.com">ThoughtWorks</a> project for the better part of 2013 and have unfortunately neglected this blog. But 2014 is a new year and I want to get into a semi-regular cadence of posts.</p>
-
-<p>So with that in mind…… another long overdue post! So say hello to <a href="https://github.com/ryanoglesby08/lazy-doc">LazyDoc</a>, a Ruby gem I have released. LazyDoc provides a DSL for extracting deeply nested values from a JSON document.</p>
 
 
             

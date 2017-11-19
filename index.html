@@ -17,7 +17,7 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/assets/css/styles.css?201709041445" type="text/css">
+    <link rel="stylesheet" href="/assets/css/styles.css?201711191751" type="text/css">
     <link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
 
     <!-- Fonts -->
@@ -123,6 +123,32 @@
     <div class="posts">
       
         <div class="post py3">
+          <p class="post-meta">Nov 17, 2017</p>
+          <a href="/css/javascript/react/2017/11/17/exposing-css-hidden-complexities-with-react.html" class="post-link"><h3 class="h1 post-title">Exposing CSS Hidden Complexities with React</h3></a>
+          <p class="post-summary">
+            
+              <p>When we create web applications we use style sheets to describe presentation, and we use JavaScript to manage all the bits of state and logic. Unfortunately, we often end up with style sheets full of complexity, such as stateful pseudo-classes, style rule overrides through media queries, and deceivingly complicated animations. But what if we could leverage the expressiveness of React to take control of all of this?</p>
+
+<blockquote>
+  <p>Complexity is a concern better handled with JavaScript, not style sheets. If we push complexity from style sheets into JavaScript, then it becomes more obvious and predictable, thus easier to deal with.</p>
+</blockquote>
+
+<p>This post is an exploration of this hypothesis applied to 3 common CSS features:</p>
+
+<ol>
+  <li>Pseudo-classes</li>
+  <li>Media queries</li>
+  <li>Animations</li>
+</ol>
+
+<p><em>I’ve also created an accompanying <a href="https://github.com/ryanoglesby08/exposing-css-hidden-complexities">Github repo</a> with full, working examples of all the snippets shown in this post.</em></p>
+
+
+            
+          </p>
+        </div>
+      
+        <div class="post py3">
           <p class="post-meta">May 25, 2017</p>
           <a href="/css/javascript/2017/05/25/the-state-of-css.html" class="post-link"><h3 class="h1 post-title">The State of CSS</h3></a>
           <p class="post-summary">
@@ -166,25 +192,6 @@
               <p>Builders seems to be a popular topic for me, as I’ve <a href="/java/testing/patterns/2016/06/23/how-your-mother-can-help-you-build-cleaner-unit-tests-part-i.html">blogged about the builder pattern before</a>. This time, however, I look at builders through a JavaScript lens. In this post I’ll explore three techniques for modeling builders in JavaScript, specifically ES6, utilizing some of the interesting features of the modern language.</p>
 
 <p><em>All the examples I show in this post show builders that are <strong>only</strong> for testing purposes. While the builder pattern can be used in production code, the builders shown below are not appropriate for production code because they contain pre-canned default values. Leave these in your test suite.</em></p>
-
-
-            
-          </p>
-        </div>
-      
-        <div class="post py3">
-          <p class="post-meta">Nov 19, 2016</p>
-          <a href="/2016/11/19/its-not-magic-you-just-dont-understand-it-yet.html" class="post-link"><h3 class="h1 post-title">It's not magic, you just don't understand it yet</h3></a>
-          <p class="post-summary">
-            
-              <p><strong>Dev 1</strong>: “Wait, how did it do that?”<br />
-<strong>Dev 2</strong>: “I have not clue, it’s Spring* magic.”<br />
-<strong>Dev 1</strong>: “Oh well, as long as it just works!”<br />
-* <em>substitute Spring for any library or framework</em></p>
-
-<p>Every time I hear (or, admittedly, say) something like this, I cringe.</p>
-
-<p>When we refer to code as magic, we perpetuate the mindset that some code is unaccessible. That we don’t need to know <em>how</em> something works, only that is <em>does</em> work. This is not the mindset of a true craftsman. A craftsman seeks to understand the tools she uses, because she knows that she will be able to use them more effectively, and will be more able to deal with inevitable failures.</p>
 
 
             

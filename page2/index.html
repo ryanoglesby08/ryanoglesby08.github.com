@@ -17,7 +17,7 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Ryan Oglesby" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/assets/css/styles.css?201709041445" type="text/css">
+    <link rel="stylesheet" href="/assets/css/styles.css?201711191751" type="text/css">
     <link href='/stylesheets/all-e96e70bbb78ca0af094b24259e4b32a9.css' media='all' rel='stylesheet' type='text/css'>
 
     <!-- Fonts -->
@@ -123,6 +123,25 @@
     <div class="posts">
       
         <div class="post py3">
+          <p class="post-meta">Nov 19, 2016</p>
+          <a href="/2016/11/19/its-not-magic-you-just-dont-understand-it-yet.html" class="post-link"><h3 class="h1 post-title">It's not magic, you just don't understand it yet</h3></a>
+          <p class="post-summary">
+            
+              <p><strong>Dev 1</strong>: “Wait, how did it do that?”<br />
+<strong>Dev 2</strong>: “I have not clue, it’s Spring* magic.”<br />
+<strong>Dev 1</strong>: “Oh well, as long as it just works!”<br />
+* <em>substitute Spring for any library or framework</em></p>
+
+<p>Every time I hear (or, admittedly, say) something like this, I cringe.</p>
+
+<p>When we refer to code as magic, we perpetuate the mindset that some code is unaccessible. That we don’t need to know <em>how</em> something works, only that is <em>does</em> work. This is not the mindset of a true craftsman. A craftsman seeks to understand the tools she uses, because she knows that she will be able to use them more effectively, and will be more able to deal with inevitable failures.</p>
+
+
+            
+          </p>
+        </div>
+      
+        <div class="post py3">
           <p class="post-meta">Nov 4, 2016</p>
           <a href="/javascript/2016/11/04/on-injecting-a-javascript-environment.html" class="post-link"><h3 class="h1 post-title">On Injecting a JavaScript Environment</h3></a>
           <p class="post-summary">
@@ -168,22 +187,6 @@
 <p>So, my current team attacked this head-on using a great piece of technology: <a href="https://www.docker.com">Docker</a>! Using Docker as our sole interface to running things in our build pipeline, we sped it up, simplified it, and lived happily ever after.</p>
 
 <p><em>To give credit where credit is due, the implementation of this pattern was spearheaded by my colleague <a href="https://twitter.com/amber_ht">Amber Houle</a>.</em></p>
-
-
-            
-          </p>
-        </div>
-      
-        <div class="post py3">
-          <p class="post-meta">Jun 26, 2016</p>
-          <a href="/java/testing/patterns/2016/06/26/how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii.html" class="post-link"><h3 class="h1 post-title">How your 'Mother' can help you 'Build' cleaner unit tests - Part III</h3></a>
-          <p class="post-summary">
-            
-              <p>We ended <a href="/java/testing/patterns/2016/06/25/how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii.html">Part II</a> with an inner Builder for <code class="highlighter-rouge">Address</code>, which forced us to revert to specifying seemingly arbitrary values in each test that needed to build an <code class="highlighter-rouge">Address</code>.</p>
-
-<p>What I’ve usually seen at this point is pulling the Address objects into constants in each test class. As the test suite grows, the number of <code class="highlighter-rouge">private static final Address WHATEVER_ADDRESS = ...;</code> grows and grows. Doing that makes it hard to keep control over your test data, especially in a large codebase. A minor change to Address, such as a new invariant or an added field, could cause cascading changes to keep all those objects valid.</p>
-
-<p>To avoid that, the next step is actually a very simple one, and boils down to centralizing the definition and creation of an <code class="highlighter-rouge">Address</code> with an Object Mother.</p>
 
 
             
