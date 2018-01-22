@@ -7,8 +7,7 @@ I've been pretty heads down in a [ThoughtWorks](http://www.thoughtworks.com) pro
 
 So with that in mind…… another long overdue post! So say hello to [LazyDoc](https://github.com/ryanoglesby08/lazy-doc), a Ruby gem I have released. LazyDoc provides a DSL for extracting deeply nested values from a JSON document.
 
-Working with APIs
--------------------
+## Working with APIs
 
 In many projects I work on these days, the application consumes a 3rd party or internal API. In Ruby, it's tempting to just parse a JSON response from an API into a Hash and then pass that around your application.
 
@@ -39,6 +38,7 @@ def extract_user_from(json_body)
   User.new(body['first_name'], body['last_name'])
 end
 ```
+
 Now we have separated the JSON response from our application domain. Sweet! Ok, done... Right? Not quite. There are a few problems here.
 
 1. What about everything else in `json_body`? It is now lost. :(
@@ -47,8 +47,7 @@ Now we have separated the JSON response from our application domain. Sweet! Ok, 
 
 We can do better.
 
-Embedded Document Pattern
----------------------------------
+## Embedded Document Pattern
 
 The **Embedded Document Pattern** to the rescue! Defined by Martin Fowler [here](http://martinfowler.com/bliki/EmbeddedDocument.html). With this pattern, instead of parsing through your documents when they are received and building object graphs, we cache the document and only parse through it when necessary. Because sometimes your document may be large compared to the number of properties your application actually needs, you can save complexity and time.
 
@@ -75,9 +74,8 @@ def extract_user_from(json_body)
 end
 ```
 
-Lazy?
+## Lazy?
 
------------------------------------
 So why is it called *Lazy*Doc? The lazy feature is one of the coolest parts of this gem. The declarative method `access :first_name` merely defines a method that is able to fetch the `first_name` property from the JSON body. Only upon calling the method will the property be extracted and massaged according to any defined operations. Additionally, the returned value will be cached, so any subsequent calls will only return the cached value.
 
 Check the [README](https://github.com/ryanoglesby08/lazy-doc) for more information and examples. Also, the [acceptance specs](https://github.com/ryanoglesby08/lazy-doc/tree/v0.4.0/spec/acceptance) have full example usage.
