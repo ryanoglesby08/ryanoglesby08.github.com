@@ -4,6 +4,7 @@ import { Container } from 'react-responsive-grid'
 import { rhythm } from '../utils/typography'
 
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 import 'prismjs/themes/prism-solarizedlight.css'
 
@@ -17,6 +18,7 @@ const isRootPath = pathname => {
 }
 
 const Template = ({ location, children }) => (
+  // TODO: Switch to emotion. React responsive grid seems to use inline styles...
   <Container
     style={{
       maxWidth: rhythm(24),
@@ -25,6 +27,7 @@ const Template = ({ location, children }) => (
   >
     <Header root={isRootPath(location.pathname)} />
     {children()}
+    <Footer />
   </Container>
 )
 

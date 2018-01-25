@@ -4,7 +4,7 @@ import styled from 'react-emotion'
 import { rhythm, scale } from '../../utils/typography'
 
 import BlogName from './BlogName'
-import Nav from './Nav'
+import Nav from '../Nav'
 
 const H1BlogName = styled.h1({
   ...scale(1.5),
