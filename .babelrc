@@ -1,4 +1,4 @@
 {
   "presets": ["env", "stage-2", "react"],
-  "plugins": ["add-module-exports"]
+  "plugins": ["emotion", "add-module-exports"]
 }

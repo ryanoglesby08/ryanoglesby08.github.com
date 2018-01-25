@@ -1,41 +1,51 @@
 import React from 'react'
+import Link from 'gatsby-link'
+import styled from 'react-emotion'
 
 import { rhythm } from '../../utils/typography'
 
-const ulStyle = {
+const Wrapper = styled.div({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+})
+
+const BareList = styled.ul({
   listStyleType: 'none',
   margin: 0,
   padding: 0,
-}
-
-const liStyle = {
-  display: 'inline',
-  margin: 0,
-  padding: 0,
-  marginRight: rhythm(1),
-}
+  '& li:not(last-child)': {
+    display: 'inline',
+    margin: 0,
+    padding: 0,
+    marginRight: rhythm(0.75),
+  },
+  '& li:last-child': {
+    marginRight: 0,
+  },
+})
 
 const Nav = () => (
-  <div
-    style={{
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    }}
-  >
-    <ul style={ulStyle}>
-      <li style={liStyle}>Me</li>
-      <li style={liStyle}>OSS</li>
-      <li style={liStyle}>Featured</li>
-    </ul>
+  <Wrapper>
+    <BareList>
+      <li>
+        <Link to="/me">Me</Link>
+      </li>
+      <li>
+        <Link to="/oss">OSS</Link>
+      </li>
+      <li>
+        <Link to="/featured">Featured</Link>
+      </li>
+    </BareList>
 
-    <ul style={ulStyle}>
-      <li style={liStyle}>Github</li>
-      <li style={liStyle}>Feed</li>
-      <li style={liStyle}>Twitter</li>
-      <li style={liStyle}>LinkedIn</li>
-    </ul>
-  </div>
+    <BareList>
+      <li>Github</li>
+      <li>Feed</li>
+      <li>Twitter</li>
+      <li>LinkedIn</li>
+    </BareList>
+  </Wrapper>
 )
 
 export default Nav

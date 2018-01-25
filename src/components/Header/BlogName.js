@@ -1,18 +1,13 @@
 import React from 'react'
-
 import Link from 'gatsby-link'
+import styled from 'react-emotion'
 
-const BlogName = () => (
-  <Link
-    style={{
-      boxShadow: 'none',
-      textDecoration: 'none',
-      color: 'inherit',
-    }}
-    to="/"
-  >
-    Ryan Oglesby
-  </Link>
-)
+const BareLink = styled(Link)({
+  boxShadow: 'none',
+  textDecoration: 'none',
+  color: 'inherit',
+})
+
+const BlogName = () => <BareLink to="/">Ryan Oglesby</BareLink>
 
 export default BlogName
