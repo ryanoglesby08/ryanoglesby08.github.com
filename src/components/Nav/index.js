@@ -4,16 +4,16 @@ import styled from 'react-emotion'
 
 import { rhythm } from '../../utils/typography'
 
-const Wrapper = styled.div({
+import BareList from '../BareList'
+
+const Wrapper = styled.nav({
   display: 'flex',
   flexDirection: 'row',
+  flexWrap: 'wrap',
   justifyContent: 'space-between',
 })
 
-const BareList = styled.ul({
-  listStyleType: 'none',
-  margin: 0,
-  padding: 0,
+const InlineList = styled(BareList)({
   '& li:not(last-child)': {
     display: 'inline',
     margin: 0,
@@ -27,7 +27,7 @@ const BareList = styled.ul({
 
 const Nav = () => (
   <Wrapper>
-    <BareList>
+    <InlineList>
       <li>
         <Link to="/me">Me</Link>
       </li>
@@ -37,14 +37,14 @@ const Nav = () => (
       <li>
         <Link to="/featured">Featured</Link>
       </li>
-    </BareList>
+    </InlineList>
 
-    <BareList>
+    <InlineList>
       <li>Github</li>
       <li>Feed</li>
       <li>Twitter</li>
       <li>LinkedIn</li>
-    </BareList>
+    </InlineList>
   </Wrapper>
 )
 

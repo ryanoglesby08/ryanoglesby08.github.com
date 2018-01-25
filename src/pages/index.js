@@ -1,10 +1,12 @@
 import React from 'react'
-import Link from 'gatsby-link'
-import get from 'lodash/get'
 import Helmet from 'react-helmet'
+import Link from 'gatsby-link'
 
-import Bio from '../components/Bio'
+import get from 'lodash/get'
+
 import { rhythm } from '../utils/typography'
+
+import BareList from '../components/BareList'
 
 class BlogIndex extends React.Component {
   render() {
@@ -12,13 +14,14 @@ class BlogIndex extends React.Component {
     const posts = get(this, 'props.data.allMarkdownRemark.edges')
 
     return (
-      <div>
+      <BareList>
         <Helmet title={siteTitle} />
 
         {posts.map(({ node }) => {
           const title = get(node, 'frontmatter.title') || node.fields.slug
+
           return (
-            <div key={node.fields.slug}>
+            <li key={node.fields.slug}>
               <h3
                 style={{
                   marginBottom: rhythm(1 / 4),
@@ -30,10 +33,10 @@ class BlogIndex extends React.Component {
               </h3>
               <small>{node.frontmatter.date}</small>
               <p dangerouslySetInnerHTML={{ __html: node.excerpt }} />
-            </div>
+            </li>
           )
         })}
-      </div>
+      </BareList>
     )
   }
 }

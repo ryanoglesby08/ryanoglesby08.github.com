@@ -1,10 +1,20 @@
 import React from 'react'
 import Helmet from 'react-helmet'
+import styled from 'react-emotion'
 import Link from 'gatsby-link'
+
 import get from 'lodash/get'
 
-import Bio from '../components/Bio'
 import { rhythm, scale } from '../utils/typography'
+
+import BareList from '../components/BareList'
+
+const NextAndPrevLinks = styled(BareList)({
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  justifyContent: 'space-between',
+})
 
 class BlogPostTemplate extends React.Component {
   render() {
@@ -26,23 +36,9 @@ class BlogPostTemplate extends React.Component {
         >
           {post.frontmatter.date}
         </p>
-        <div dangerouslySetInnerHTML={{ __html: post.html }} />
-        <hr
-          style={{
-            marginBottom: rhythm(1),
-          }}
-        />
-        <Bio />
+        <section dangerouslySetInnerHTML={{ __html: post.html }} />
 
-        <ul
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            listStyle: 'none',
-            padding: 0,
-          }}
-        >
+        <NextAndPrevLinks>
           {previous && (
             <li>
               <Link to={previous.fields.slug} rel="prev">
@@ -58,7 +54,7 @@ class BlogPostTemplate extends React.Component {
               </Link>
             </li>
           )}
-        </ul>
+        </NextAndPrevLinks>
       </div>
     )
   }

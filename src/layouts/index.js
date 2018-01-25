@@ -6,7 +6,12 @@ import { rhythm } from '../utils/typography'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 
+// Import code highlight theme
 import 'prismjs/themes/prism-solarizedlight.css'
+
+// Import typefaces
+import 'typeface-montserrat'
+import 'typeface-merriweather'
 
 const isRootPath = pathname => {
   let rootPath = '/'
@@ -26,7 +31,7 @@ const Template = ({ location, children }) => (
     }}
   >
     <Header root={isRootPath(location.pathname)} />
-    {children()}
+    <main>{children()}</main>
     <Footer />
   </Container>
 )
