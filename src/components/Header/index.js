@@ -12,7 +12,8 @@ const H1BlogName = styled.h1({
   marginBottom: rhythm(1.5),
 })
 
-const H3BlogName = styled.h3({
+const H3BlogName = styled.span({
+  ...scale(0.5),
   fontFamily: 'Montserrat, sans-serif',
   marginTop: 0,
 })

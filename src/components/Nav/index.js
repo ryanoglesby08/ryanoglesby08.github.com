@@ -29,7 +29,7 @@ const Nav = () => (
   <Wrapper>
     <InlineList>
       <li>
-        <Link to="/me">Me</Link>
+        <Link to="/about">Me</Link>
       </li>
       <li>
         <Link to="/oss">OSS</Link>
