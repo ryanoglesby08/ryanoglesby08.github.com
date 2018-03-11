@@ -1,6 +1,7 @@
 ---
 title: GOTO Chicago 2014 Experience Report
 date: "2014-05-26T13:31:00.000Z"
+type: post
 ---
 
 I had the privilege of attending [Goto;con 2014](http://gotocon.com/chicago-2014/) in Chicago. It was smaller than I anticipated, spread over just a few conference rooms in a small corner of the Drake Hotel, with no more than 400 attendees. This gave the conference a fairly informal, casual vibe. The talks were spread over a variety of tracks, from distributed systems to UX to functional programming languages, which kept things fresh over the 2 day conference.

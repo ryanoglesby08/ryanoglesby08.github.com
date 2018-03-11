@@ -1,6 +1,7 @@
 ---
 title: Meet LazyDoc
 date: "2013-12-25T19:44:00.000Z"
+type: post
 ---
 
 I've been pretty heads down in a [ThoughtWorks](http://www.thoughtworks.com) project for the better part of 2013 and have unfortunately neglected this blog. But 2014 is a new year and I want to get into a semi-regular cadence of posts.

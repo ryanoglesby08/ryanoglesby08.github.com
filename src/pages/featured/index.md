@@ -1,5 +1,6 @@
 ---
 title: Featured Articles
+type: page
 ---
 
 ## Hackathons for the Enterprise

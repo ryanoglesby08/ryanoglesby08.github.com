@@ -1,6 +1,7 @@
 ---
 title: Testing JavaScript Web Workers with Jasmine
 date: "2014-08-29T15:48:00.000Z"
+type: post
 ---
 
 JavaScript [Web Workers](https://developer.mozilla.org/en-US/docs/Web/Guide/Performance/Using_web_workers) have been around for awhile now, but I had not needed them until recently. Without going into too much domain specific info about the actual use case, I decided to go with Web Workers to handle map reduce style statistic calculations on a data set in the browser.

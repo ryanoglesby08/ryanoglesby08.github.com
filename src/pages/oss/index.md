@@ -1,5 +1,6 @@
 ---
 title: Open Source Software
+type: page
 ---
 
 <h3 class="oss-title">
