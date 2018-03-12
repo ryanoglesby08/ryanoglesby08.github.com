@@ -34,6 +34,9 @@ const Nav = () => (
   <Wrapper>
     <InlineList>
       <li>
+        <Link to="/">Blog</Link>
+      </li>
+      <li>
         <Link to="/about">Me</Link>
       </li>
       <li>

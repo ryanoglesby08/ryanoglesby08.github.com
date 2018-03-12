@@ -38,23 +38,25 @@ class BlogPostTemplate extends React.Component {
         </p>
         <section dangerouslySetInnerHTML={{ __html: post.html }} />
 
-        <NextAndPrevLinks>
-          {previous && (
-            <li>
-              <Link to={previous.fields.slug} rel="prev">
-                ← {previous.frontmatter.title}
-              </Link>
-            </li>
-          )}
+        {post.frontmatter.type === 'post' && (
+          <NextAndPrevLinks>
+            {previous && (
+              <li>
+                <Link to={previous.fields.slug} rel="prev">
+                  ← {previous.frontmatter.title}
+                </Link>
+              </li>
+            )}
 
-          {next && (
-            <li>
-              <Link to={next.fields.slug} rel="next">
-                {next.frontmatter.title} →
-              </Link>
-            </li>
-          )}
-        </NextAndPrevLinks>
+            {next && (
+              <li>
+                <Link to={next.fields.slug} rel="next">
+                  {next.frontmatter.title} →
+                </Link>
+              </li>
+            )}
+          </NextAndPrevLinks>
+        )}
       </div>
     )
   }
@@ -67,13 +69,13 @@ export const pageQuery = graphql`
     site {
       siteMetadata {
         title
-        author
       }
     }
     markdownRemark(fields: { slug: { eq: $slug } }) {
       id
       html
       frontmatter {
+        type
         title
         date(formatString: "MMMM DD, YYYY")
       }
