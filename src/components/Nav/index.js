@@ -5,6 +5,7 @@ import styled from 'react-emotion'
 import { rhythm } from '../../utils/typography'
 
 import BareList from '../BareList'
+import Icon, { GITHUB, LINKEDIN, RSS, TWITTER } from './Icon'
 
 const Wrapper = styled.nav({
   display: 'flex',
@@ -25,6 +26,10 @@ const InlineList = styled(BareList)({
   },
 })
 
+const BareLink = styled.a({
+  boxShadow: 'none',
+})
+
 const Nav = () => (
   <Wrapper>
     <InlineList>
@@ -40,10 +45,29 @@ const Nav = () => (
     </InlineList>
 
     <InlineList>
-      <li>Github</li>
-      <li>Feed</li>
-      <li>Twitter</li>
-      <li>LinkedIn</li>
+      <li>
+        <BareLink href="https://github.com/ryanoglesby08" target="_blank">
+          <Icon icon={GITHUB} />
+        </BareLink>
+      </li>
+      <li>
+        <BareLink href="https://twitter.com/ryanoglesby08" target="_blank">
+          <Icon icon={TWITTER} />
+        </BareLink>
+      </li>
+      <li>
+        <BareLink
+          href="https://www.linkedin.com/in/ryanoglesby08"
+          target="_blank"
+        >
+          <Icon icon={LINKEDIN} />
+        </BareLink>
+      </li>
+      <li>
+        <BareLink href="/feed.xml" target="_blank">
+          <Icon icon={RSS} />
+        </BareLink>
+      </li>
     </InlineList>
   </Wrapper>
 )
