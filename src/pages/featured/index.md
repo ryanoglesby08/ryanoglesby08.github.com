@@ -3,16 +3,16 @@ title: Featured Articles
 type: page
 ---
 
-## Hackathons for the Enterprise
+## UI Components by Design
 
-* [22 July, 2015 on ThoughtWorks Insights](https://www.thoughtworks.com/insights/blog/hackathons-enterprise)
-* [20 August, 2015 on Medium](https://medium.com/featured-insights/hackathons-for-the-enterprise-c18a9c130fb4)
+* [ThoughtWorks Insights](https://www.thoughtworks.com/insights/blog/ui-components-design) on 24 June, 2017
+* [Chicago Coder Conference](https://www.thoughtworks.com/talks/ui-components-designers-developers-chicago-2017) at 26 June, 2017
 
 ## Pairing, Are You Doing it Wrong?
 
-* [28 July, 2016 on ThoughtWorks Insights](https://www.thoughtworks.com/insights/blog/pairing-are-you-doing-it-wrong)
+* [ThoughtWorks Insights](https://www.thoughtworks.com/insights/blog/pairing-are-you-doing-it-wrong) on 28 July, 2016
 
-## UI Components by design
+## Hackathons for the Enterprise
 
-* [24 June, 2017 on ThoughtWorks Insights](https://www.thoughtworks.com/insights/blog/ui-components-design)
-* [26 June, 2017 at Chicago Coder Conference](https://www.thoughtworks.com/talks/ui-components-designers-developers-chicago-2017)
+* [ThoughtWorks Insights](https://www.thoughtworks.com/insights/blog/hackathons-enterprise) on 22 July, 2015
+* [Medium](https://medium.com/featured-insights/hackathons-for-the-enterprise-c18a9c130fb4) on 22 July, 2015

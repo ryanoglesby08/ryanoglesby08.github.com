@@ -46,25 +46,22 @@ const Nav = () => (
 
     <InlineList>
       <li>
-        <BareLink href="https://github.com/ryanoglesby08" target="_blank">
+        <BareLink href="https://github.com/ryanoglesby08">
           <Icon icon={GITHUB} />
         </BareLink>
       </li>
       <li>
-        <BareLink href="https://twitter.com/ryanoglesby08" target="_blank">
+        <BareLink href="https://twitter.com/ryanoglesby08">
           <Icon icon={TWITTER} />
         </BareLink>
       </li>
       <li>
-        <BareLink
-          href="https://www.linkedin.com/in/ryanoglesby08"
-          target="_blank"
-        >
+        <BareLink href="https://www.linkedin.com/in/ryanoglesby08">
           <Icon icon={LINKEDIN} />
         </BareLink>
       </li>
       <li>
-        <BareLink href="/feed.xml" target="_blank">
+        <BareLink href="/feed.xml">
           <Icon icon={RSS} />
         </BareLink>
       </li>
