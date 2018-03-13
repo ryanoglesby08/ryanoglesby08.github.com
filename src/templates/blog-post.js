@@ -14,6 +14,9 @@ const NextAndPrevLinks = styled(BareList)({
   flexDirection: 'row',
   flexWrap: 'wrap',
   justifyContent: 'space-between',
+  '& li': {
+    maxWidth: '50%',
+  },
 })
 
 class BlogPostTemplate extends React.Component {
