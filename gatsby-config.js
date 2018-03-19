@@ -33,6 +33,14 @@ module.exports = {
             },
           },
           'gatsby-remark-prismjs',
+          {
+            resolve: 'gatsby-remark-embed-snippet',
+            options: {
+              // Example code links are relative to this dir.
+              // eg examples/path/to/file.js
+              directory: `${__dirname}/src/code-snippets/`,
+            },
+          },
           'gatsby-remark-copy-linked-files',
           'gatsby-remark-smartypants',
         ],
