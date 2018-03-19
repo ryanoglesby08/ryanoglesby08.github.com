@@ -41,7 +41,7 @@ class BlogPostTemplate extends React.Component {
         </p>
         <section dangerouslySetInnerHTML={{ __html: post.html }} />
 
-        {post.frontmatter.type === 'post' && (
+        {post.frontmatter.layout === 'post' && (
           <NextAndPrevLinks>
             {previous && (
               <li>
@@ -78,7 +78,7 @@ export const pageQuery = graphql`
       id
       html
       frontmatter {
-        type
+        layout
         title
         date(formatString: "MMMM DD, YYYY")
       }

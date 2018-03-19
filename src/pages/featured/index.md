@@ -1,6 +1,6 @@
 ---
 title: Featured Articles
-type: page
+layout: page
 ---
 
 ## UI Components by Design

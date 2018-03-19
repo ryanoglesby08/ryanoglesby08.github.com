@@ -1,7 +1,7 @@
 ---
 title: Watching the Watchers in AngularJS
 date: "2015-04-07T08:43:55.000Z"
-type: post
+layout: post
 ---
 
 I have been doing quite a bit of AngularJS performance tweaking on my latest project. It is no secret that Angular performance can quickly degrade due to the implementation of its [digest cycle](https://docs.angularjs.org/guide/scope). I'll avoid Angular bashing here because this is well-documented and blogged about to death (Google it). You're welcome.

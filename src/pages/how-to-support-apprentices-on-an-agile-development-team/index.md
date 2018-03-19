@@ -1,7 +1,7 @@
 ---
 title: "How to Support Apprentices on an Agile Development Team"
 date: "2015-01-26T19:39:06.000Z"
-type: post
+layout: post
 ---
 
 Recently, my team was tasked with figuring out how to introduce what we chose to call "Apprentice Developers" into the team in order to help on board new talent into the company. How would our day-to-day interactions and development practices have to change in order for less experienced team members to grow while being productive? I was pretty excited about this initiative, as I enjoy mentoring others to become better software developers and being part of effective, high-performing teams.

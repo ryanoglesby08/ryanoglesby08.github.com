@@ -51,7 +51,7 @@ export const pageQuery = graphql`
       }
     }
     allMarkdownRemark(
-      filter: { frontmatter: { type: { eq: "post" } } }
+      filter: { frontmatter: { layout: { eq: "post" } } }
       sort: { fields: [frontmatter___date], order: DESC }
     ) {
       edges {

@@ -1,6 +1,6 @@
 ---
 title: About
-type: page
+layout: page
 ---
 
 ![Ryan Oglesby](./profile.jpeg) Hi! I'm Ryan. I write code for a living. I also write code-related things down here sometimes.
