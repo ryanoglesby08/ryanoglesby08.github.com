@@ -28,7 +28,7 @@ Once a commit has left my local machine, it is effectively locked! If I notice a
 
 Why? Imagine this interaction between 2 developers, Patrick and Molly:
 
-<table class="blog-table even">
+<table>
   <thead>
     <tr>
       <th>Patrick</th>
