@@ -14,6 +14,31 @@ export const GITHUB = {
   allyDescription: 'The Github logo is an octocat.',
 }
 
+// https://raw.githubusercontent.com/Keyamoon/IcoMoon-Free/master/SVG/088-laptop.svg
+export const LAPTOP = {
+  d:
+    'M14 11v-8c0-0.55-0.45-1-1-1h-10c-0.55 0-1 0.45-1 1v8h-2v3h16v-3h-2zM10 13h-4v-1h4v1zM13 11h-10v-7.998c0.001-0.001 0.001-0.001 0.002-0.002h9.996c0.001 0.001 0.001 0.001 0.002 0.002v7.998z',
+  allyTitle: 'A laptop',
+  allyDescription: 'An open laptop computer',
+}
+
+// https://raw.githubusercontent.com/Keyamoon/IcoMoon-Free/master/SVG/459-linkedin2.svg
+export const LINKEDIN = {
+  d:
+    'M6 6h2.767v1.418h0.040c0.385-0.691 1.327-1.418 2.732-1.418 2.921 0 3.461 1.818 3.461 4.183v4.817h-2.885v-4.27c0-1.018-0.021-2.329-1.5-2.329-1.502 0-1.732 1.109-1.732 2.255v4.344h-2.883v-9z M1 6h3v9h-3v-9z M4 3.5c0 0.828-0.672 1.5-1.5 1.5s-1.5-0.672-1.5-1.5c0-0.828 0.672-1.5 1.5-1.5s1.5 0.672 1.5 1.5z',
+  allyTitle: 'Linked In',
+  allyDescription:
+    'The Linked In logo is the word in displayed in lower case text inside of a square.',
+}
+
+// https://github.com/Keyamoon/IcoMoon-Free/blob/master/SVG/072-location.svg
+export const LOCATION = {
+  d:
+    'M8 0c-2.761 0-5 2.239-5 5 0 5 5 11 5 11s5-6 5-11c0-2.761-2.239-5-5-5zM8 8c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z',
+  allyTitle: 'Map pin',
+  allyDescription: 'A map pin',
+}
+
 // https://raw.githubusercontent.com/Keyamoon/IcoMoon-Free/master/SVG/412-rss.svg
 export const RSS = {
   d:
@@ -28,15 +53,6 @@ export const TWITTER = {
     'M16 3.538c-0.588 0.263-1.222 0.438-1.884 0.516 0.678-0.406 1.197-1.050 1.444-1.816-0.634 0.375-1.338 0.65-2.084 0.797-0.6-0.638-1.453-1.034-2.397-1.034-1.813 0-3.281 1.469-3.281 3.281 0 0.256 0.028 0.506 0.084 0.747-2.728-0.138-5.147-1.444-6.766-3.431-0.281 0.484-0.444 1.050-0.444 1.65 0 1.138 0.578 2.144 1.459 2.731-0.538-0.016-1.044-0.166-1.488-0.409 0 0.013 0 0.028 0 0.041 0 1.591 1.131 2.919 2.634 3.219-0.275 0.075-0.566 0.116-0.866 0.116-0.212 0-0.416-0.022-0.619-0.059 0.419 1.303 1.631 2.253 3.066 2.281-1.125 0.881-2.538 1.406-4.078 1.406-0.266 0-0.525-0.016-0.784-0.047 1.456 0.934 3.181 1.475 5.034 1.475 6.037 0 9.341-5.003 9.341-9.341 0-0.144-0.003-0.284-0.009-0.425 0.641-0.459 1.197-1.038 1.637-1.697z',
   allyTitle: 'Twitter',
   allyDescription: 'The Twitter logo is a small bird in flight.',
-}
-
-// https://raw.githubusercontent.com/Keyamoon/IcoMoon-Free/master/SVG/459-linkedin2.svg
-export const LINKEDIN = {
-  d:
-    'M6 6h2.767v1.418h0.040c0.385-0.691 1.327-1.418 2.732-1.418 2.921 0 3.461 1.818 3.461 4.183v4.817h-2.885v-4.27c0-1.018-0.021-2.329-1.5-2.329-1.502 0-1.732 1.109-1.732 2.255v4.344h-2.883v-9z M1 6h3v9h-3v-9z M4 3.5c0 0.828-0.672 1.5-1.5 1.5s-1.5-0.672-1.5-1.5c0-0.828 0.672-1.5 1.5-1.5s1.5 0.672 1.5 1.5z',
-  allyTitle: 'Linked In',
-  allyDescription:
-    'The Linked In logo is the word in displayed in lower case text inside of a square.',
 }
 
 class Icon extends React.Component {

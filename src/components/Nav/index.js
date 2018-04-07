@@ -5,7 +5,7 @@ import styled from 'react-emotion'
 import { rhythm } from '../../utils/typography'
 
 import BareList from '../BareList'
-import Icon, { GITHUB, LINKEDIN, RSS, TWITTER } from './Icon'
+import Icon, { GITHUB, LINKEDIN, RSS, TWITTER } from '../Icon'
 
 const Wrapper = styled.nav({
   display: 'flex',
