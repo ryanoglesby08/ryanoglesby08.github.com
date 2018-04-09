@@ -8,6 +8,7 @@ import Footer from '../components/Footer'
 
 // Import code highlight theme
 import 'prismjs/themes/prism-solarizedlight.css'
+import '../utils/prism-solarizedlight-line-highlights.css'
 
 // Import typefaces
 import 'typeface-montserrat'
