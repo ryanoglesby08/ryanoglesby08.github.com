@@ -83,7 +83,7 @@ the screen when opened. The dynamic state is `sliderMenuVisible`, which changes 
 property, triggering an animation. Notice the use of the `nav` class name for presentational styling
 concerns too.
 
-```js
+```javascript
 // Nav.js
 
 let styles = {

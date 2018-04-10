@@ -28,7 +28,7 @@ try the simplest [Jasmine](http://jasmine.github.io/) test first:
 
 _Note: This is just an example with a similar structure as my actual app._
 
-```js
+```javascript
 // sum_foo.js
 
 onmessage = function(e) {
@@ -42,7 +42,7 @@ onmessage = function(e) {
 }
 ```
 
-```js
+```javascript
 // sum_foo_spec.js
 
 it('sums the values of foo', function() {
@@ -75,7 +75,7 @@ Turns out that Jasmine already has support for these type of asynchronous operat
 a `done()` function, that Jasmine will use to know when an asynchronous test has finished.
 http://jasmine.github.io/2.0/introduction.html#section-Asynchronous_Support
 
-```js
+```javascript
 // sum_foo.js_spec
 
 it('sums the values of foo', function(done) {
@@ -101,7 +101,7 @@ Time to be clever. Since my goal was to test the Web Worker code itself, I decid
 engineer the Web Worker API. I realized that the Worker was making an XMLHttpRequest to grab the
 script and then executing the code in its own context, so I took a similar strategy:
 
-```js
+```javascript
 // sum_foo_spec.js
 
 it('sums the values of foo', function() {
@@ -136,7 +136,7 @@ the expectation before the action of the test, so I turned to promises to help o
 _Note: using jQuery’s Deferred here as my promise library because I already have jQuery in the
 project._
 
-```js
+```javascript
 // worker_helper.js
 
 var getWorker = function(path) {
@@ -175,7 +175,7 @@ var workerTester = function(workerCode) {
 }
 ```
 
-```js
+```javascript
 // sum_foo_spec.js
 
 var workerCode = getWorker('sum_foo.js')

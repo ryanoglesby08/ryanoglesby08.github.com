@@ -71,7 +71,7 @@ Here is the gist:
 </html>
 ```
 
-```js{9-12,15}
+```javascript{9-12,15}
 // 2. server.js
 
 const express = require('express')
@@ -135,7 +135,7 @@ export API_URL="http://dev.my-api.some-domain.com"
 webpack --define process.env.API_URL="'$API_URL'"
 ```
 
-```js
+```javascript
 // inside your application code
 
 const apiUrl = `${process.env.API_URL || 'http://localhost:8080'}`
@@ -176,7 +176,7 @@ html(lang="en")
     script(type="text/javascript" src="/app.js")
 ```
 
-```js{11}
+```javascript{11}
 // server.js
 
 const express = require('express')
@@ -200,7 +200,7 @@ export API_URL="http://dev.my-api.some-domain.com"
 node server.js
 ```
 
-```js
+```javascript
 // app.js
 
 console.log('The API_URL is: ' + window.config.API_URL)
