@@ -39,12 +39,6 @@ const Nav = () => (
       <li>
         <Link to="/about">Me</Link>
       </li>
-      <li>
-        <Link to="/oss">OSS</Link>
-      </li>
-      <li>
-        <Link to="/featured">Featured</Link>
-      </li>
     </InlineList>
 
     <InlineList>
