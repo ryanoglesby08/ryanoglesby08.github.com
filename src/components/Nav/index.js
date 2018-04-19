@@ -58,7 +58,7 @@ const Nav = () => (
         </BareLink>
       </li>
       <li>
-        <BareLink href="/feed.xml">
+        <BareLink href="/rss.xml">
           <Icon icon={RSS} />
         </BareLink>
       </li>
