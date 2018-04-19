@@ -1,7 +1,6 @@
 ---
 title: Easing into Rubocop with git
 date: "2015-02-25T20:08:31.000Z"
-layout: post
 ---
 
 ## Dropping Rubocop into an existing codebase

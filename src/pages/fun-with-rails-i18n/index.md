@@ -1,7 +1,6 @@
 ---
 title: Fun With Rails I18n
 date: "2013-01-29T20:00:00.000Z"
-layout: post
 ---
 
 ## Skipping the Basics...

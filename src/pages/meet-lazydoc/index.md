@@ -1,7 +1,6 @@
 ---
 title: Meet LazyDoc
 date: "2013-12-25T19:44:00.000Z"
-layout: post
 ---
 
 I've been pretty heads down in a [ThoughtWorks](http://www.thoughtworks.com) project for the better

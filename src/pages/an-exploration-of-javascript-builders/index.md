@@ -1,7 +1,6 @@
 ---
 title: An Exploration of JavaScript Builders
 date: "2017-03-03T09:40:44.000Z"
-layout: post
 ---
 
 Builders seems to be a popular topic for me, as I've

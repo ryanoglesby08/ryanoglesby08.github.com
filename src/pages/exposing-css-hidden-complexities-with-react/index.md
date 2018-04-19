@@ -1,7 +1,6 @@
 ---
 title: Exposing CSS Hidden Complexities with React
 date: "2017-11-18T00:17:42.000Z"
-layout: post
 ---
 
 When we create web applications we use style sheets to describe presentation, and we use JavaScript

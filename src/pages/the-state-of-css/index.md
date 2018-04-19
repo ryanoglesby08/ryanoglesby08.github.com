@@ -1,7 +1,6 @@
 ---
 title: The State of CSS
 date: "2017-05-25T16:34:35.000Z"
-layout: post
 ---
 
 It's no secret that we are currently experiencing a Cambrian explosion of innovation by the

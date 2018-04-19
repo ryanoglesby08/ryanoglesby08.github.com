@@ -1,7 +1,6 @@
 ---
 title: Rails Controller Specs Don't Always Play Nice With Hashie
 date: "2012-12-26T14:58:00.000Z"
-layout: post
 ---
 
 ## Hashie and Rspec - The Problem:

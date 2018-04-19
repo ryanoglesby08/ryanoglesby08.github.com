@@ -1,7 +1,6 @@
 ---
 title: You're a Champion
 date: "2016-01-23T14:04:06.000Z"
-layout: post
 ---
 
 Recently, my team embarked on a strategy/experiment designed to distribute the effort of driving

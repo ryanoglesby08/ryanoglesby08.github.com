@@ -1,7 +1,6 @@
 ---
 title: YAGNI a'int a Design Principle
 date: "2016-02-12T13:21:24.000Z"
-layout: post
 ---
 
 [You Ain’t Gonna Need It](http://c2.com/cgi/wiki?YouArentGonnaNeedIt) is an XP practice that

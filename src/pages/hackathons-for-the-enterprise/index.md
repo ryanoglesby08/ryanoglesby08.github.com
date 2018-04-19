@@ -1,7 +1,6 @@
 ---
 title: Hackathons for the Enterprise
 date: "2015-07-26T10:30:04.000Z"
-layout: post
 ---
 
 A few months ago I helped to plan and execute a Hackathon for my project team. Though it was not the

@@ -1,7 +1,6 @@
 ---
 title: "How your 'Mother' can help you 'Build' cleaner unit tests - Part I"
 date: "2016-06-23T13:34:08.000Z"
-layout: post
 ---
 
 Over the past few months on my project, a pattern emerged for using Builders and Object Mothers to

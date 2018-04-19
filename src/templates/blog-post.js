@@ -44,25 +44,23 @@ class BlogPostTemplate extends React.Component {
         </p>
         <section dangerouslySetInnerHTML={{ __html: post.html }} />
 
-        {post.frontmatter.layout === 'post' && (
-          <NextAndPrevLinks>
-            {previous && (
-              <li>
-                <Link to={previous.fields.slug} rel="prev">
-                  ← {previous.frontmatter.title}
-                </Link>
-              </li>
-            )}
+        <NextAndPrevLinks>
+          {previous && (
+            <li>
+              <Link to={previous.fields.slug} rel="prev">
+                ← {previous.frontmatter.title}
+              </Link>
+            </li>
+          )}
 
-            {next && (
-              <li>
-                <Link to={next.fields.slug} rel="next">
-                  {next.frontmatter.title} →
-                </Link>
-              </li>
-            )}
-          </NextAndPrevLinks>
-        )}
+          {next && (
+            <li>
+              <Link to={next.fields.slug} rel="next">
+                {next.frontmatter.title} →
+              </Link>
+            </li>
+          )}
+        </NextAndPrevLinks>
       </div>
     )
   }
@@ -81,7 +79,6 @@ export const pageQuery = graphql`
       id
       html
       frontmatter {
-        layout
         title
         date(formatString: "MMMM DD, YYYY")
       }

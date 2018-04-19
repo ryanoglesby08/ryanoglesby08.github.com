@@ -1,7 +1,6 @@
 ---
 title: On Injecting a JavaScript Environment
 date: "2016-11-04T16:44:20.000Z"
-layout: post
 ---
 
 **Updated 2017-02-12**: Added a strategy for loading configuration at initial page load, using an

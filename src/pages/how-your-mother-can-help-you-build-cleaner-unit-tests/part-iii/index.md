@@ -1,7 +1,6 @@
 ---
 title: "How your 'Mother' can help you 'Build' cleaner unit tests - Part III"
 date: "2016-06-26T21:28:58.000Z"
-layout: post
 ---
 
 We ended [Part II](/how-your-mother-can-help-you-build-cleaner-unit-tests/part-ii) with an inner

@@ -1,7 +1,6 @@
 ---
 title: Harmonious Stylesheets and Inline Styles in React
 date: "2016-10-15T14:28:00.000Z"
-layout: post
 ---
 
 Styling React components seems to be one of those things where there are a lot of solutions

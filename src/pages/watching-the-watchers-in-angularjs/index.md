@@ -1,7 +1,6 @@
 ---
 title: Watching the Watchers in AngularJS
 date: "2015-04-07T08:43:55.000Z"
-layout: post
 ---
 
 I have been doing quite a bit of AngularJS performance tweaking on my latest project. It is no

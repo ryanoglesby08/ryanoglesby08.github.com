@@ -1,7 +1,6 @@
 ---
 title: Conceptualizing How a Modern Single Page App is Served
 date: "2017-05-11T13:30:08.000Z"
-layout: post
 ---
 
 I've noticed some confusion in how Single Page Applications are served among developers who are new

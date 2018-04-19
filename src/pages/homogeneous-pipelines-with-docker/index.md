@@ -1,7 +1,6 @@
 ---
 title: Homogeneous Pipelines with Docker
 date: "2016-09-26T09:55:17.000Z"
-layout: post
 ---
 
 [Continuous Integration Build Pipelines](http://martinfowler.com/articles/continuousIntegration.html)

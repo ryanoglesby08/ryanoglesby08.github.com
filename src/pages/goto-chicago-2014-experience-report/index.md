@@ -1,7 +1,6 @@
 ---
 title: GOTO Chicago 2014 Experience Report
 date: "2014-05-26T13:31:00.000Z"
-layout: post
 ---
 
 I had the privilege of attending [Goto;con 2014](http://gotocon.com/chicago-2014/) in Chicago. It

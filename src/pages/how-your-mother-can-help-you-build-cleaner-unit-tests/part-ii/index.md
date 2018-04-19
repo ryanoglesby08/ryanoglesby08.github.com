@@ -1,7 +1,6 @@
 ---
 title: "How your 'Mother' can help you 'Build' cleaner unit tests - Part II"
 date: "2016-06-25T14:20:26.000Z"
-layout: post
 ---
 
 In [Part I](/how-your-mother-can-help-you-build-cleaner-unit-tests/part-i), we created a separate

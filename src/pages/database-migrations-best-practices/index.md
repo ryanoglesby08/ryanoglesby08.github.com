@@ -1,7 +1,6 @@
 ---
 title: Database Migrations Best Practices
 date: "2015-08-15T15:53:23.000Z"
-layout: post
 ---
 
 Only once have I worked on a project that did not interact directly with a relational database.

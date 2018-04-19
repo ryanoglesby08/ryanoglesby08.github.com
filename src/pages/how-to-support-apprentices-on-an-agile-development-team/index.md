@@ -1,7 +1,6 @@
 ---
 title: "How to Support Apprentices on an Agile Development Team"
 date: "2015-01-26T19:39:06.000Z"
-layout: post
 ---
 
 Recently, my team was tasked with figuring out how to introduce what we chose to call "Apprentice

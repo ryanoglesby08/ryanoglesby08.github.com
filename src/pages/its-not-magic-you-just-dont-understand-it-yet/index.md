@@ -1,7 +1,6 @@
 ---
 title: It's not magic, you just don't understand it yet
 date: "2016-11-19T14:09:35.000Z"
-layout: post
 ---
 
 <!-- prettier-ignore -->

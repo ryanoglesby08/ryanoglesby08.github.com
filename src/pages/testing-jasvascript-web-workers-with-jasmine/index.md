@@ -1,7 +1,6 @@
 ---
 title: Testing JavaScript Web Workers with Jasmine
 date: "2014-08-29T15:48:00.000Z"
-layout: post
 ---
 
 JavaScript
