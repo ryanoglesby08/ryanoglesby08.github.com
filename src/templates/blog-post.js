@@ -4,6 +4,7 @@ import styled from 'react-emotion'
 import Link from 'gatsby-link'
 
 import get from 'lodash/get'
+import ReactDisqusThread from 'react-disqus-thread'
 
 import { rhythm, scale } from '../utils/typography'
 
@@ -61,6 +62,10 @@ class BlogPostTemplate extends React.Component {
             </li>
           )}
         </NextAndPrevLinks>
+
+        {process.env.NODE_ENV === 'production' && (
+          <ReactDisqusThread shortname="ryanoglesby" title={post.frontmatter.title} />
+        )}
       </div>
     )
   }
