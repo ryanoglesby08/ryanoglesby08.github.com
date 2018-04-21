@@ -53,7 +53,7 @@
     "dev": "gatsby develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
-    "deploy": "gatsby build --prefix-paths && gh-pages -d public",
+    "deploy": "gatsby build && gh-pages -b master -d public",
     "lint": "eslint --ignore-pattern public .",
     "format": "prettier --write 'src/**/*.js' 'src/**/*.md'",
     "precommit": "npm run lint && npm run format && npm run build"
