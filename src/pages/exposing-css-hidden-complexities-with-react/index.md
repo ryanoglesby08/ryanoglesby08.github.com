@@ -15,9 +15,9 @@ take control of all of this?
 
 This post is an exploration of this hypothesis applied to 3 common CSS features:
 
-1. Pseudo-classes
-2. Media queries
-3. Animations
+1.  Pseudo-classes
+2.  Media queries
+3.  Animations
 
 _I've also created an accompanying
 [Github repo](https://github.com/ryanoglesby08/exposing-css-hidden-complexities) with full, working
@@ -369,8 +369,7 @@ predictability, and JavaScript-controlled logic (<https://reactjs.org/>). The mo
 is often the least understandable.
 
 <center>
-	<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">This is what good real world React  code often looks like. Nothing wrong with it being verbose and explicit. Don’t mistake terse for clean! <a href="https://t.co/qjB685FnuJ">https://t.co/qjB685FnuJ</a></p>&mdash; Dan Abramov (@dan_abramov) <a href="https://twitter.com/dan_abramov/status/931333632572252160?ref_src=twsrc%5Etfw">November 17, 2017</a></blockquote>
-	<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+	<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">This is what good real world React code often looks like. Nothing wrong with it being verbose and explicit. Don’t mistake terse for clean! <a href="https://t.co/qjB685FnuJ">https://t.co/qjB685FnuJ</a></p>&mdash; Dan Abramov (@dan_abramov) <a href="https://twitter.com/dan_abramov/status/931333632572252160?ref_src=twsrc%5Etfw">November 17, 2017</a></blockquote>
 </center>
 
 ### Pros and cons

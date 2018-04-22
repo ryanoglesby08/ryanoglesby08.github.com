@@ -30,6 +30,7 @@ class BlogPostTemplate extends React.Component {
       <div>
         <Helmet title={`${post.frontmatter.title} | ${siteTitle}`}>
           <script async src="https://production-assets.codepen.io/assets/embed/ei.js" />
+          <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8" />
         </Helmet>
 
         <h1>{post.frontmatter.title}</h1>
