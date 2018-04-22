@@ -57,7 +57,7 @@
   "scripts": {
     "dev": "gatsby develop",
     "build": "gatsby build",
-    "serve": "gatsby serve",
+    "serve": "npm run build && gatsby serve",
     "deploy": "gatsby build && gh-pages --branch master --dist public",
     "lint": "eslint --ignore-pattern public .",
     "format": "prettier --write 'src/**/*.js' 'src/**/*.md'",
