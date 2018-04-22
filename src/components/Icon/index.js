@@ -89,7 +89,7 @@ class Icon extends React.Component {
   }
 }
 Icon.propTypes = {
-  icon: PropTypes.oneOf([GITHUB, LINKEDIN, RSS, TWITTER]).isRequired,
+  icon: PropTypes.oneOf([GITHUB, LAPTOP, LINKEDIN, LOCATION, RSS, TWITTER]).isRequired,
 }
 
 export default Icon
