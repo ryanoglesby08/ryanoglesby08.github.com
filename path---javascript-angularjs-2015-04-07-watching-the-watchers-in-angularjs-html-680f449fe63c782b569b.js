@@ -1,2 +1,2 @@
-webpackJsonp([0xa39dee80f2d9],{460:function(t,a){t.exports={data:{site:{siteMetadata:{siteUrl:"http://ryanogles.by"}}},pathContext:{newPath:"/watching-the-watchers-in-angularjs/"}}}});
+webpackJsonp([0xa39dee80f2d9],{461:function(t,a){t.exports={data:{site:{siteMetadata:{siteUrl:"http://ryanogles.by"}}},pathContext:{newPath:"/watching-the-watchers-in-angularjs/"}}}});
 //# sourceMappingURL=path---javascript-angularjs-2015-04-07-watching-the-watchers-in-angularjs-html-680f449fe63c782b569b.js.map
