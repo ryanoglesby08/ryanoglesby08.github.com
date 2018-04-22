@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "author": "Ryan Oglesby <ryan.oglesby08@gmail.com>",
   "dependencies": {
-    "emotion": "^8.0.12",
-    "emotion-server": "^8.0.12",
+    "emotion": "^9.1.2",
+    "emotion-server": "^9.1.2",
     "gatsby": "^1.9.253",
     "gatsby-image": "^1.0.47",
     "gatsby-link": "^1.6.41",
@@ -27,14 +27,14 @@
     "gatsby-transformer-sharp": "^1.6.23",
     "lodash": "^4.17.5",
     "react-disqus-thread": "^0.4.0",
-    "react-emotion": "^8.0.12",
+    "react-emotion": "^9.1.2",
     "react-responsive-grid": "^0.3.4",
     "typeface-merriweather": "0.0.43",
     "typeface-montserrat": "0.0.43",
     "typography-theme-wordpress-2016": "^0.15.10"
   },
   "devDependencies": {
-    "babel-plugin-emotion": "^8.0.12",
+    "babel-plugin-emotion": "^9.1.2",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-2": "^6.24.1",
     "eslint": "^4.19.1",
