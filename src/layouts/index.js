@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container } from 'react-responsive-grid'
+import styled from 'react-emotion'
 
 import { rhythm } from '../utils/typography'
 
@@ -13,6 +13,12 @@ import '../utils/prism-solarizedlight-line-highlights.css'
 import 'typeface-domine'
 import 'typeface-open-sans'
 
+const Container = styled.div({
+  margin: '0 auto',
+  maxWidth: `${740 / 16}rem`, // 740px in rem with 16px base font size
+  padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`,
+})
+
 const isRootPath = pathname => {
   let rootPath = '/'
   if (typeof __PREFIX_PATHS__ !== 'undefined' && __PREFIX_PATHS__) {
@@ -23,13 +29,7 @@ const isRootPath = pathname => {
 }
 
 const Template = ({ location, children }) => (
-  // TODO: Switch to emotion. React responsive grid seems to use inline styles...
-  <Container
-    style={{
-      maxWidth: rhythm(24),
-      padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`,
-    }}
-  >
+  <Container>
     <Header root={isRootPath(location.pathname)} />
     <main>{children()}</main>
     <Footer />
