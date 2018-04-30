@@ -27,43 +27,57 @@ const InlineList = styled(BareList)({
 })
 
 const BareLink = styled.a({
-  boxShadow: 'none',
+  textDecoration: 'none',
 })
 
-const Nav = () => (
-  <Wrapper>
-    <InlineList>
-      <li>
-        <Link to="/">Blog</Link>
-      </li>
-      <li>
-        <Link to="/about">Me</Link>
-      </li>
-    </InlineList>
+const hrMargin = rhythm(1 / 8)
+const TopNavHr = styled.hr({
+  marginTop: hrMargin,
+})
+const BottomNavHr = styled.hr({
+  marginBottom: hrMargin,
+})
 
-    <InlineList>
-      <li>
-        <BareLink href="https://github.com/ryanoglesby08">
-          <Icon icon={GITHUB} />
-        </BareLink>
-      </li>
-      <li>
-        <BareLink href="https://twitter.com/ryanoglesby08">
-          <Icon icon={TWITTER} />
-        </BareLink>
-      </li>
-      <li>
-        <BareLink href="https://www.linkedin.com/in/ryanoglesby08">
-          <Icon icon={LINKEDIN} />
-        </BareLink>
-      </li>
-      <li>
-        <BareLink href="/rss.xml">
-          <Icon icon={RSS} />
-        </BareLink>
-      </li>
-    </InlineList>
-  </Wrapper>
+const Nav = ({ top }) => (
+  <div>
+    {!top && <BottomNavHr />}
+
+    <Wrapper>
+      <InlineList>
+        <li>
+          <Link to="/">Blog</Link>
+        </li>
+        <li>
+          <Link to="/about">Me</Link>
+        </li>
+      </InlineList>
+
+      <InlineList>
+        <li>
+          <BareLink href="https://github.com/ryanoglesby08">
+            <Icon icon={GITHUB} />
+          </BareLink>
+        </li>
+        <li>
+          <BareLink href="https://twitter.com/ryanoglesby08">
+            <Icon icon={TWITTER} />
+          </BareLink>
+        </li>
+        <li>
+          <BareLink href="https://www.linkedin.com/in/ryanoglesby08">
+            <Icon icon={LINKEDIN} />
+          </BareLink>
+        </li>
+        <li>
+          <BareLink href="/rss.xml">
+            <Icon icon={RSS} />
+          </BareLink>
+        </li>
+      </InlineList>
+    </Wrapper>
+
+    {top && <TopNavHr />}
+  </div>
 )
 
 export default Nav

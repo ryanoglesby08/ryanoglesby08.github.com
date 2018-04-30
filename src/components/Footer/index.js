@@ -4,9 +4,7 @@ import Nav from '../Nav'
 
 const Footer = () => (
   <footer>
-    <hr />
-
-    <Nav />
+    <Nav top={false} />
   </footer>
 )
 

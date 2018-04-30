@@ -1,12 +1,22 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-import Link from 'gatsby-link'
+import styled from 'react-emotion'
 
+import Link from 'gatsby-link'
 import get from 'lodash/get'
 
 import { rhythm } from '../utils/typography'
 
 import BareList from '../components/BareList'
+import PostTitle from '../components/PostTitle'
+
+const PostLi = styled.li({
+  marginBottom: rhythm(1),
+})
+
+const Excerpt = styled.p({
+  marginTop: rhythm(1 / 4),
+})
 
 class BlogIndex extends React.Component {
   render() {
@@ -18,22 +28,16 @@ class BlogIndex extends React.Component {
         <Helmet title={siteTitle} />
 
         {posts.map(({ node }) => {
-          const title = get(node, 'frontmatter.title') || node.fields.slug
+          const slug = node.fields.slug
 
           return (
-            <li key={node.fields.slug}>
-              <h3
-                style={{
-                  marginBottom: rhythm(1 / 4),
-                }}
-              >
-                <Link style={{ boxShadow: 'none' }} to={node.fields.slug}>
-                  {title}
-                </Link>
-              </h3>
-              <small>{node.frontmatter.date}</small>
-              <p dangerouslySetInnerHTML={{ __html: node.excerpt }} />
-            </li>
+            <PostLi key={slug}>
+              <PostTitle Heading="h2" date={node.frontmatter.date}>
+                <Link to={slug}>{node.frontmatter.title}</Link>
+              </PostTitle>
+
+              <Excerpt dangerouslySetInnerHTML={{ __html: node.excerpt }} />
+            </PostLi>
           )
         })}
       </BareList>

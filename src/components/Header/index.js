@@ -38,9 +38,8 @@ const Header = ({ root }) => {
   return (
     <header>
       {blogName}
-      <Nav />
 
-      <hr />
+      <Nav top />
     </header>
   )
 }

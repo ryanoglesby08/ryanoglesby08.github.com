@@ -6,13 +6,12 @@ import { rhythm } from '../utils/typography'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 
-// Import code highlight theme
+// Code highlight theme
 import 'prismjs/themes/prism-solarizedlight.css'
 import '../utils/prism-solarizedlight-line-highlights.css'
 
-// Import typefaces
-import 'typeface-montserrat'
-import 'typeface-merriweather'
+import 'typeface-domine'
+import 'typeface-open-sans'
 
 const isRootPath = pathname => {
   let rootPath = '/'
