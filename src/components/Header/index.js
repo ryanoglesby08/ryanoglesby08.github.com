@@ -1,21 +1,19 @@
 import React from 'react'
 import styled from 'react-emotion'
 
-import { rhythm, scale } from '../../utils/typography'
+import { rhythm, scale, options } from '../../utils/typography'
 
 import BlogName from './BlogName'
 import Nav from '../Nav'
 
-const H1BlogName = styled.h1({
+const SiteTitle = styled.h1({
   ...scale(1.5),
-  marginTop: 0,
-  marginBottom: rhythm(1.5),
 })
 
-const H3BlogName = styled.span({
+const SmallName = styled.span({
   ...scale(0.5),
-  fontFamily: 'Montserrat, sans-serif',
-  marginTop: 0,
+  fontFamily: options.headerFontFamily.join(','),
+  fontWeight: options.headerWeight,
 })
 
 const Header = ({ root }) => {
@@ -23,15 +21,15 @@ const Header = ({ root }) => {
 
   if (root) {
     blogName = (
-      <H1BlogName>
+      <SiteTitle>
         <BlogName />
-      </H1BlogName>
+      </SiteTitle>
     )
   } else {
     blogName = (
-      <H3BlogName>
+      <SmallName>
         <BlogName />
-      </H3BlogName>
+      </SmallName>
     )
   }
 
