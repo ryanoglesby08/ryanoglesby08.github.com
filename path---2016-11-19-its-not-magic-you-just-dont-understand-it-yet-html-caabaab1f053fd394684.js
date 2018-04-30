@@ -1,2 +1,2 @@
-webpackJsonp([0xe4941a0d5099],{461:function(t,a){t.exports={data:{site:{siteMetadata:{siteUrl:"http://ryanogles.by"}}},pathContext:{newPath:"/its-not-magic-you-just-dont-understand-it-yet/"}}}});
+webpackJsonp([0xe4941a0d5099],{463:function(t,a){t.exports={data:{site:{siteMetadata:{siteUrl:"http://ryanogles.by"}}},pathContext:{newPath:"/its-not-magic-you-just-dont-understand-it-yet/"}}}});
 //# sourceMappingURL=path---2016-11-19-its-not-magic-you-just-dont-understand-it-yet-html-caabaab1f053fd394684.js.map
