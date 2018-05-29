@@ -75,14 +75,22 @@ const AboutMe = ({ data }) => {
       <p>
         I also post on the{' '}
         <a href="https://www.thoughtworks.com/profiles/ryan-oglesby">ThoughtWorks Insights</a> blog
-        occasionally; and speak at conferences.
+        occasionally; and speak at Meetups and conferences.
       </p>
       <ul>
-        <li>OSCON, 2016: "Transitioning to Microservices"</li>
         <li>
-          Chicago Coders Conference, 2017: "UI Components by Design: Bridging the Designer Developer
-          Gap"
+          Various Meetups, 2018:{' '}
+          <a href="https://speakerdeck.com/ryanoglesby08/engineering-a-design-system">
+            "Engineering a design system"
+          </a>
         </li>
+        <li>
+          Chicago Coders Conference, 2017:{' '}
+          <a href="https://speakerdeck.com/ryanoglesby08/ui-components-by-design-bridging-the-designer-developer-gap">
+            "UI Components by Design: Bridging the Designer Developer Gap"
+          </a>
+        </li>
+        <li>OSCON, 2016: "Transitioning to Microservices"</li>
       </ul>
     </div>
   )
