@@ -82,7 +82,7 @@ const AboutMe = ({ data }) => {
           Various Meetups, 2018:{' '}
           <a href="https://speakerdeck.com/ryanoglesby08/engineering-a-design-system">
             "Engineering a design system"
-          </a>
+          </a>; <a href="https://www.youtube.com/watch?v=n5_FK_QZsq4">Video from React Chicago</a>
         </li>
         <li>
           Chicago Coders Conference, 2017:{' '}
