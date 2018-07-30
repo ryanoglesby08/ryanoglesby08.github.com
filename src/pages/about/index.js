@@ -79,6 +79,10 @@ const AboutMe = ({ data }) => {
       </p>
       <ul>
         <li>
+          XConf North America, 2018:{' '}
+          <a href="https://www.thoughtworks.com/xconf-na/content">"Scaling the front end"</a>
+        </li>
+        <li>
           Various Meetups, 2018:{' '}
           <a href="https://speakerdeck.com/ryanoglesby08/engineering-a-design-system">
             "Engineering a design system"
