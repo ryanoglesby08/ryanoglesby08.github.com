@@ -80,7 +80,7 @@ const AboutMe = ({ data }) => {
       <ul>
         <li>
           XConf North America, 2018:{' '}
-          <a href="https://www.thoughtworks.com/xconf-na/content">"Scaling the front end"</a>
+          <a href="https://thoughtworks.wistia.com/medias/k859w116wy">"Scaling the front end"</a>
         </li>
         <li>
           Various Meetups, 2018:{' '}
