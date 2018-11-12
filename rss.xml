@@ -1,4 +1,58 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Ryan Oglesby]]></title><description><![CDATA[Ryan Oglesby]]></description><link>http://ryanogles.by</link><generator>RSS for Node</generator><lastBuildDate>Fri, 10 Aug 2018 19:35:15 GMT</lastBuildDate><item><title><![CDATA[Software Development is a Team Sport]]></title><description><![CDATA[What does it mean to be a member of a “software development team?” Is the team a single collective,
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Ryan Oglesby]]></title><description><![CDATA[Ryan Oglesby]]></description><link>http://ryanogles.by</link><generator>RSS for Node</generator><lastBuildDate>Mon, 12 Nov 2018 17:36:41 GMT</lastBuildDate><item><title><![CDATA[The Life and Death of a Pipeline Master]]></title><description><![CDATA[Originally posted in late 2015 or early 2016 as an internal blog post. It tells the story of
+introducing and later abandoning a strategy for…]]></description><link>http://ryanogles.by/the-life-and-death-of-a-pipeline-master/</link><guid isPermaLink="false">http://ryanogles.by/the-life-and-death-of-a-pipeline-master/</guid><pubDate>Mon, 12 Nov 2018 00:17:42 GMT</pubDate><content:encoded>&lt;p&gt;&lt;em&gt;Originally posted in late 2015 or early 2016 as an internal blog post. It tells the story of
+introducing and later abandoning a strategy for improving build pipeline culture. The setting is a
+100+ person program, distributed between India and USA, maybe 10 teams, dozens of services and apps,
+doing trunk-based development on a Java monorepo.&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;Beginnings&lt;/h2&gt;
+&lt;p&gt;The time was July, 2015. It was a different time then. A wild west of sorts. We had a build
+pipeline, but it was horribly untrustworthy. Our user journey tests failed often, both because of
+broken functionality and because of our own deficiencies with asynchronous testing. The underlying
+infrastructure was extremely unstable. Dropped database connections happened multiple times a day.&lt;/p&gt;
+&lt;p&gt;These problems contributed to a growing cultural disease of inattention to the information coming
+out of our build pipeline. Developers often committed on a red build, whether it was because they
+did not trust it, because they felt like they could not fix it anyway, or because they assumed that
+someone else must be working on it. Gradually, the team was developing bad habits.&lt;/p&gt;
+&lt;p&gt;So, we felt that establishing a rotating role would give us more organization and discipline around
+our build pipeline hygiene. The role would be the go-to person for build hygiene issues. The
+Pipeline Masters were responsible for ensuring that a broken build was fixed in a timely manner,
+though they were not necessarily responsible for doing the actual work to fix it. Their core value
+was as an organizer, communicator, and enforcer. They would help identify trends of common problems
+so that the teams could prioritize the most important. And their power even extended as far as being
+able to revert any check ins when they were committed on top of an already red build.&lt;/p&gt;
+&lt;h2&gt;Deterioration&lt;/h2&gt;
+&lt;p&gt;What started out with good intentions began to devolve within a few rotations. One of the first
+things we noticed was inconsistent hand-offs from one Pipeline Master to the next, resulting in a
+loss of context and continuity. The tracking of persistent problem areas and common fixes died off
+soon.&lt;/p&gt;
+&lt;p&gt;Instead of a more ideal scenario of shared responsibility for the build pipeline, a culture began to
+take shape around reliance on the Pipeline Masters to enforce hygiene. Because the Pipeline Masters
+would send out an email titled “Build Broken - Don’t Commit,” we got into the practice of relying on
+that to tell us if the build is healthy instead of using radiators or other notification tooling.
+Not to mention, that produced a lot of extra noise in our already busy email inboxes!&lt;/p&gt;
+&lt;h2&gt;All Things Come to an End&lt;/h2&gt;
+&lt;p&gt;Over time, people began to ask why we needed the Pipeline Masters more and more. Shouldn’t proper
+build etiquette be a contract shared amongst everyone on the project? Eventually, other duties even
+started to creep into the Pipeline Master role. “They are already in charge of the build, so they
+can just do this other kind-of-pipeline-related thing too.”&lt;/p&gt;
+&lt;p&gt;What started as a way to reset build pipeline behavior had reached a point where it was no longer
+realizing the advertised benefits, and even becoming detrimental to the account culture. The role
+was also being replaced by better alternatives. We turned on build radiators. People started being
+more disciplined about using &lt;a href=&quot;https://www.gocd.org/&quot;&gt;GoCD&lt;/a&gt; comments when the build was broken. The
+underlying infrastructure became a bit more stable. Our tests got more reliable. We even built a
+script that checked that status of all gating builds, which anyone could run locally before pushing.&lt;/p&gt;
+&lt;p&gt;Though our build pipeline etiquette is not perfect, we are exhibiting much more collective
+ownership. We have published a wiki entry with the expectations of all developers that outlines the
+expected contract: following the
+“&lt;a href=&quot;http://codebetter.com/jeremymiller/2005/07/25/using-continuous-integration-better-do-the-check-in-dance/&quot;&gt;Check In Dance&lt;/a&gt;,”
+placing comments in GoCD for communication, assuming ownership especially after checking in code,
+and ensuring the build is not red at the end of the day.&lt;/p&gt;
+&lt;h2&gt;Final Thoughts&lt;/h2&gt;
+&lt;p&gt;In retrospect, it is hard to say whether we would have ended up at the same place now if we had
+never implemented the Pipeline Masters. From time to time, suggestions get raised of other ways of
+“forcing” proper build etiquette, such as a pre-commit script that will not let you push if builds
+are green. I believe that these types of ideas are anti-patterns, and instead we should be focusing
+on the culture of the teams. It’s a people issue, not a technology issue.&lt;/p&gt;
+&lt;p&gt;Green builds for all!&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Software Development is a Team Sport]]></title><description><![CDATA[What does it mean to be a member of a “software development team?” Is the team a single collective,
 or a collection of individuals? When…]]></description><link>http://ryanogles.by/software-development-is-a-team-sport/</link><guid isPermaLink="false">http://ryanogles.by/software-development-is-a-team-sport/</guid><pubDate>Sat, 21 Apr 2018 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;What does it mean to be a member of a “software development team?” Is the team a single collective,
 or a collection of individuals?&lt;/p&gt;
 &lt;p&gt;When team members act like individuals who happen to be working on the same codebase at the same

@@ -1,2 +1,2 @@
-webpackJsonp([0x66f5b23df2bf],{490:function(t,e){t.exports={data:{site:{siteMetadata:{siteUrl:"http://ryanogles.by"}}},pathContext:{newPath:"/how-your-mother-can-help-you-build-cleaner-unit-tests/part-i/"}}}});
+webpackJsonp([0x66f5b23df2bf],{491:function(t,e){t.exports={data:{site:{siteMetadata:{siteUrl:"http://ryanogles.by"}}},pathContext:{newPath:"/how-your-mother-can-help-you-build-cleaner-unit-tests/part-i/"}}}});
 //# sourceMappingURL=path---java-testing-patterns-2016-06-23-how-your-mother-can-help-you-build-cleaner-unit-tests-part-i-html-2ac72f3303bfc2759ba0.js.map
