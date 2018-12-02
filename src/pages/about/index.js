@@ -51,7 +51,7 @@ const AboutMe = ({ data }) => {
             <Icon icon={LOCATION} /> Chicago, USA
           </span>
           <span>
-            <Icon icon={LAPTOP} /> Front-end Developer
+            <Icon icon={LAPTOP} /> Frontend Developer
           </span>
         </Profile>
 
@@ -59,27 +59,25 @@ const AboutMe = ({ data }) => {
           <p>Hi! I'm Ryan.</p>
 
           <p>
-            I'm a software consultant at <a href="https://www.thoughtworks.com">ThoughtWorks</a>{' '}
-            doing mostly front-end things these days, though my background is a full-stack
-            "generalist". In particular I'm passionate about design systems, the React ecosystem,
-            and open source software.
+            I'm a software developer doing mostly frontend things these days. In particular I'm
+            passionate about design systems, the React ecosystem, and open source software.
           </p>
 
           <p>
-            When I'm not coding I am staying active - rock climbing, snowboarding, playing
-            volleyball, or galavanting around the world.
+            When I'm not coding I'm staying active - rock climbing, snowboarding, or galavanting
+            around the world.
           </p>
         </div>
       </LayoutSideBySide>
 
       <p>
-        I also post on the{' '}
-        <a href="https://www.thoughtworks.com/profiles/ryan-oglesby">ThoughtWorks Insights</a> blog
-        occasionally; and speak at Meetups and conferences.
+        A few of my articles are featured on the{' '}
+        <a href="https://www.thoughtworks.com/profiles/ryan-oglesby">ThoughtWorks Insights</a> blog.
+        And I occassionally speak at Meetups and conferences.
       </p>
       <ul>
         <li>
-          XConf North America, 2018:{' '}
+          ThoughtWorks XConf North America, 2018:{' '}
           <a href="https://thoughtworks.wistia.com/medias/k859w116wy">"Scaling the front end"</a>
         </li>
         <li>
@@ -94,7 +92,7 @@ const AboutMe = ({ data }) => {
             "UI Components by Design: Bridging the Designer Developer Gap"
           </a>
         </li>
-        <li>OSCON, 2016: "Transitioning to Microservices"</li>
+        <li>OSCON, 2016: "Transitioning to Microservices" (workshop)</li>
       </ul>
     </div>
   )
