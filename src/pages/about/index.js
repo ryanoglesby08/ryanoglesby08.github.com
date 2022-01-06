@@ -48,7 +48,7 @@ const AboutMe = ({ data }) => {
             imgStyle={profilePicStyles}
           />
           <span>
-            <Icon icon={LOCATION} /> Chicago, USA
+            <Icon icon={LOCATION} /> Denver, CO, USA
           </span>
           <span>
             <Icon icon={LAPTOP} /> Frontend Developer
