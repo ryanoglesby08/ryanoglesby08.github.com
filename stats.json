@@ -1,12 +1,12 @@
 {
   "assetsByChunkName": {
     "component---src-pages-about-index-js": [
-      "component---src-pages-about-index-js-1e5bc3bf7c6c272c853d.js",
-      "component---src-pages-about-index-js-1e5bc3bf7c6c272c853d.js.map"
+      "component---src-pages-about-index-js-1e3ef197043d2ec403ea.js",
+      "component---src-pages-about-index-js-1e3ef197043d2ec403ea.js.map"
     ],
     "path---watching-the-watchers-in-angularjs": [
-      "path---watching-the-watchers-in-angularjs-8ef6c9bf00667abce7e6.js",
-      "path---watching-the-watchers-in-angularjs-8ef6c9bf00667abce7e6.js.map"
+      "path---watching-the-watchers-in-angularjs-af32df83c1c5f3556be2.js",
+      "path---watching-the-watchers-in-angularjs-af32df83c1c5f3556be2.js.map"
     ],
     "path---ruby-patterns-2013-12-25-meet-lazydoc-html": [
       "path---ruby-patterns-2013-12-25-meet-lazydoc-html-8b7351a33e5272124ffe.js",
@@ -21,16 +21,16 @@
       "component---src-pages-index-js-4370d85546e23493c393.js.map"
     ],
     "path---how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii": [
-      "path---how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii-d78cb8e2164929cdd281.js",
-      "path---how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii-d78cb8e2164929cdd281.js.map"
+      "path---how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii-bdf573cb8c13528b863c.js",
+      "path---how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii-bdf573cb8c13528b863c.js.map"
     ],
     "path---on-injecting-a-javascript-environment": [
-      "path---on-injecting-a-javascript-environment-cfaf2cd8a6cd36856cc4.js",
-      "path---on-injecting-a-javascript-environment-cfaf2cd8a6cd36856cc4.js.map"
+      "path---on-injecting-a-javascript-environment-cc5804aee512b3148e40.js",
+      "path---on-injecting-a-javascript-environment-cc5804aee512b3148e40.js.map"
     ],
     "path---exposing-css-hidden-complexities-with-react": [
-      "path---exposing-css-hidden-complexities-with-react-dfbdb0521b537ba26eb1.js",
-      "path---exposing-css-hidden-complexities-with-react-dfbdb0521b537ba26eb1.js.map"
+      "path---exposing-css-hidden-complexities-with-react-3958be344a5dac64887e.js",
+      "path---exposing-css-hidden-complexities-with-react-3958be344a5dac64887e.js.map"
     ],
     "path---css-javascript-2017-05-25-the-state-of-css-html": [
       "path---css-javascript-2017-05-25-the-state-of-css-html-8cd40eeadcb3fc9008d7.js",
@@ -45,24 +45,24 @@
       "path----131f9aef94525eeb6ecd.js.map"
     ],
     "path---testing-jasvascript-web-workers-with-jasmine": [
-      "path---testing-jasvascript-web-workers-with-jasmine-71277b0bb58025359119.js",
-      "path---testing-jasvascript-web-workers-with-jasmine-71277b0bb58025359119.js.map"
+      "path---testing-jasvascript-web-workers-with-jasmine-9bb3dd4fbbfdac7fbf4b.js",
+      "path---testing-jasvascript-web-workers-with-jasmine-9bb3dd4fbbfdac7fbf4b.js.map"
     ],
     "path---fun-with-rails-i-18-n": [
-      "path---fun-with-rails-i-18-n-0af8ef901722a2fc1387.js",
-      "path---fun-with-rails-i-18-n-0af8ef901722a2fc1387.js.map"
+      "path---fun-with-rails-i-18-n-99ab0059ba3701057ef0.js",
+      "path---fun-with-rails-i-18-n-99ab0059ba3701057ef0.js.map"
     ],
     "path---javascript-2017-05-11-conceptualizing-how-a-modern-single-page-app-is-served-html": [
       "path---javascript-2017-05-11-conceptualizing-how-a-modern-single-page-app-is-served-html-e0d55da63a4e75f50835.js",
       "path---javascript-2017-05-11-conceptualizing-how-a-modern-single-page-app-is-served-html-e0d55da63a4e75f50835.js.map"
     ],
     "path---meet-lazydoc": [
-      "path---meet-lazydoc-ba27e45feeb3328c2a2c.js",
-      "path---meet-lazydoc-ba27e45feeb3328c2a2c.js.map"
+      "path---meet-lazydoc-5ddc620f32c69ef0c5ac.js",
+      "path---meet-lazydoc-5ddc620f32c69ef0c5ac.js.map"
     ],
     "path---the-state-of-css": [
-      "path---the-state-of-css-a0f0164281681b80835a.js",
-      "path---the-state-of-css-a0f0164281681b80835a.js.map"
+      "path---the-state-of-css-3966397a56246a6f8b84.js",
+      "path---the-state-of-css-3966397a56246a6f8b84.js.map"
     ],
     "component---node-modules-gatsby-plugin-offline-app-shell-js": [
       "component---node-modules-gatsby-plugin-offline-app-shell-js-5c4c5a0f7af9dc69d6d7.js",
@@ -77,8 +77,8 @@
       "path---java-testing-patterns-2016-06-23-how-your-mother-can-help-you-build-cleaner-unit-tests-part-i-html-2ac72f3303bfc2759ba0.js.map"
     ],
     "component---src-layouts-index-js": [
-      "component---src-layouts-index-js-9fafdd0625a7f91c6c6b.js",
-      "component---src-layouts-index-js-9fafdd0625a7f91c6c6b.js.map"
+      "component---src-layouts-index-js-ea29859228bcf9cb9654.js",
+      "component---src-layouts-index-js-ea29859228bcf9cb9654.js.map"
     ],
     "path---java-testing-patterns-2016-06-25-how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii-html": [
       "path---java-testing-patterns-2016-06-25-how-your-mother-can-help-you-build-cleaner-unit-tests-part-ii-html-3ef4f21916650b4c424c.js",
@@ -89,20 +89,20 @@
       "path---agile-teams-2015-07-26-hackathons-for-the-enterprise-html-e28c798c27517b50e07c.js.map"
     ],
     "path---an-exploration-of-javascript-builders": [
-      "path---an-exploration-of-javascript-builders-cc0c8aa9d37dc0a914ba.js",
-      "path---an-exploration-of-javascript-builders-cc0c8aa9d37dc0a914ba.js.map"
+      "path---an-exploration-of-javascript-builders-a0a2a4814677b0d643e1.js",
+      "path---an-exploration-of-javascript-builders-a0a2a4814677b0d643e1.js.map"
     ],
     "path---how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii": [
-      "path---how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii-1e7adab51d911f2aeb7c.js",
-      "path---how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii-1e7adab51d911f2aeb7c.js.map"
+      "path---how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii-dff4acc6a36017578e92.js",
+      "path---how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii-dff4acc6a36017578e92.js.map"
     ],
     "path---index": [
       "path---index-9e7e3cb711d698113141.js",
       "path---index-9e7e3cb711d698113141.js.map"
     ],
     "path---goto-chicago-2014-experience-report": [
-      "path---goto-chicago-2014-experience-report-c226b32d1d8f826aa4c7.js",
-      "path---goto-chicago-2014-experience-report-c226b32d1d8f826aa4c7.js.map"
+      "path---goto-chicago-2014-experience-report-d1759466f0de961c3a07.js",
+      "path---goto-chicago-2014-experience-report-d1759466f0de961c3a07.js.map"
     ],
     "path---rails-hashie-rspec-testing-2012-12-26-rails-controller-specs-dont-always-play-nice-with-hashie-html": [
       "path---rails-hashie-rspec-testing-2012-12-26-rails-controller-specs-dont-always-play-nice-with-hashie-html-9463bc632890b914b81a.js",
@@ -113,24 +113,24 @@
       "component---src-templates-redirect-js-aad810acf6fa3f52e446.js.map"
     ],
     "path---harmonious-stylesheets-and-inline-styles-in-react": [
-      "path---harmonious-stylesheets-and-inline-styles-in-react-701d455ab03e002c745b.js",
-      "path---harmonious-stylesheets-and-inline-styles-in-react-701d455ab03e002c745b.js.map"
+      "path---harmonious-stylesheets-and-inline-styles-in-react-9eac147bfb17701d9771.js",
+      "path---harmonious-stylesheets-and-inline-styles-in-react-9eac147bfb17701d9771.js.map"
     ],
     "path---javascript-testing-2017-03-03-an-exploration-of-javascript-builders-html": [
       "path---javascript-testing-2017-03-03-an-exploration-of-javascript-builders-html-5d23c38852db64d3c607.js",
       "path---javascript-testing-2017-03-03-an-exploration-of-javascript-builders-html-5d23c38852db64d3c607.js.map"
     ],
     "path---software-development-is-a-team-sport": [
-      "path---software-development-is-a-team-sport-9d95e9aa7dfc5e969f7d.js",
-      "path---software-development-is-a-team-sport-9d95e9aa7dfc5e969f7d.js.map"
+      "path---software-development-is-a-team-sport-4f20c65491dd4974c78f.js",
+      "path---software-development-is-a-team-sport-4f20c65491dd4974c78f.js.map"
     ],
     "commons": [
       "commons-9613fe3ec47437edd4a3.js",
       "commons-9613fe3ec47437edd4a3.js.map"
     ],
     "path---how-your-mother-can-help-you-build-cleaner-unit-tests-part-i": [
-      "path---how-your-mother-can-help-you-build-cleaner-unit-tests-part-i-582c7d8f3c121afae9d2.js",
-      "path---how-your-mother-can-help-you-build-cleaner-unit-tests-part-i-582c7d8f3c121afae9d2.js.map"
+      "path---how-your-mother-can-help-you-build-cleaner-unit-tests-part-i-e057339a36e574775870.js",
+      "path---how-your-mother-can-help-you-build-cleaner-unit-tests-part-i-e057339a36e574775870.js.map"
     ],
     "path---agile-teams-2016-01-23-youre-a-champion-html": [
       "path---agile-teams-2016-01-23-youre-a-champion-html-df126e7095fc15747554.js",
@@ -145,16 +145,16 @@
       "path---databases-2015-08-15-database-migrations-best-practices-html-d743adb4405d52bca346.js.map"
     ],
     "path---its-not-magic-you-just-dont-understand-it-yet": [
-      "path---its-not-magic-you-just-dont-understand-it-yet-df741f00e3e5606651c1.js",
-      "path---its-not-magic-you-just-dont-understand-it-yet-df741f00e3e5606651c1.js.map"
+      "path---its-not-magic-you-just-dont-understand-it-yet-c5688d9879c9d8e4af1c.js",
+      "path---its-not-magic-you-just-dont-understand-it-yet-c5688d9879c9d8e4af1c.js.map"
     ],
     "path---easing-into-rubocop-with-git": [
-      "path---easing-into-rubocop-with-git-db9a22ab0121a224e3f6.js",
-      "path---easing-into-rubocop-with-git-db9a22ab0121a224e3f6.js.map"
+      "path---easing-into-rubocop-with-git-9333d7d21be619c1dfc8.js",
+      "path---easing-into-rubocop-with-git-9333d7d21be619c1dfc8.js.map"
     ],
     "path---how-to-support-apprentices-on-an-agile-development-team": [
-      "path---how-to-support-apprentices-on-an-agile-development-team-3e447cc93e552227ba56.js",
-      "path---how-to-support-apprentices-on-an-agile-development-team-3e447cc93e552227ba56.js.map"
+      "path---how-to-support-apprentices-on-an-agile-development-team-ca6b5ac7e086a0a4ac00.js",
+      "path---how-to-support-apprentices-on-an-agile-development-team-ca6b5ac7e086a0a4ac00.js.map"
     ],
     "path---java-testing-patterns-2016-06-26-how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii-html": [
       "path---java-testing-patterns-2016-06-26-how-your-mother-can-help-you-build-cleaner-unit-tests-part-iii-html-db272479583e5aee6228.js",
@@ -169,42 +169,42 @@
       "path---offline-plugin-app-shell-fallback-a0e39f21c11f6a62c5ab.js.map"
     ],
     "path---database-migrations-best-practices": [
-      "path---database-migrations-best-practices-42d7e5d945b14c5f4475.js",
-      "path---database-migrations-best-practices-42d7e5d945b14c5f4475.js.map"
+      "path---database-migrations-best-practices-e00a93b24b55510263bc.js",
+      "path---database-migrations-best-practices-e00a93b24b55510263bc.js.map"
     ],
     "path---docker-2016-09-26-homogeneous-pipelines-with-docker-html": [
       "path---docker-2016-09-26-homogeneous-pipelines-with-docker-html-cbab6e36288ed32caed3.js",
       "path---docker-2016-09-26-homogeneous-pipelines-with-docker-html-cbab6e36288ed32caed3.js.map"
     ],
     "path---youre-a-champion": [
-      "path---youre-a-champion-91ba70912278a3ca10fd.js",
-      "path---youre-a-champion-91ba70912278a3ca10fd.js.map"
+      "path---youre-a-champion-4b9f1489a1cc1dfaf4d6.js",
+      "path---youre-a-champion-4b9f1489a1cc1dfaf4d6.js.map"
     ],
     "path---agile-teams-facilitation-2015-01-26-how-to-support-apprentices-on-an-agile-development-team-html": [
       "path---agile-teams-facilitation-2015-01-26-how-to-support-apprentices-on-an-agile-development-team-html-146a50959c7887cd5331.js",
       "path---agile-teams-facilitation-2015-01-26-how-to-support-apprentices-on-an-agile-development-team-html-146a50959c7887cd5331.js.map"
     ],
     "path---rails-controller-specs-dont-always-play-nice-with-hashie": [
-      "path---rails-controller-specs-dont-always-play-nice-with-hashie-5aa3e31cc4e77a8f5765.js",
-      "path---rails-controller-specs-dont-always-play-nice-with-hashie-5aa3e31cc4e77a8f5765.js.map"
+      "path---rails-controller-specs-dont-always-play-nice-with-hashie-917d93d677072b0cec62.js",
+      "path---rails-controller-specs-dont-always-play-nice-with-hashie-917d93d677072b0cec62.js.map"
     ],
     "component---src-layouts-empty-js": [
-      "component---src-layouts-empty-js-ec447614576e6367f213.js",
-      "component---src-layouts-empty-js-ec447614576e6367f213.js.map"
+      "component---src-layouts-empty-js-130741d89e4b6d2ca920.js",
+      "component---src-layouts-empty-js-130741d89e4b6d2ca920.js.map"
     ],
     "app": [
-      "app-128ec0fce714b7894609.js",
+      "app-ee91ebceb70c6e9816cc.js",
       "build-js-styles.css",
-      "app-128ec0fce714b7894609.js.map",
+      "app-ee91ebceb70c6e9816cc.js.map",
       "build-js-styles.css.map"
     ],
     "path---hackathons-for-the-enterprise": [
-      "path---hackathons-for-the-enterprise-dc9e8b410d128797a029.js",
-      "path---hackathons-for-the-enterprise-dc9e8b410d128797a029.js.map"
+      "path---hackathons-for-the-enterprise-bcb6ba3047de71704849.js",
+      "path---hackathons-for-the-enterprise-bcb6ba3047de71704849.js.map"
     ],
     "path---yagni-aint-a-design-principle": [
-      "path---yagni-aint-a-design-principle-152146354e4c381b0a8f.js",
-      "path---yagni-aint-a-design-principle-152146354e4c381b0a8f.js.map"
+      "path---yagni-aint-a-design-principle-d1b6d5b6b747b7a9367e.js",
+      "path---yagni-aint-a-design-principle-d1b6d5b6b747b7a9367e.js.map"
     ],
     "path---design-patterns-2016-02-12-yagni-aint-a-design-principle-html": [
       "path---design-patterns-2016-02-12-yagni-aint-a-design-principle-html-6e5929ef508a48a83a44.js",
@@ -215,20 +215,20 @@
       "path---javascript-jasmine-html-5-testing-2014-08-29-testing-jasvascript-web-workers-with-jasmine-html-a2b78f6ac351a2501923.js.map"
     ],
     "path---the-life-and-death-of-a-pipeline-master": [
-      "path---the-life-and-death-of-a-pipeline-master-168a8e5c060481c507f5.js",
-      "path---the-life-and-death-of-a-pipeline-master-168a8e5c060481c507f5.js.map"
+      "path---the-life-and-death-of-a-pipeline-master-53b942a9971951c57412.js",
+      "path---the-life-and-death-of-a-pipeline-master-53b942a9971951c57412.js.map"
     ],
     "path---2016-11-19-its-not-magic-you-just-dont-understand-it-yet-html": [
       "path---2016-11-19-its-not-magic-you-just-dont-understand-it-yet-html-caabaab1f053fd394684.js",
       "path---2016-11-19-its-not-magic-you-just-dont-understand-it-yet-html-caabaab1f053fd394684.js.map"
     ],
     "path---homogeneous-pipelines-with-docker": [
-      "path---homogeneous-pipelines-with-docker-8d8537143b5b5aadc2e4.js",
-      "path---homogeneous-pipelines-with-docker-8d8537143b5b5aadc2e4.js.map"
+      "path---homogeneous-pipelines-with-docker-214b2e9e29edfc5d7575.js",
+      "path---homogeneous-pipelines-with-docker-214b2e9e29edfc5d7575.js.map"
     ],
     "path---conceptualizing-how-a-modern-single-page-app-is-served": [
-      "path---conceptualizing-how-a-modern-single-page-app-is-served-4d09dd32655a3510e9aa.js",
-      "path---conceptualizing-how-a-modern-single-page-app-is-served-4d09dd32655a3510e9aa.js.map"
+      "path---conceptualizing-how-a-modern-single-page-app-is-served-6e2147e008ad85574c3e.js",
+      "path---conceptualizing-how-a-modern-single-page-app-is-served-6e2147e008ad85574c3e.js.map"
     ],
     "path---ruby-git-2015-02-25-easing-into-rubocop-with-git-html": [
       "path---ruby-git-2015-02-25-easing-into-rubocop-with-git-html-9c531cdacf79ab1398fe.js",
@@ -239,8 +239,8 @@
       "path---conferences-2014-05-26-goto-chicago-2014-experience-report-html-21a8b8e0e467f675e501.js.map"
     ],
     "path---about": [
-      "path---about-e63e975ffb2208094d9a.js",
-      "path---about-e63e975ffb2208094d9a.js.map"
+      "path---about-fcb7e45ee0ab44c9fa63.js",
+      "path---about-fcb7e45ee0ab44c9fa63.js.map"
     ],
     "path---css-javascript-react-2017-11-17-exposing-css-hidden-complexities-with-react-html": [
       "path---css-javascript-react-2017-11-17-exposing-css-hidden-complexities-with-react-html-75c9b1885a21695cf7a4.js",
